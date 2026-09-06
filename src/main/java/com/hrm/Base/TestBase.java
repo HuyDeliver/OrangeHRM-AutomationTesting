@@ -1,0 +1,46 @@
+package com.hrm.Base;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.util.Date;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.io.FileHandler;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import com.hrm.Util.Config;
+import com.hrm.Util.WebDriverFactory;
+
+import io.qameta.allure.Allure;
+
+public class TestBase {
+    public static WebDriver driver;
+
+    @BeforeMethod
+    public void initialization() {
+        driver = WebDriverFactory.createDriver();
+        driver.manage().window().maximize();
+        driver.get(Config.get("app.url"));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    public void takeScreenshot(String testName) {
+        // Chụp dạng byte[] thay vì FILE
+        byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+
+        // Đính thẳng vào report Allure
+        Allure.addAttachment("Screenshot - " + testName, new ByteArrayInputStream(screenshotBytes));
+    }
+}
