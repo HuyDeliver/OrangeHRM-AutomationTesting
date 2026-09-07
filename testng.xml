@@ -7,7 +7,7 @@
   </listeners>
   <test name="Sanity Test">
     <classes>
-      <class name="com.hrm.TestCase.SanityTest"/>
+      <class name="com.hrm.TestCase.LoginTest"/>
     </classes>
   </test>
 </suite>
