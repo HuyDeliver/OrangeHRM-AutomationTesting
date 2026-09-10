@@ -1,6 +1,7 @@
 package com.hrm.TestCase;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
@@ -8,11 +9,12 @@ import com.hrm.Pages.AlertResetPassSuccess;
 import com.hrm.Pages.ForgotPage;
 import com.hrm.Pages.LoginPage;
 import com.hrm.Util.Config;
+import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
 
 public class LoginTest extends TestBase {
 
-    @Test
+    @Test(description = "OHR1:login with right username and password")
     public void loginSuccess() {
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
@@ -20,16 +22,17 @@ public class LoginTest extends TestBase {
         Log.info("Đăng nhập thành công");
     }
 
-    @Test
-    public void loginFail() {
+    @Test(dataProvider = "Datadriven-OrangeHrm", description = "OHR2: login with fail with data from excel")
+    public void loginFail(String userName, String passWord) {
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
-        loginPage.loginToMainWeb("admin", "0000");
+        loginPage.loginToMainWeb(userName, passWord);
         Assert.assertTrue(loginPage.isLoginFail());
         Log.info("Đăng nhập không thành công");
+
     }
 
-    @Test
+    @Test(description = "OHR3:forgot Pass and reset pass")
     public void resetPassword() {
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
@@ -40,5 +43,12 @@ public class LoginTest extends TestBase {
         AlertResetPassSuccess alertResetPassSuccess = forgotPage.resetPassSuccess("Tushar");
         Assert.assertTrue(alertResetPassSuccess.isResetPassSuccess(), "reset không thành công");
         alertResetPassSuccess.backToLogin();
+    }
+
+    @DataProvider(name = "Datadriven-OrangeHrm")
+    public Object[][] getLoginData() {
+        String path = "src/test/resources/data/Datadriven-OrangeHrm.xlsx";
+        String sheetName = "loginFail";
+        return ExelReader.getDataFromExel(path, sheetName);
     }
 }

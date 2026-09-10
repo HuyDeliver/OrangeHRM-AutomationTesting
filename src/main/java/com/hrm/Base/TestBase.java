@@ -7,7 +7,6 @@ import java.time.Duration;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -24,7 +23,7 @@ public class TestBase {
         driver = WebDriverFactory.createDriver();
         driver.manage().window().maximize();
         driver.get(Config.get("app.url"));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
     @AfterMethod

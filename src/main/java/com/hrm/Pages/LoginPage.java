@@ -36,6 +36,9 @@ public class LoginPage {
     @FindBy(css = ".oxd-text.orangehrm-login-forgot-header")
     private WebElement forgotButton;
 
+    @FindBy(css = ".oxd-text.oxd-text--span.oxd-input-field-error-message.oxd-input-group__message")
+    private List<WebElement> required;
+
     public boolean isLoginTitleVisible() {
         return !loginTitle.isEmpty();
     }
@@ -51,11 +54,29 @@ public class LoginPage {
     }
 
     public boolean isLoginFail() {
-        return !alertLoginFail.isEmpty();
+        try {
+            if (!alertLoginFail.isEmpty()) {
+                return true;
+            }
+        } catch (Exception e) {
+
+        }
+        try {
+            if (!required.isEmpty()) {
+                return true;
+            }
+        } catch (Exception e) {
+
+        }
+        return false;
     }
 
     public ForgotPage clickForgotPassPage() {
         waitButton.waitElementClick(driver, forgotButton);
         return new ForgotPage(driver);
+    }
+
+    public boolean isPassRequired() {
+        return !required.isEmpty();
     }
 }
