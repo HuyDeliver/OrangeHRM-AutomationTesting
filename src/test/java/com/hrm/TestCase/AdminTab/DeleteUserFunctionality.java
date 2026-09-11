@@ -5,26 +5,26 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
-import com.hrm.Pages.SideBar;
 import com.hrm.Pages.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
-public class searchingUserWithValidData extends TestBase {
-    @Test(description = "OHR4: searching user with invalid data from excel")
-    public void searchUserUsingDataDriven() {
-        Log.info("Bắt đầu test searching");
+public class DeleteUserFunctionality extends TestBase {
+    @Test
+    public void deleteUserSuccess() {
+        Log.info("Bắt đầu test delete");
         TestUtil.adminUtil();
-        SideBar sideBar = new SideBar(driver);
-        sideBar.clickAdminPage();
-
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
         userManagePage.searchSystemUser(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,
                 TestConfig.status);
+        userManagePage.clickDeleteUser();
+        Assert.assertTrue(userManagePage.isModalDeleteVisible(), "không hiện modal delete");
 
-        Assert.assertTrue(userManagePage.isRecordFoundMatchKeySearch(TestConfig.userName), "không tìm thấy bản ghi");
+        userManagePage.deleteUserInModal();
 
-        Log.info("TÌm thấy bản ghi");
+        Assert.assertTrue(userManagePage.isDeleteSuccess(), "Xóa không thành công");
+
+        Log.info("Xóa user thành công");
     }
 }

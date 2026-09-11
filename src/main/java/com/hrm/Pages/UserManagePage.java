@@ -1,10 +1,14 @@
 package com.hrm.Pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
 import com.hrm.Util.waitButton;
@@ -71,6 +75,11 @@ public class UserManagePage {
         return noRecordFound.isDisplayed();
     }
 
+    public boolean isRecordFoundMatchKeySearch(String userName) {
+        By nameFound = By.xpath("//div[@class='oxd-table-card']//div[2]/div[contains(text(),'HuyDeliver')]");
+        return driver.findElement(nameFound).getText().contains(userName);
+    }
+
     // Add functionality
     @FindBy(css = ".orangehrm-paper-container .orangehrm-header-container button")
     private WebElement buttonAdd;
@@ -78,5 +87,42 @@ public class UserManagePage {
     public AddUserPage addUserPage() {
         waitButton.waitElementClick(driver, buttonAdd);
         return new AddUserPage(driver);
+    }
+
+    // Delete functionality
+    @FindBy(xpath = "//div[@class='oxd-table-card']//div[contains(@class,'oxd-table-cell')][6]//button[1]")
+    private WebElement buttonDelete;
+
+    @FindBy(css = ".orangehrm-modal-header .oxd-text--card-title")
+    private WebElement deleteTitle;
+
+    @FindBy(css = ".orangehrm-modal-footer>button:nth-child(2)")
+    private WebElement confirmDelete;
+
+    @FindBy(css = ".oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text")
+    private WebElement deleteSuccess;
+
+    public void clickDeleteUser() {
+        Log.info("Click nút delete");
+        waitButton.waitElementClick(driver, buttonDelete);
+
+        By deleteModal = By
+                .cssSelector(".oxd-dialog-container-default .oxd-sheet");
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(deleteModal));
+    }
+
+    public boolean isModalDeleteVisible() {
+        Log.info("kiểm tra modal có hiện ko");
+        return deleteTitle.isDisplayed();
+    }
+
+    public void deleteUserInModal() {
+        Log.info("Xác nhận xóa");
+        waitButton.waitElementClick(driver, confirmDelete);
+    }
+
+    public boolean isDeleteSuccess() {
+        return deleteSuccess.isDisplayed();
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Admin Suite" verbose="1">
+  <listeners>
+    <listener class-name="com.hrm.Util.TestListener" />
+    <listener class-name="com.hrm.Util.RetryListener" />
+  </listeners>
+  <test name="Admin module test suite">
+    <packages>
+      <package name="com.hrm.TestCase.AdminTab" />
+    </packages>
+  </test>
+</suite>

@@ -6,17 +6,14 @@ import org.testng.annotations.Test;
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AddUserPage;
-import com.hrm.Pages.SideBar;
 import com.hrm.Pages.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
 public class AddUserFunctionality extends TestBase {
-    @Test
+    @Test(description = "OHR5: Add user with Valid Data")
     public void addUserFunctionality() {
-        TestUtil.loginSuccess();
-        SideBar sideBar = new SideBar(driver);
-        sideBar.clickAdminPage();
+        TestUtil.adminUtil();
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
 
