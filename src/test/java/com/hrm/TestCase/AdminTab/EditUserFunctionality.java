@@ -5,26 +5,32 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
-import com.hrm.Pages.AdminPage.SideBar;
+import com.hrm.Pages.AdminPage.EditUserPage;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
-public class searchingUserWithValidData extends TestBase {
-    @Test(description = "OHR4: searching user with invalid data from excel")
-    public void searchUserUsingDataDriven() {
-        Log.info("Bắt đầu test searching");
+public class EditUserFunctionality extends TestBase {
+    @Test
+    public void editUserWithNewPass() {
+        Log.info("Bắt đầu test edit user");
         TestUtil.adminUtil();
-        SideBar sideBar = new SideBar(driver);
-        sideBar.clickAdminPage();
 
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
+
         userManagePage.searchSystemUser(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,
                 TestConfig.status);
 
-        Assert.assertTrue(userManagePage.isRecordFoundMatchKeySearch(TestConfig.userName), "không tìm thấy bản ghi");
+        EditUserPage editUserPage = userManagePage.clickEditUser();
 
-        Log.info("TÌm thấy bản ghi");
+        Assert.assertTrue(editUserPage.isEditTilteVisible(), "Không vào được trang Edit");
+
+        editUserPage.editUser("Huy1234", "Huy1234");
+
+        Assert.assertTrue(editUserPage.isEditUserSuccess(), "Edit User không thành công");
+
+        Log.info("Edit user thành công");
     }
+
 }

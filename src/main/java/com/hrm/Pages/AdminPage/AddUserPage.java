@@ -1,4 +1,4 @@
-package com.hrm.Pages;
+package com.hrm.Pages.AdminPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

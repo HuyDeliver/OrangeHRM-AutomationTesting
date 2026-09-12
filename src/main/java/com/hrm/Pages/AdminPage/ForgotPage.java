@@ -1,4 +1,4 @@
-package com.hrm.Pages;
+package com.hrm.Pages.AdminPage;
 
 import java.util.List;
 

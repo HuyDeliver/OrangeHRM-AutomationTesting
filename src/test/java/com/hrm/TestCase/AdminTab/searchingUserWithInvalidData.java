@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
-import com.hrm.Pages.UserManagePage;
+import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
 

@@ -2,8 +2,8 @@ package com.hrm.Base;
 
 import org.testng.Assert;
 
-import com.hrm.Pages.LoginPage;
-import com.hrm.Pages.SideBar;
+import com.hrm.Pages.AdminPage.LoginPage;
+import com.hrm.Pages.AdminPage.SideBar;
 import com.hrm.Util.Config;
 import com.hrm.Util.Log;
 

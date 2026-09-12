@@ -1,4 +1,4 @@
-package com.hrm.Pages;
+package com.hrm.Pages.AdminPage;
 
 import java.time.Duration;
 
@@ -124,5 +124,15 @@ public class UserManagePage {
 
     public boolean isDeleteSuccess() {
         return deleteSuccess.isDisplayed();
+    }
+
+    // Edit user
+    @FindBy(xpath = "//div[@class='oxd-table-card']//div[contains(@class,'oxd-table-cell')][6]//button[2]")
+    private WebElement editUser;
+
+    public EditUserPage clickEditUser() {
+        Log.info("Click nút edit user");
+        waitButton.waitElementClick(driver, editUser);
+        return new EditUserPage(driver);
     }
 }

@@ -5,9 +5,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
-import com.hrm.Pages.AlertResetPassSuccess;
-import com.hrm.Pages.ForgotPage;
-import com.hrm.Pages.LoginPage;
+import com.hrm.Pages.AdminPage.AlertResetPassSuccess;
+import com.hrm.Pages.AdminPage.ForgotPage;
+import com.hrm.Pages.AdminPage.LoginPage;
 import com.hrm.Util.Config;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;

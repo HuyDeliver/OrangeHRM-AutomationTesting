@@ -5,12 +5,12 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
-import com.hrm.Pages.UserManagePage;
+import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
 public class DeleteUserFunctionality extends TestBase {
-    @Test
+    @Test(description = "OHR6: Delete user")
     public void deleteUserSuccess() {
         Log.info("Bắt đầu test delete");
         TestUtil.adminUtil();
