@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class AddUserPage {
     private WebDriver driver;
@@ -54,20 +54,20 @@ public class AddUserPage {
         userName.sendKeys(name);
 
         Log.info("Chọn role");
-        waitButton.waitElementClick(driver, userRole);
+        waitUtils.waitElementClick(driver, userRole);
         By userRoleSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + role + "']");
-        waitButton.waitElementClick(driver, driver.findElement(userRoleSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(userRoleSelect));
 
         Log.info("Nhập tên employee");
         employeeName.sendKeys(employee);
         By employeeSelect = By
                 .xpath("//div[contains(@class, 'oxd-autocomplete-dropdown')]/div[1]/span[not(contains(text(),'Searching'))]");
-        waitButton.waitElementClick(driver, driver.findElement(employeeSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(employeeSelect));
 
         Log.info("Chọn status");
-        waitButton.waitElementClick(driver, status);
+        waitUtils.waitElementClick(driver, status);
         By userStatusSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + statusAcc + "']");
-        waitButton.waitElementClick(driver, driver.findElement(userStatusSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(userStatusSelect));
 
         Log.info("Nhập pass");
         password.sendKeys(pass);
@@ -76,7 +76,7 @@ public class AddUserPage {
         passwordConfirm.sendKeys(confirmPass);
 
         Log.info("Click save");
-        waitButton.waitElementClick(driver, buttonSave);
+        waitUtils.waitElementClick(driver, buttonSave);
     }
 
     public boolean isAddUserSuccess() {

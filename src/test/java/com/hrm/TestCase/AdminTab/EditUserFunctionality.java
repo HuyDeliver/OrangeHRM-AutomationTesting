@@ -14,7 +14,7 @@ public class EditUserFunctionality extends TestBase {
     @Test
     public void editUserWithNewPass() {
         Log.info("Bắt đầu test edit user");
-        TestUtil.adminUtil();
+        TestUtil.userUtil();
 
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");

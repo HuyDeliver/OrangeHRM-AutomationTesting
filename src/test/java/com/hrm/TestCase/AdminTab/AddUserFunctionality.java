@@ -13,7 +13,7 @@ import com.hrm.Util.TestConfig;
 public class AddUserFunctionality extends TestBase {
     @Test(description = "OHR5: Add user with Valid Data")
     public void addUserFunctionality() {
-        TestUtil.adminUtil();
+        TestUtil.userUtil();
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
 

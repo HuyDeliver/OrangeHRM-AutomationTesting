@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class EditUserPage {
     private WebDriver driver;
@@ -42,7 +42,7 @@ public class EditUserPage {
     public void editUser(String pass, String confirmPass) {
 
         Log.info("Xác nhận đổi pass");
-        waitButton.waitElementClick(driver, changePass);
+        waitUtils.waitElementClick(driver, changePass);
 
         Log.info("Nhập pass");
         password.sendKeys(pass);
@@ -51,7 +51,7 @@ public class EditUserPage {
         passwordConfirm.sendKeys(confirmPass);
 
         Log.info("Click save");
-        waitButton.waitElementClick(driver, buttonSave);
+        waitUtils.waitElementClick(driver, buttonSave);
     }
 
     public boolean isEditUserSuccess() {

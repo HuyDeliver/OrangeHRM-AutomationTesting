@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class ForgotPage {
     private WebDriver driver;
@@ -36,7 +36,7 @@ public class ForgotPage {
         Log.info("Nhập username muốn reset pass");
         userName.sendKeys(name);
         Log.info("Nhấn reset");
-        waitButton.waitElementClick(driver, resetPass);
+        waitUtils.waitElementClick(driver, resetPass);
         return new AlertResetPassSuccess(driver);
     }
 }

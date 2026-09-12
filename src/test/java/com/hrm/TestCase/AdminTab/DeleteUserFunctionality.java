@@ -13,7 +13,7 @@ public class DeleteUserFunctionality extends TestBase {
     @Test(description = "OHR6: Delete user")
     public void deleteUserSuccess() {
         Log.info("Bắt đầu test delete");
-        TestUtil.adminUtil();
+        TestUtil.userUtil();
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
         userManagePage.searchSystemUser(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,

@@ -14,7 +14,7 @@ public class searchingUserWithValidData extends TestBase {
     @Test(description = "OHR4: searching user with invalid data from excel")
     public void searchUserUsingDataDriven() {
         Log.info("Bắt đầu test searching");
-        TestUtil.adminUtil();
+        TestUtil.userUtil();
         SideBar sideBar = new SideBar(driver);
         sideBar.clickAdminPage();
 

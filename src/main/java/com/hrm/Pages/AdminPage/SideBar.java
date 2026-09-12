@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class SideBar {
     private WebDriver driver;
@@ -26,7 +26,7 @@ public class SideBar {
     }
 
     public UserManagePage clickAdminPage() {
-        waitButton.waitElementClick(driver, adminTab);
+        waitUtils.waitElementClick(driver, adminTab);
         return new UserManagePage(driver);
     }
 

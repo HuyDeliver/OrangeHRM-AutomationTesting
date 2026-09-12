@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class UserManagePage {
     private WebDriver driver;
@@ -52,23 +52,23 @@ public class UserManagePage {
         userName.sendKeys(name);
 
         Log.info("Chọn role");
-        waitButton.waitElementClick(driver, userRole);
+        waitUtils.waitElementClick(driver, userRole);
         By userRoleSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + role + "']");
-        waitButton.waitElementClick(driver, driver.findElement(userRoleSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(userRoleSelect));
 
         Log.info("Nhập tên employee");
         employeeName.sendKeys(employee);
         By employeeSelect = By
                 .xpath("//div[contains(@class, 'oxd-autocomplete-dropdown')]/div[1]/span[not(contains(text(),'Searching'))]");
-        waitButton.waitElementClick(driver, driver.findElement(employeeSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(employeeSelect));
 
         Log.info("Chọn status");
-        waitButton.waitElementClick(driver, status);
+        waitUtils.waitElementClick(driver, status);
         By userStatusSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + statusAcc + "']");
-        waitButton.waitElementClick(driver, driver.findElement(userStatusSelect));
+        waitUtils.waitElementClick(driver, driver.findElement(userStatusSelect));
 
         Log.info("Click search");
-        waitButton.waitElementClick(driver, buttonSearch);
+        waitUtils.waitElementClick(driver, buttonSearch);
     }
 
     public boolean isNoRecordFound() {
@@ -85,7 +85,7 @@ public class UserManagePage {
     private WebElement buttonAdd;
 
     public AddUserPage addUserPage() {
-        waitButton.waitElementClick(driver, buttonAdd);
+        waitUtils.waitElementClick(driver, buttonAdd);
         return new AddUserPage(driver);
     }
 
@@ -104,7 +104,7 @@ public class UserManagePage {
 
     public void clickDeleteUser() {
         Log.info("Click nút delete");
-        waitButton.waitElementClick(driver, buttonDelete);
+        waitUtils.waitElementClick(driver, buttonDelete);
 
         By deleteModal = By
                 .cssSelector(".oxd-dialog-container-default .oxd-sheet");
@@ -119,7 +119,7 @@ public class UserManagePage {
 
     public void deleteUserInModal() {
         Log.info("Xác nhận xóa");
-        waitButton.waitElementClick(driver, confirmDelete);
+        waitUtils.waitElementClick(driver, confirmDelete);
     }
 
     public boolean isDeleteSuccess() {
@@ -132,7 +132,30 @@ public class UserManagePage {
 
     public EditUserPage clickEditUser() {
         Log.info("Click nút edit user");
-        waitButton.waitElementClick(driver, editUser);
+        waitUtils.waitElementClick(driver, editUser);
         return new EditUserPage(driver);
+    }
+
+    // Switch to job
+    @FindBy(xpath = "//nav[@class='oxd-topbar-body-nav']/ul/li[2]")
+    private WebElement clickJob;
+
+    @FindBy(css = ".oxd-topbar-body-nav ul>li.--active ul.oxd-dropdown-menu")
+    private WebElement dropdownJob;
+
+    @FindBy(css = ".oxd-dropdown-menu>li:nth-child(1)")
+    private WebElement clickJobtitle;
+
+    public void clickJobNav() {
+        Log.info("Click navi Job title");
+        waitUtils.waitElementClick(driver, clickJob);
+        Log.info("Đợi dropdown xuất hiện");
+        waitUtils.waitElementVisibility(driver, dropdownJob);
+    }
+
+    public JobTitlePage goToJobTitlePage() {
+        Log.info("Click vào job title");
+        waitUtils.waitElementClick(driver, clickJobtitle);
+        return new JobTitlePage(driver);
     }
 }

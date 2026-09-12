@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitButton;
+import com.hrm.Util.waitUtils;
 
 public class LoginPage {
     private WebDriver driver;
@@ -49,7 +49,7 @@ public class LoginPage {
         Log.info("Nhập password");
         passWord.sendKeys(pass);
         Log.info("Click login");
-        waitButton.waitElementClick(driver, loginButton);
+        waitUtils.waitElementClick(driver, loginButton);
         return new SideBar(driver);
     }
 
@@ -72,7 +72,7 @@ public class LoginPage {
     }
 
     public ForgotPage clickForgotPassPage() {
-        waitButton.waitElementClick(driver, forgotButton);
+        waitUtils.waitElementClick(driver, forgotButton);
         return new ForgotPage(driver);
     }
 
