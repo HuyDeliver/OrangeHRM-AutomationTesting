@@ -9,8 +9,13 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+
+@Epic("Module AdminTab")
+@Feature("Quản lý User")
 public class DeleteUserFunctionality extends TestBase {
-    @Test(description = "OHR6: Delete user")
+    @Test(description = "OHR7: Delete user", dependsOnGroups = { "add-user" })
     public void deleteUserSuccess() {
         Log.info("Bắt đầu test delete");
         TestUtil.userUtil();

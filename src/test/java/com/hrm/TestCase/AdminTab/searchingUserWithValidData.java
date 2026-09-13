@@ -10,8 +10,13 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+
+@Epic("Module AdminTab")
+@Feature("Quản lý User")
 public class searchingUserWithValidData extends TestBase {
-    @Test(description = "OHR4: searching user with invalid data from excel")
+    @Test(description = "OHR4: searching user with invalid data from excel", dependsOnGroups = { "add-user" })
     public void searchUserUsingDataDriven() {
         Log.info("Bắt đầu test searching");
         TestUtil.userUtil();

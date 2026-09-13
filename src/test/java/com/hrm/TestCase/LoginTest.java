@@ -12,8 +12,12 @@ import com.hrm.Util.Config;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
 
-public class LoginTest extends TestBase {
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 
+@Epic("Module Login")
+@Feature("Quản lý Đăng nhập")
+public class LoginTest extends TestBase {
     @Test(description = "OHR1:login with right username and password")
     public void loginSuccess() {
         LoginPage loginPage = new LoginPage(driver);

@@ -10,8 +10,13 @@ import com.hrm.Pages.AdminPage.JobTitlePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+
+@Epic("Module AdminTab")
+@Feature("Quản lý Job Title")
 public class AddJobTitlesFunctionality extends TestBase {
-    @Test
+    @Test(description = "OHR9: Add new job title")
     public void addJobTitleSuccess() {
         TestUtil.jobUtil();
 

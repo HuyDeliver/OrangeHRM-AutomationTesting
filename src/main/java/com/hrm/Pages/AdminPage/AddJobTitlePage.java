@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
-import com.hrm.Util.waitUtils;
+import com.hrm.Util.componentLocator;
 
 public class AddJobTitlePage {
     private WebDriver driver;
@@ -18,19 +18,6 @@ public class AddJobTitlePage {
 
     @FindBy(css = ".orangehrm-card-container>h6")
     private WebElement titleAddJobTitle;
-
-    @FindBy(xpath = "//label[text()='Job Title']/following::input[1]")
-    private WebElement jobTitleName;
-
-    @FindBy(xpath = "//label[text()='Job Description']/following::textarea[1]")
-    private WebElement jobDescription;
-
-    @FindBy(xpath = "//input[@type='file']")
-    private WebElement jobSpecification;
-
-    @FindBy(xpath = "//label[text()='Note']/following::textarea[1]")
-    private WebElement jobNote;
-
     @FindBy(xpath = "//div[@class='oxd-form-actions']/child::button[@type='submit']")
     private WebElement buttonSave;
 
@@ -43,16 +30,12 @@ public class AddJobTitlePage {
     }
 
     public void addTitleJob(String title, String description, String file, String note) {
-        Log.info("Nhập job title");
-        jobTitleName.sendKeys(title);
-        Log.info("Nhập job description");
-        jobDescription.sendKeys(description);
-        Log.info("Nhập job specification");
-        jobSpecification.sendKeys(file);
-        Log.info("Nhập note");
-        jobNote.sendKeys(note);
-        Log.info("Nhấn save");
-        waitUtils.waitElementClick(driver, buttonSave);
+        componentLocator.fillInput(driver, "Job Title", title);
+        componentLocator.fillTexArea(driver, "Job Description", description);
+        componentLocator.fillFile(driver, "Job Specification", file);
+        componentLocator.fillTexArea(driver, "Note", note);
+
+        componentLocator.buttonSave(driver);
     }
 
     public boolean isAddTitleJobSuccess() {

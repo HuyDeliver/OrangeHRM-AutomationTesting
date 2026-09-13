@@ -10,8 +10,13 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+
+@Epic("Module AdminTab")
+@Feature("Quản lý User")
 public class EditUserFunctionality extends TestBase {
-    @Test
+    @Test(description = "OHR6: edit user with new pass", dependsOnGroups = { "add-user" })
     public void editUserWithNewPass() {
         Log.info("Bắt đầu test edit user");
         TestUtil.userUtil();

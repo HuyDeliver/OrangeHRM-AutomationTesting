@@ -10,8 +10,13 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+
+@Epic("Module AdminTab")
+@Feature("Quản lý User")
 public class AddUserFunctionality extends TestBase {
-    @Test(description = "OHR5: Add user with Valid Data")
+    @Test(description = "OHR7: Add user with Valid Data", groups = { "add-user" })
     public void addUserFunctionality() {
         TestUtil.userUtil();
         UserManagePage userManagePage = new UserManagePage(driver);
