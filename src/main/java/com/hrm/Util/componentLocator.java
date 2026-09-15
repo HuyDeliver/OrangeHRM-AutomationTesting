@@ -81,13 +81,22 @@ public class componentLocator {
         return randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
     }
 
-    public static WebElement deleteButtonTable(WebDriver driver) {
+    public static void deleteButtonTable(WebDriver driver) {
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
         int randomIndex = new Random().nextInt(rows.size());
         WebElement randomRow = rows.get(randomIndex);
 
-        return randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-trash')]]"));
+        WebElement deleteItem = randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-trash')]]"));
+        waitUtils.waitElementClick(driver, deleteItem);
+        By deleteModal = By
+                .cssSelector(".oxd-dialog-container-default .oxd-sheet");
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(deleteModal));
+
+        Log.info("Xác nhận xóa");
+        WebElement confirmDelete = driver.findElement(By.cssSelector(".orangehrm-modal-footer>button:nth-child(2)"));
+        waitUtils.waitElementClick(driver, confirmDelete);
     }
 
     public static void chooseSelect(WebDriver driver, String label, String option) {

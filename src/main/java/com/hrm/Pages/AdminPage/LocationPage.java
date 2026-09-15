@@ -32,4 +32,12 @@ public class LocationPage {
         return new AddLocationPage(driver);
     }
 
+    public void deleteLocation() {
+        componentLocator.deleteButtonTable(driver);
+    }
+
+    public boolean isDeleteLocationSuccess() {
+        return componentLocator.checkToasstSuccess(driver, "Delete Location");
+    }
+
 }

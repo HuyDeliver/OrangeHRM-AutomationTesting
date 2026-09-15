@@ -1,14 +1,9 @@
 package com.hrm.Pages.AdminPage;
 
-import java.time.Duration;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
@@ -57,22 +52,7 @@ public class JobTitlePage {
     private WebElement deleteSuccess;
 
     public void clickDelete() {
-        waitUtils.waitElementClick(driver, componentLocator.deleteButtonTable(driver));
-
-        By deleteModal = By
-                .cssSelector(".oxd-dialog-container-default .oxd-sheet");
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(deleteModal));
-    }
-
-    public boolean isModalDeleteVisible() {
-        Log.info("kiểm tra modal có hiện ko");
-        return deleteTitle.isDisplayed();
-    }
-
-    public void deleteUserInModal() {
-        Log.info("Xác nhận xóa");
-        waitUtils.waitElementClick(driver, confirmDelete);
+        componentLocator.deleteButtonTable(driver);
     }
 
     public boolean isDeleteSuccess() {

@@ -21,9 +21,6 @@ public class DeleteJobTitlesFunctionality extends TestBase {
         Assert.assertTrue(jobTitlePage.isJobtitleVisible(), "Không vào được job title");
 
         jobTitlePage.clickDelete();
-        Assert.assertTrue(jobTitlePage.isModalDeleteVisible(), "Không hiện modal xóa");
-        jobTitlePage.deleteUserInModal();
-
         Assert.assertTrue(jobTitlePage.isDeleteSuccess(), "Delete không thành công");
 
         Log.info("Delete Job title success");
