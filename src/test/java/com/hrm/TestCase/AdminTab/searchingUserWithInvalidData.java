@@ -17,7 +17,7 @@ import io.qameta.allure.Feature;
 @Feature("Quản lý User")
 public class searchingUserWithInvalidData extends TestBase {
     @Test(dataProvider = "searchingUserInvalidData", description = "OHR5: searching user with invalid data from excel", dependsOnGroups = {
-            "add-user" })
+            "add-user" }, priority = 3)
     public void searchUserUsingDataDriven(String userName, String role, String employee, String status) {
         Log.info("Bắt đầu test searching");
         TestUtil.userUtil();

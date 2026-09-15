@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
+import com.hrm.Pages.AdminPage.EditLocationPage;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
 
@@ -13,15 +14,18 @@ import io.qameta.allure.Feature;
 
 @Epic("Module organization")
 @Feature("Quản lý location")
-public class DeleteLocationFunctionality extends TestBase {
-    @Test(description = "Delete a location", dependsOnGroups = { "Location-test" })
-    public void deleteLocationSuccess() {
+public class EditLocationFunctionality extends TestBase {
+    @Test
+    public void editCityinLocation() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
         Assert.assertTrue(locationPage.isTitleLocationVisible(), "Không vào được trang Location");
-        locationPage.deleteLocation();
-        Assert.assertTrue(locationPage.isDeleteLocationSuccess(), "Delete không thành công");
 
-        Log.info("Xóa thành công");
+        EditLocationPage editLocationPage = locationPage.clickEditLocation();
+
+        Assert.assertTrue(editLocationPage.isTitleEditVisible(), "Không vào được trang Edit Location");
+        editLocationPage.editCity("Hồ Chí Minh");
+        Assert.assertTrue(editLocationPage.isEditLocationSuccess(), "Edit không thành công");
+        Log.info("Edit City thành công");
     }
 }

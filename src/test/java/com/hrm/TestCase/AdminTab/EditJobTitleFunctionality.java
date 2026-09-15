@@ -15,7 +15,7 @@ import io.qameta.allure.Feature;
 @Epic("Module AdminTab")
 @Feature("Quản lý Job Title")
 public class EditJobTitleFunctionality extends TestBase {
-    @Test(description = "OHR10: Edit Job title")
+    @Test(description = "OHR10: Edit Job title", dependsOnGroups = { "job-test" }, priority = 7)
     public void editJobTileSuccess() {
         TestUtil.jobUtil();
         JobTitlePage jobTitlePage = new JobTitlePage(driver);

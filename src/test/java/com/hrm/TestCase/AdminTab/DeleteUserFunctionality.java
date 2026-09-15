@@ -15,7 +15,7 @@ import io.qameta.allure.Feature;
 @Epic("Module AdminTab")
 @Feature("Quản lý User")
 public class DeleteUserFunctionality extends TestBase {
-    @Test(description = "OHR7: Delete user", dependsOnGroups = { "add-user" })
+    @Test(description = "OHR7: Delete user", dependsOnGroups = { "add-user" }, priority = 5)
     public void deleteUserSuccess() {
         Log.info("Bắt đầu test delete");
         TestUtil.userUtil();

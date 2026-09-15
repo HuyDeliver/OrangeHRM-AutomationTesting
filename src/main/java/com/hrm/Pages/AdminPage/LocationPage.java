@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.componentLocator;
+import com.hrm.Util.waitUtils;
 
 public class LocationPage {
     private WebDriver driver;
@@ -38,6 +39,11 @@ public class LocationPage {
 
     public boolean isDeleteLocationSuccess() {
         return componentLocator.checkToasstSuccess(driver, "Delete Location");
+    }
+
+    public EditLocationPage clickEditLocation() {
+        waitUtils.waitElementClick(driver, componentLocator.editButtonTable(driver));
+        return new EditLocationPage(driver);
     }
 
 }
