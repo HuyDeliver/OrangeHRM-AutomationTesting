@@ -18,11 +18,6 @@ public class AddJobTitlePage {
 
     @FindBy(css = ".orangehrm-card-container>h6")
     private WebElement titleAddJobTitle;
-    @FindBy(xpath = "//div[@class='oxd-form-actions']/child::button[@type='submit']")
-    private WebElement buttonSave;
-
-    @FindBy(css = ".oxd-toast.oxd-toast--success.oxd-toast-container--toast")
-    private WebElement toastAddSuccess;
 
     public boolean isTitleAddJobTitleVisible() {
         Log.info("Kiểm tra vào được Add job");
@@ -39,7 +34,6 @@ public class AddJobTitlePage {
     }
 
     public boolean isAddTitleJobSuccess() {
-        Log.info("Kiểm tra Add thành công chưa");
-        return toastAddSuccess.isDisplayed();
+        return componentLocator.checkToasstSuccess(driver, "Add Job title");
     }
 }

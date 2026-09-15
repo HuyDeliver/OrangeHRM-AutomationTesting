@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
+import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
 
 public class UserManagePage {
@@ -157,5 +158,10 @@ public class UserManagePage {
         Log.info("Click vào job title");
         waitUtils.waitElementClick(driver, clickJobtitle);
         return new JobTitlePage(driver);
+    }
+
+    public LocationPage goToLocationPage(String navi, String option) {
+        componentLocator.clickDropdownNavi(driver, navi, option);
+        return new LocationPage(driver);
     }
 }

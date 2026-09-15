@@ -1,12 +1,16 @@
 package com.hrm.Util;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class componentLocator {
     public static void fillInput(WebDriver driver, String label, String value) {
@@ -64,7 +68,6 @@ public class componentLocator {
 
     public static boolean checkToasstSuccess(WebDriver driver, String toast) {
         Log.info("Kiểm tra " + toast + " thành công hay chưa");
-
         By toastSuccess = By.cssSelector(".oxd-toast.oxd-toast--success.oxd-toast-container--toast");
         return driver.findElement(toastSuccess).isDisplayed();
     }
@@ -85,5 +88,45 @@ public class componentLocator {
         WebElement randomRow = rows.get(randomIndex);
 
         return randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-trash')]]"));
+    }
+
+    public static void chooseSelect(WebDriver driver, String label, String option) {
+        Log.info("Chọn " + label + " = " + option);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        By selectInput = By.xpath("//label[text()='" + label + "']/following::div[contains(@class,'oxd-select-text')]");
+
+        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(selectInput));
+        js.executeScript("arguments[0].click();", input);
+
+        By listbox = By.xpath("//div[@role='listbox']");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
+
+        By optionLocator = By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
+        WebElement optionEl = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
+        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", optionEl);
+
+        wait.until(ExpectedConditions.elementToBeClickable(optionEl)).click();
+
+    }
+
+    public static void clickDropdownNavi(WebDriver driver, String nameNavi, String option) {
+        Log.info("Click vào: " + nameNavi);
+        By navi = By.xpath("//li[contains(@class, 'oxd-topbar-body-nav-tab') and contains(., '" + nameNavi + "')]");
+
+        waitUtils.waitElementClick(driver, driver.findElement(navi));
+
+        By dropdown = By.cssSelector(".oxd-topbar-body-nav-tab .oxd-dropdown-menu");
+        waitUtils.waitElementVisibility(driver, driver.findElement(dropdown));
+
+        Log.info("Chọn: " + option);
+        By optionChoose = By.xpath("//a[@class='oxd-topbar-body-nav-tab-link' and contains(.,'" + option + "')]");
+        waitUtils.waitElementClick(driver, driver.findElement(optionChoose));
+    }
+
+    public static void clickButtonAdd(WebDriver driver) {
+        By button = By.cssSelector(".orangehrm-paper-container .orangehrm-header-container button");
+        waitUtils.waitElementClick(driver, driver.findElement(button));
     }
 }
