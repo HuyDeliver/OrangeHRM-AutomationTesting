@@ -138,4 +138,23 @@ public class componentLocator {
         By button = By.cssSelector(".orangehrm-paper-container .orangehrm-header-container button");
         waitUtils.waitElementClick(driver, driver.findElement(button));
     }
+
+    public static void clickSearch(WebDriver driver) {
+        Log.info("Click Search");
+        WebElement buttonSearch = driver
+                .findElement(By.xpath("//div[@class='oxd-form-actions']/child::button[@type='submit']"));
+        waitUtils.waitElementClick(driver, buttonSearch);
+    }
+
+    public static boolean checkSearch(WebDriver driver, String nameSearch, String keyword) {
+        Log.info("Kiểm tra " + nameSearch + " :" + keyword + " có tồn tại");
+
+        List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
+
+        if (!rows.isEmpty()) {
+            return rows.stream().anyMatch(row -> row.getText().contains(keyword));
+        }
+
+        return false;
+    }
 }

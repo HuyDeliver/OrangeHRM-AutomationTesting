@@ -46,4 +46,14 @@ public class LocationPage {
         return new EditLocationPage(driver);
     }
 
+    public void searchLocationFolowingCountry(String name, String City, String country) {
+        componentLocator.fillInput(driver, "Name", name);
+        componentLocator.fillInput(driver, "City", City);
+        componentLocator.chooseSelect(driver, "Country", country);
+        componentLocator.clickSearch(driver);
+    }
+
+    public boolean isSearchLocationSuccess(String keyword) {
+        return componentLocator.checkSearch(driver, "Locations", keyword);
+    }
 }

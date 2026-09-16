@@ -14,7 +14,7 @@ import io.qameta.allure.Feature;
 @Epic("Module organization")
 @Feature("Quản lý location")
 public class DeleteLocationFunctionality extends TestBase {
-    @Test(description = "Delete a location", dependsOnGroups = { "Location-test" })
+    @Test(description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" }, priority = 11)
     public void deleteLocationSuccess() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
