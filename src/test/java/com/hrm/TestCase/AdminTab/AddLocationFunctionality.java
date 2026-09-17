@@ -7,14 +7,15 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.AddLocationPage;
 import com.hrm.Pages.AdminPage.LocationPage;
+import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("Module organization")
-@Feature("Quản lý location")
 public class AddLocationFunctionality extends TestBase {
+    @Epic("Module organization")
+    @Feature("Quản lý location")
     @Test(description = "OHR12: Add Location with valid data", groups = { "Location-test" }, priority = 9)
     public void addLocationSuccess() {
         TestUtil.organizeUtil();
@@ -27,5 +28,6 @@ public class AddLocationFunctionality extends TestBase {
                 TestConfig.cityName, TestConfig.locationNote);
         addLocationPage.saveLocation();
         Assert.assertTrue(addLocationPage.isAddLocationSucess(), "Add Location không thành công");
+        Log.info("Add location thành công");
     }
 }

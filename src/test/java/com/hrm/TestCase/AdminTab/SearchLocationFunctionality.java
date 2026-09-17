@@ -13,9 +13,9 @@ import com.hrm.Util.Log;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("Module organization")
-@Feature("Quản lý location")
 public class SearchLocationFunctionality extends TestBase {
+    @Epic("Module organization")
+    @Feature("Quản lý location")
     @Test(dataProvider = "searchingLocation", description = "ỌHR14: Search location with City", priority = 10)
     public void searchLocationWithCity(String name, String city, String country) {
         TestUtil.organizeUtil();

@@ -1,5 +1,20 @@
 version: "3"
 services:
+  db:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: orangehrm
+    volumes:
+      - db_data:/var/lib/mysql
+
+  orangehrm:
+    image: orangehrm/orangehrm
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
   allure:
     image: frankescobar/allure-docker-service
     environment:
@@ -9,3 +24,6 @@ services:
       - "5050:5050"
     volumes:
       - ./target/allure-results:/app/allure-results
+
+volumes:
+  db_data:

@@ -36,7 +36,7 @@ public class JobTitlePage {
 
     // Edit job title
     public EditJobTitlePage goToEditPage() {
-        waitUtils.waitElementClick(driver, componentLocator.editButtonTable(driver));
+        componentLocator.editButtonTable(driver);
         return new EditJobTitlePage(driver);
     }
 

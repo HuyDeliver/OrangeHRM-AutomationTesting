@@ -45,8 +45,13 @@ public class componentLocator {
         By textLocator = By.xpath("//label[text()='" + label + "']/following::textarea[1]");
 
         WebElement input = driver.findElement(textLocator);
-        input.clear();
-        input.sendKeys(value);
+        input.click();
+        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        input.sendKeys(Keys.BACK_SPACE);
+        if (value != null && !value.isEmpty()) {
+            input.sendKeys(value);
+        }
+        input.sendKeys(Keys.TAB);
     }
 
     public static void buttonSave(WebDriver driver) {
@@ -59,26 +64,31 @@ public class componentLocator {
     }
 
     public static boolean checkTitle(WebDriver driver, String title) {
-        Log.info("Kiểm tra đã vào được " + title + "Hay chưa");
+        Log.info("Kiểm tra đã vào được " + title + " Hay chưa");
 
-        By webTitle = By.cssSelector(".orangehrm-card-container>h6");
-
-        return driver.findElement(webTitle).isDisplayed();
+        WebElement webTitle = driver
+                .findElement(
+                        By.cssSelector(".oxd-text.oxd-text--h6.orangehrm-main-title"));
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(webTitle))
+                .isDisplayed();
     }
 
     public static boolean checkToasstSuccess(WebDriver driver, String toast) {
         Log.info("Kiểm tra " + toast + " thành công hay chưa");
-        By toastSuccess = By.cssSelector(".oxd-toast.oxd-toast--success.oxd-toast-container--toast");
-        return driver.findElement(toastSuccess).isDisplayed();
+        WebElement toastSuccess = driver
+                .findElement(By.cssSelector(".oxd-toast.oxd-toast--success.oxd-toast-container--toast"));
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(toastSuccess))
+                .isDisplayed();
     }
 
-    public static WebElement editButtonTable(WebDriver driver) {
+    public static void editButtonTable(WebDriver driver) {
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
         int randomIndex = new Random().nextInt(rows.size());
         WebElement randomRow = rows.get(randomIndex);
 
-        return randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
+        WebElement click = randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
+        waitUtils.waitElementClick(driver, click);
     }
 
     public static void deleteButtonTable(WebDriver driver) {

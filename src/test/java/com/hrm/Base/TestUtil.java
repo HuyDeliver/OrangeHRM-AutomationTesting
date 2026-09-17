@@ -39,4 +39,15 @@ public class TestUtil extends TestBase {
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
         userManagePage.goToLocationPage("Organization", "Locations");
     }
+
+    public static void qualificationUtil() {
+        LoginPage loginPage = new LoginPage(driver);
+        Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
+        loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        Log.info("Đăng nhập thành công");
+        SideBar sideBar = new SideBar(driver);
+        UserManagePage userManagePage = sideBar.clickAdminPage();
+        Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
+        userManagePage.goToSkillPage();
+    }
 }

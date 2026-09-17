@@ -12,9 +12,9 @@ import com.hrm.Util.Log;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("Module AdminTab")
-@Feature("Quản lý Job Title")
 public class EditJobTitleFunctionality extends TestBase {
+    @Epic("Module AdminTab")
+    @Feature("Quản lý Job Title")
     @Test(description = "OHR10: Edit Job title", dependsOnGroups = { "job-test" }, priority = 7)
     public void editJobTileSuccess() {
         TestUtil.jobUtil();

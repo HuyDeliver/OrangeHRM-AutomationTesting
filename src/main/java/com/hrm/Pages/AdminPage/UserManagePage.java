@@ -164,4 +164,9 @@ public class UserManagePage {
         componentLocator.clickDropdownNavi(driver, navi, option);
         return new LocationPage(driver);
     }
+
+    public SkillPage goToSkillPage() {
+        componentLocator.clickDropdownNavi(driver, "Qualifications", "Skills");
+        return new SkillPage(driver);
+    }
 }

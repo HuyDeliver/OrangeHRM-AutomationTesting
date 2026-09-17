@@ -14,7 +14,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 @Epic("Module AdminTab")
-@Feature("Quản lý Job Title")
+@Feature("Quản lý Job")
 public class AddJobTitlesFunctionality extends TestBase {
     @Test(description = "OHR9: Add new job title", groups = { "job-test" }, priority = 6)
     public void addJobTitleSuccess() {

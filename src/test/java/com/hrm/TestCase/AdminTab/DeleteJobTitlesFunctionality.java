@@ -11,9 +11,9 @@ import com.hrm.Util.Log;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("Module AdminTab")
-@Feature("Quản lý Job Title")
 public class DeleteJobTitlesFunctionality extends TestBase {
+    @Epic("Module AdminTab")
+    @Feature("Quản lý Job")
     @Test(description = "OHR11: Delete Job", dependsOnGroups = { "job-test" }, priority = 8)
     public void deleteJob() {
         TestUtil.jobUtil();

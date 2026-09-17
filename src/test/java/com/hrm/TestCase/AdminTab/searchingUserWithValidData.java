@@ -13,9 +13,9 @@ import com.hrm.Util.TestConfig;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("Module AdminTab")
-@Feature("Quản lý User")
 public class SearchingUserWithValidData extends TestBase {
+    @Epic("Module AdminTab")
+    @Feature("Quản lý User")
     @Test(description = "OHR4: searching user with invalid data from excel", dependsOnGroups = {
             "add-user" }, priority = 2)
     public void searchUserUsingDataDriven() {
