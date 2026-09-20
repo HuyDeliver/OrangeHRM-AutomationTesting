@@ -13,6 +13,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class componentLocator {
+
+    public static void clickSideBar(WebDriver driver, String tab) {
+        Log.info("Click vào tab " + tab);
+        WebElement Tab = driver
+                .findElement(By.xpath("//ul[@class='oxd-main-menu']/child::li[contains(.,'" + tab + "')]"));
+        waitUtils.waitElementClick(driver, Tab);
+    }
+
     public static void fillInput(WebDriver driver, String label, String value) {
         Log.info("Nhập " + label);
 
@@ -63,12 +71,22 @@ public class componentLocator {
         waitUtils.waitElementClick(driver, button);
     }
 
-    public static boolean checkTitle(WebDriver driver, String title) {
+    public static boolean checkTitleH6(WebDriver driver, String title) {
         Log.info("Kiểm tra đã vào được " + title + " Hay chưa");
 
         WebElement webTitle = driver
                 .findElement(
                         By.cssSelector(".oxd-text.oxd-text--h6.orangehrm-main-title"));
+        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(webTitle))
+                .isDisplayed();
+    }
+
+    public static boolean checkTitleH5(WebDriver driver, String title) {
+        Log.info("Kiểm tra đã vào được " + title + " Hay chưa");
+
+        WebElement webTitle = driver
+                .findElement(
+                        By.cssSelector(".oxd-text.oxd-text--h5.oxd-table-filter-title"));
         return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(webTitle))
                 .isDisplayed();
     }

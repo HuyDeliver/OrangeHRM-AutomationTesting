@@ -14,7 +14,7 @@ public class EditLocationPage {
     }
 
     public boolean isTitleEditVisible() {
-        return componentLocator.checkTitle(driver, "Edit Location");
+        return componentLocator.checkTitleH6(driver, "Edit Location");
     }
 
     public void editCity(String value) {

@@ -14,7 +14,7 @@ import io.qameta.allure.Feature;
 public class DeleteSkillFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý qualification")
-    @Test(description = "OHR13: Delete Skill", priority = 14)
+    @Test(description = "OHR18: Delete Skill", priority = 14)
     public void editSkillSuccess() {
         TestUtil.qualificationUtil();
         SkillPage skillPage = new SkillPage(driver);

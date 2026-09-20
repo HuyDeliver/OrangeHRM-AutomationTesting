@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class EditUserFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
-    @Test(description = "OHR6: edit user with new pass", dependsOnGroups = { "add-user" }, priority = 4)
+    @Test(description = "OHR7: edit user with new pass", dependsOnGroups = { "add-user" }, priority = 4)
     public void editUserWithNewPass() {
         Log.info("Bắt đầu test edit user");
         TestUtil.userUtil();

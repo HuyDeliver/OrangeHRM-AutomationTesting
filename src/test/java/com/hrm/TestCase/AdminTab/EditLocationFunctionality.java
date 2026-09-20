@@ -13,9 +13,9 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 public class EditLocationFunctionality extends TestBase {
-    @Epic("Module organization")
+    @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(description = "OHR10: Edit user")
+    @Test(description = "OHR14: Edit Location")
     public void editCityinLocation() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);

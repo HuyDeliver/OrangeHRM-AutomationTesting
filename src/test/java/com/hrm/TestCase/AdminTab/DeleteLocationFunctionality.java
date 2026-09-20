@@ -12,7 +12,7 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 public class DeleteLocationFunctionality extends TestBase {
-    @Epic("Module organization")
+    @Epic("Module AdminTab")
     @Feature("Quản lý location")
     @Test(description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" }, priority = 11)
     public void deleteLocationSuccess() {

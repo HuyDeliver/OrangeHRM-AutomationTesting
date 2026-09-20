@@ -15,7 +15,7 @@ import io.qameta.allure.Feature;
 public class AddSkillFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý qualification")
-    @Test(description = "OHR12: Add Skill", priority = 12)
+    @Test(description = "OHR16: Add Skill", priority = 12)
     public void addSkillSuccess() {
         TestUtil.qualificationUtil();
         SkillPage skillPage = new SkillPage(driver);

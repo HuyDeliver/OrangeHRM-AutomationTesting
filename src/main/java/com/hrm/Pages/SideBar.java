@@ -1,10 +1,13 @@
-package com.hrm.Pages.AdminPage;
+package com.hrm.Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import com.hrm.Pages.AdminPage.UserManagePage;
+import com.hrm.Pages.PIMPage.EmployeeListPage;
+import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
 
 public class SideBar {
@@ -28,6 +31,11 @@ public class SideBar {
     public UserManagePage clickAdminPage() {
         waitUtils.waitElementClick(driver, adminTab);
         return new UserManagePage(driver);
+    }
+
+    public EmployeeListPage clickEmployeeListPage(String tab) {
+        componentLocator.clickSideBar(driver, tab);
+        return new EmployeeListPage(driver);
     }
 
 }

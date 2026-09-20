@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class AddUserFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
-    @Test(description = "OHR7: Add user with Valid Data", groups = { "add-user" }, priority = 1)
+    @Test(description = "OHR6: Add user with Valid Data", groups = { "add-user" }, priority = 1)
     public void addUserFunctionality() {
         TestUtil.userUtil();
         UserManagePage userManagePage = new UserManagePage(driver);

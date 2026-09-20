@@ -14,7 +14,7 @@ public class EditJobTitlePage {
     }
 
     public boolean isTitleEditJobVisible() {
-        return componentLocator.checkTitle(driver, "Edit Job Title");
+        return componentLocator.checkTitleH6(driver, "Edit Job Title");
     }
 
     public void editJobTitle(String jobTitle) {

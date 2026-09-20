@@ -14,7 +14,7 @@ public class AddSkillPage {
     }
 
     public boolean isAddSkillPageVisible() {
-        return componentLocator.checkTitle(driver, "Add Skill");
+        return componentLocator.checkTitleH6(driver, "Add Skill");
     }
 
     public void addSkillFunction(String name, String description) {

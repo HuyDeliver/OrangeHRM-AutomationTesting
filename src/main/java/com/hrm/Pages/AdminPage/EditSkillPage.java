@@ -14,7 +14,7 @@ public class EditSkillPage {
     }
 
     public boolean isEditPageVisible() {
-        return componentLocator.checkTitle(driver, "Edit Skill");
+        return componentLocator.checkTitleH6(driver, "Edit Skill");
     }
 
     public void editSkill(String name, String description) {

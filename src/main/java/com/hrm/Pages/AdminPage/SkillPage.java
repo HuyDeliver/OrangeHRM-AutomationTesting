@@ -14,7 +14,7 @@ public class SkillPage {
     }
 
     public boolean isSkillTitleVisible() {
-        return componentLocator.checkTitle(driver, "Skills");
+        return componentLocator.checkTitleH6(driver, "Skills");
     }
 
     public AddSkillPage goToAddSkillPage() {
