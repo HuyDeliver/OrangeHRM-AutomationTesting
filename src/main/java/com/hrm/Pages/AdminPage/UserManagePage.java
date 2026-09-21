@@ -1,14 +1,10 @@
 package com.hrm.Pages.AdminPage;
 
-import java.time.Duration;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
@@ -104,27 +100,11 @@ public class UserManagePage {
     private WebElement deleteSuccess;
 
     public void clickDeleteUser() {
-        Log.info("Click nút delete");
-        waitUtils.waitElementClick(driver, buttonDelete);
-
-        By deleteModal = By
-                .cssSelector(".oxd-dialog-container-default .oxd-sheet");
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOfElementLocated(deleteModal));
-    }
-
-    public boolean isModalDeleteVisible() {
-        Log.info("kiểm tra modal có hiện ko");
-        return deleteTitle.isDisplayed();
-    }
-
-    public void deleteUserInModal() {
-        Log.info("Xác nhận xóa");
-        waitUtils.waitElementClick(driver, confirmDelete);
+        componentLocator.deleteButtonTable(driver);
     }
 
     public boolean isDeleteSuccess() {
-        return deleteSuccess.isDisplayed();
+        return componentLocator.checkToasstSuccess(driver, "Delete user");
     }
 
     // Edit user
@@ -132,8 +112,7 @@ public class UserManagePage {
     private WebElement editUser;
 
     public EditUserPage clickEditUser() {
-        Log.info("Click nút edit user");
-        waitUtils.waitElementClick(driver, editUser);
+        componentLocator.editButtonTable(driver);
         return new EditUserPage(driver);
     }
 

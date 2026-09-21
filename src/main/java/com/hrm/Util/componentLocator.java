@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -129,22 +130,55 @@ public class componentLocator {
 
     public static void chooseSelect(WebDriver driver, String label, String option) {
         Log.info("Chọn " + label + " = " + option);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         JavascriptExecutor js = (JavascriptExecutor) driver;
+        Actions actions = new Actions(driver);
 
         By selectInput = By.xpath("//label[text()='" + label + "']/following::div[contains(@class,'oxd-select-text')]");
 
-        WebElement input = wait.until(ExpectedConditions.elementToBeClickable(selectInput));
-        js.executeScript("arguments[0].click();", input);
+        if (option != null && !option.trim().isEmpty()) {
 
-        By listbox = By.xpath("//div[@role='listbox']");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
+            WebElement input = wait.until(ExpectedConditions.elementToBeClickable(selectInput));
+            js.executeScript("arguments[0].click();", input);
 
-        By optionLocator = By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
-        WebElement optionEl = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
-        js.executeScript("arguments[0].scrollIntoView({block: 'center'});", optionEl);
+            By listbox = By.xpath("//div[@role='listbox']");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
 
-        wait.until(ExpectedConditions.elementToBeClickable(optionEl)).click();
+            By optionLocator = By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
+            WebElement optionEl = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
+            js.executeScript("arguments[0].scrollIntoView({block: 'center'});", optionEl);
+
+            wait.until(ExpectedConditions.elementToBeClickable(optionEl)).click();
+
+        } else {
+            actions.sendKeys(Keys.TAB).perform();
+        }
+
+        // Log.info("Chọn " + label + " = " + option);
+        // if (option != null && !option.isEmpty()) {
+
+        // }
+        // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        // JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // By selectInput = By.xpath("//label[text()='" + label +
+        // "']/following::div[contains(@class,'oxd-select-text')]");
+
+        // WebElement input =
+        // wait.until(ExpectedConditions.elementToBeClickable(selectInput));
+        // js.executeScript("arguments[0].click();", input);
+
+        // By listbox = By.xpath("//div[@role='listbox']");
+        // wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
+
+        // By optionLocator =
+        // By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
+        // WebElement optionEl =
+        // wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
+        // js.executeScript("arguments[0].scrollIntoView({block: 'center'});",
+        // optionEl);
+
+        // wait.until(ExpectedConditions.elementToBeClickable(optionEl)).click();
 
     }
 
@@ -174,15 +208,26 @@ public class componentLocator {
         waitUtils.waitElementClick(driver, buttonSearch);
     }
 
-    public static boolean checkSearch(WebDriver driver, String nameSearch, String keyword) {
-        Log.info("Kiểm tra " + nameSearch + " :" + keyword + " có tồn tại");
+    public static boolean checkSearch(WebDriver driver, String nameSearch, String name, String city, String country) {
+        Log.info(
+                String.format("Kiểm tra [%s] với Name='%s', City='%s', Country='%s'", nameSearch, name, city, country));
 
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
-        if (!rows.isEmpty()) {
-            return rows.stream().anyMatch(row -> row.getText().contains(keyword));
+        if (rows.isEmpty()) {
+            Log.warn("Bảng kết quả rỗng!");
+            return false;
         }
 
-        return false;
+        return rows.stream().anyMatch(row -> {
+
+            String rowText = row.getText();
+
+            boolean matchName = (name == null || name.trim().isEmpty()) || rowText.contains(name.trim());
+            boolean matchCity = (city == null || city.trim().isEmpty()) || rowText.contains(city.trim());
+            boolean matchCountry = (country == null || country.trim().isEmpty()) || rowText.contains(country.trim());
+
+            return matchName && matchCity && matchCountry;
+        });
     }
 }

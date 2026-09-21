@@ -41,4 +41,10 @@ public class TestConfig {
     public static final String employeeID = String.valueOf(System.currentTimeMillis()).substring(7);
     public static final String statusEnabled = "Enabled";
     public static final String statusDisabled = "Disabled";
+    public static final String image = System.getProperty("user.dir")
+            + File.separator + "src" + File.separator + "test" + File.separator
+            + "resources" + File.separator + "image" + File.separator + "portraitphoto.jpg";
+
+    // Skills
+    public static final String skill = generateUniqueName("Coding");
 }

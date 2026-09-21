@@ -21,8 +21,8 @@ public class SearchLocationFunctionality extends TestBase {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
         Assert.assertTrue(locationPage.isTitleLocationVisible(), "Không vào được trang Location");
-        locationPage.searchLocationFolowingCountry(name, city, country);
-        if (locationPage.isSearchLocationSuccess(country) == true) {
+        locationPage.searchLocation(name, city, country);
+        if (locationPage.isSearchLocationSuccess(name, city, country) == true) {
             Log.info("Tìm thấy bản ghi");
         } else {
             Log.info("Không tìm thấy bản ghi");

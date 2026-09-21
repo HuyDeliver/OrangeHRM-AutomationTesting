@@ -29,6 +29,8 @@ public class AddEmployeePage {
     @FindBy(xpath = "//div[contains(@class,'oxd-input-group')]/following::input[@name='lastName']")
     private WebElement lastName;
 
+    @FindBy(xpath = "//div[contains(@class,'oxd-input-group')]/following::input[@type='file']")
+    private WebElement fileImage;
     @FindBy(xpath = "//div[@class='oxd-switch-wrapper']/descendant::span[contains(@class,'oxd-switch-input')]")
     private WebElement activeButton;
 
@@ -36,7 +38,9 @@ public class AddEmployeePage {
         return componentLocator.checkTitleH6(driver, "Add Employee");
     }
 
-    public void infoNewEmployee(String firstname, String lastname, String middlename, String employeeID) {
+    public void infoNewEmployee(String file, String firstname, String lastname, String middlename, String employeeID) {
+        Log.info("Thêm ảnh chân dung");
+        fileImage.sendKeys(file);
         Log.info("Nhập firstname: " + firstname);
         firstName.sendKeys(firstname);
         Log.info("Nhập middlename: " + middlename);

@@ -17,7 +17,8 @@ public class AddEmployeeFunctionality extends TestBase {
         Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được employee list");
         AddEmployeePage addEmployeePage = employeeListPage.goToAddEmployee();
         Assert.assertTrue(addEmployeePage.isAddEmployeeVisible(), "Không vào được trang add employee");
-        addEmployeePage.infoNewEmployee(TestConfig.firstName, TestConfig.lastName, TestConfig.middleName,
+        addEmployeePage.infoNewEmployee(TestConfig.image, TestConfig.firstName, TestConfig.lastName,
+                TestConfig.middleName,
                 TestConfig.employeeID);
 
         addEmployeePage.createLoginDetail(TestConfig.userName, TestConfig.statusDisabled, TestConfig.password,

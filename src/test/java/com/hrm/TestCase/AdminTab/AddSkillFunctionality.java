@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.AddSkillPage;
 import com.hrm.Pages.AdminPage.SkillPage;
 import com.hrm.Util.Log;
+import com.hrm.Util.TestConfig;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -22,7 +23,7 @@ public class AddSkillFunctionality extends TestBase {
         Assert.assertTrue(skillPage.isSkillTitleVisible(), "Không vào được trang Skill");
         AddSkillPage addSkillPage = skillPage.goToAddSkillPage();
         Assert.assertTrue(addSkillPage.isAddSkillPageVisible(), "Không vào được trang Skill");
-        addSkillPage.addSkillFunction("Coding", "JavaCore, OOP, Selenium, TestNg");
+        addSkillPage.addSkillFunction(TestConfig.skill, "JavaCore, OOP, Selenium, TestNg");
         Assert.assertTrue(addSkillPage.isAddSkillSuccess(), "Add skill không thành công");
         Log.info("Add skill thành công");
     }

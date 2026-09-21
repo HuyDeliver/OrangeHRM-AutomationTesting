@@ -16,7 +16,8 @@ import io.qameta.allure.Feature;
 public class AddLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(description = "OHR12: Add Location with valid data", groups = { "Location-test" }, priority = 9)
+    // , groups = { "Location-test" }
+    @Test(description = "OHR12: Add Location with valid data", priority = 9)
     public void addLocationSuccess() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);

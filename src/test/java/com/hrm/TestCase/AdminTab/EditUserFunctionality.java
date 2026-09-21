@@ -8,7 +8,6 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.EditUserPage;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
-import com.hrm.Util.TestConfig;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -24,14 +23,11 @@ public class EditUserFunctionality extends TestBase {
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
 
-        userManagePage.searchSystemUser(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,
-                TestConfig.status);
-
         EditUserPage editUserPage = userManagePage.clickEditUser();
 
         Assert.assertTrue(editUserPage.isEditTilteVisible(), "Không vào được trang Edit");
 
-        editUserPage.editUser("Huy1234", "Huy1234");
+        editUserPage.editUser("BachBinhBinh@01", "BachBinhBinh@01");
 
         Assert.assertTrue(editUserPage.isEditUserSuccess(), "Edit User không thành công");
 
