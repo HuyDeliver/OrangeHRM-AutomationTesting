@@ -10,10 +10,10 @@ public class TestConfig {
 
     public static final String userName = generateUniqueName("HuyDeliver");
     public static final String userRole = "Admin";
-    public static final String employeeName = "Huy Deliver";
+    public static final String employeeName = "Nguyễn";
     public static final String status = "Enabled";
-    public static final String password = "HuyDeliver1234";
-    public static final String confirmPassword = "HuyDeliver1234";
+    public static final String password = "HuyDeliver@1234";
+    public static final String confirmPassword = "HuyDeliver@1234";
 
     // Data Job title
     public static final String jobTitleName = "Devops";
@@ -37,6 +37,8 @@ public class TestConfig {
     // addEmployee
     public static final String firstName = "Nguyễn";
     public static final String middleName = "Huy";
-    public static final String lastName = "Phát";
+    public static final String lastName = generateUniqueName("Phát");
     public static final String employeeID = String.valueOf(System.currentTimeMillis()).substring(7);
+    public static final String statusEnabled = "Enabled";
+    public static final String statusDisabled = "Disabled";
 }
