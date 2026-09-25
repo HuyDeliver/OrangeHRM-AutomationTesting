@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.AddJobTitlePage;
 import com.hrm.Pages.AdminPage.JobTitlePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -16,7 +17,8 @@ import io.qameta.allure.Feature;
 @Epic("Module AdminTab")
 @Feature("Quản lý Job")
 public class AddJobTitlesFunctionality extends TestBase {
-    @Test(description = "OHR9: Add new job title", groups = { "job-test" }, priority = 6)
+
+    @Test(description = "OHR9: Add new job title", groups = { "job-test" })
     public void addJobTitleSuccess() {
         TestUtil.jobUtil();
 
@@ -25,7 +27,7 @@ public class AddJobTitlesFunctionality extends TestBase {
 
         AddJobTitlePage addJobTitlePage = jobTitlePage.addUserPage();
         Assert.assertTrue(addJobTitlePage.isTitleAddJobTitleVisible(), "Không vào được add job");
-        addJobTitlePage.addTitleJob(TestConfig.jobTitleName, TestConfig.jobDescription, TestConfig.jobSpecification,
+        addJobTitlePage.addTitleJob(TestDataShare.JOB_TITLE, TestConfig.jobDescription, TestConfig.jobSpecification,
                 TestConfig.jobNote);
 
         Assert.assertTrue(addJobTitlePage.isAddTitleJobSuccess(), "Add không thành công");

@@ -9,22 +9,23 @@ import com.hrm.Pages.AdminPage.AddLocationPage;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 public class AddLocationFunctionality extends TestBase {
+
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    // , groups = { "Location-test" }
-    @Test(description = "OHR12: Add Location with valid data", priority = 9)
+    @Test(description = "OHR12: Add Location with valid data", groups = { "Location-test" })
     public void addLocationSuccess() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
         Assert.assertTrue(locationPage.isTitleLocationVisible(), "Không vào được trang Location");
         AddLocationPage addLocationPage = locationPage.goToAddLocationPage();
         Assert.assertTrue(addLocationPage.isTitleAddLocationVisible(), "Không vào được trang Add Location");
-        addLocationPage.fillLocatinSpecific(TestConfig.locationName, TestConfig.cityName, TestConfig.provinceName,
+        addLocationPage.fillLocatinSpecific(TestDataShare.LOCATION, TestConfig.cityName, TestConfig.provinceName,
                 TestConfig.postalCode, TestConfig.countryName, TestConfig.phoneNumber, TestConfig.faxNumber,
                 TestConfig.cityName, TestConfig.locationNote);
         addLocationPage.saveLocation();

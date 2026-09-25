@@ -35,8 +35,8 @@ public class JobTitlePage {
     }
 
     // Edit job title
-    public EditJobTitlePage goToEditPage() {
-        componentLocator.editButtonTable(driver);
+    public EditJobTitlePage goToEditPage(String job) {
+        componentLocator.editButtonTable(driver, job);
         return new EditJobTitlePage(driver);
     }
 
@@ -51,8 +51,8 @@ public class JobTitlePage {
     @FindBy(css = ".oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text")
     private WebElement deleteSuccess;
 
-    public void clickDelete() {
-        componentLocator.deleteButtonTable(driver);
+    public void clickDelete(String job) {
+        componentLocator.deleteButtonTable(driver, job);
     }
 
     public boolean isDeleteSuccess() {

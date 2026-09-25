@@ -9,14 +9,16 @@ import com.hrm.Pages.AdminPage.AddUserPage;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 public class AddUserFunctionality extends TestBase {
+
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
-    @Test(description = "OHR6: Add user with Valid Data", groups = { "add-user" }, priority = 1)
+    @Test(description = "OHR6: Add user with Valid Data", groups = { "add-user" })
     public void addUserFunctionality() {
         TestUtil.userUtil();
         UserManagePage userManagePage = new UserManagePage(driver);
@@ -24,7 +26,7 @@ public class AddUserFunctionality extends TestBase {
 
         AddUserPage addUserPage = userManagePage.addUserPage();
         Log.info("Bắt đầu test add user");
-        addUserPage.addUserWithValidData(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,
+        addUserPage.addUserWithValidData(TestDataShare.USERNAME, TestConfig.userRole, TestConfig.employeeName,
                 TestConfig.status, TestConfig.password, TestConfig.confirmPassword);
         Assert.assertTrue(addUserPage.isAddUserSuccess(), "add user không thành công");
 

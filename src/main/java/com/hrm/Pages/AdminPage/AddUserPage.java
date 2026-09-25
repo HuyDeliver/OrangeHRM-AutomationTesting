@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
+import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
 
 public class AddUserPage {
@@ -80,6 +81,6 @@ public class AddUserPage {
     }
 
     public boolean isAddUserSuccess() {
-        return toastAddSuccess.isDisplayed();
+        return componentLocator.checkToasstSuccess(driver, "Add User");
     }
 }

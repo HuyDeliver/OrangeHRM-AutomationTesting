@@ -7,6 +7,7 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.SkillPage;
 import com.hrm.Util.Log;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -14,12 +15,12 @@ import io.qameta.allure.Feature;
 public class DeleteSkillFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý qualification")
-    @Test(description = "OHR18: Delete Skill", priority = 14)
+    @Test(description = "OHR18: Delete Skill", dependsOnGroups = { "add-skill" })
     public void editSkillSuccess() {
         TestUtil.qualificationUtil();
         SkillPage skillPage = new SkillPage(driver);
         Assert.assertTrue(skillPage.isSkillTitleVisible(), "Không vào được trang Skill");
-        skillPage.deleteSkill();
+        skillPage.deleteSkill(TestDataShare.SKILL);
         Assert.assertTrue(skillPage.isDeleteSkillSuccess(), "Delete không thành công");
         Log.info("Edit skill thành công");
     }

@@ -9,6 +9,7 @@ import com.hrm.Pages.SideBar;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -17,7 +18,7 @@ public class SearchingUserWithValidData extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
     @Test(description = "OHR4: searching user with invalid data from excel", dependsOnGroups = {
-            "add-user" }, priority = 2)
+            "add-user" })
     public void searchUserUsingDataDriven() {
         Log.info("Bắt đầu test searching");
         TestUtil.userUtil();
@@ -26,7 +27,7 @@ public class SearchingUserWithValidData extends TestBase {
 
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
-        userManagePage.searchSystemUser(TestConfig.userName, TestConfig.userRole, TestConfig.employeeName,
+        userManagePage.searchSystemUser(TestDataShare.USERNAME, TestConfig.userRole, TestConfig.employeeName,
                 TestConfig.status);
 
         if (userManagePage.isRecordFoundMatchKeySearch(TestConfig.userName) == true) {

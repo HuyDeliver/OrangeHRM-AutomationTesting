@@ -17,8 +17,8 @@ public class EditJobTitlePage {
         return componentLocator.checkTitleH6(driver, "Edit Job Title");
     }
 
-    public void editJobTitle(String jobTitle) {
-        componentLocator.fillInput(driver, "Job Title", jobTitle);
+    public void editJobTitle(String description) {
+        componentLocator.fillInput(driver, "Job Description", description);
         componentLocator.buttonSave(driver);
     }
 

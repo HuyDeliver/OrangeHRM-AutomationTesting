@@ -16,7 +16,8 @@ import io.qameta.allure.Feature;
 public class SearchLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(dataProvider = "searchingLocation", description = "ỌHR15: Search location with City", priority = 10)
+    @Test(dataProvider = "searchingLocation", description = "ỌHR15: Search location with City", dependsOnGroups = {
+            "Location-test" })
     public void searchLocationWithCity(String name, String city, String country) {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);

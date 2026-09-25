@@ -99,8 +99,8 @@ public class UserManagePage {
     @FindBy(css = ".oxd-text.oxd-text--p.oxd-text--toast-message.oxd-toast-content-text")
     private WebElement deleteSuccess;
 
-    public void clickDeleteUser() {
-        componentLocator.deleteButtonTable(driver);
+    public void clickDeleteUser(String user) {
+        componentLocator.deleteButtonTable(driver, user);
     }
 
     public boolean isDeleteSuccess() {
@@ -111,8 +111,8 @@ public class UserManagePage {
     @FindBy(xpath = "//div[@class='oxd-table-card']//div[contains(@class,'oxd-table-cell')][6]//button[2]")
     private WebElement editUser;
 
-    public EditUserPage clickEditUser() {
-        componentLocator.editButtonTable(driver);
+    public EditUserPage clickEditUser(String username) {
+        componentLocator.editButtonTable(driver, username);
         return new EditUserPage(driver);
     }
 

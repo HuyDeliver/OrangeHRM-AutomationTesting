@@ -6,8 +6,25 @@
     <listener class-name="com.hrm.Util.RetryListener" />
   </listeners>
   <test name="Admin module test suite">
-    <packages>
-      <package name="com.hrm.TestCase.AdminTab" />
-    </packages>
+    <classes>
+      <class name="com.hrm.TestCase.AdminTab.AddUserFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.SearchingUserWithInvalidData" />
+      <class name="com.hrm.TestCase.AdminTab.SearchingUserWithValidData" />
+      <class name="com.hrm.TestCase.AdminTab.EditUserFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.DeleteUserFunctionality" />
+
+      <class name="com.hrm.TestCase.AdminTab.AddJobTitlesFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.EditJobTitleFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.DeleteJobTitlesFunctionality" />
+
+      <class name="com.hrm.TestCase.AdminTab.AddLocationFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.SearchLocationFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.EditLocationFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.DeleteLocationFunctionality" />
+
+      <class name="com.hrm.TestCase.AdminTab.AddSkillFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.EditSkillFunctionality" />
+      <class name="com.hrm.TestCase.AdminTab.DeleteSkillFunctionality" />
+    </classes>
   </test>
 </suite>

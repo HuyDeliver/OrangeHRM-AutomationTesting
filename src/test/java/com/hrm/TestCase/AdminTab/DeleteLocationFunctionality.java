@@ -7,6 +7,7 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -14,12 +15,12 @@ import io.qameta.allure.Feature;
 public class DeleteLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" }, priority = 11)
+    @Test(description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" })
     public void deleteLocationSuccess() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
         Assert.assertTrue(locationPage.isTitleLocationVisible(), "Không vào được trang Location");
-        locationPage.deleteLocation();
+        locationPage.deleteLocation(TestDataShare.LOCATION);
         Assert.assertTrue(locationPage.isDeleteLocationSuccess(), "Delete không thành công");
 
         Log.info("Xóa thành công");

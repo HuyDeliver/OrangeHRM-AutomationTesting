@@ -3,12 +3,7 @@ package com.hrm.Util;
 import java.io.File;
 
 public class TestConfig {
-
-    public static String generateUniqueName(String prefix) {
-        return prefix + "_" + System.currentTimeMillis();
-    }
-
-    public static final String userName = generateUniqueName("HuyDeliver");
+    public static final String userName = "HuyDeliver";
     public static final String userRole = "Admin";
     public static final String employeeName = "Nguyễn";
     public static final String status = "Enabled";
@@ -24,7 +19,7 @@ public class TestConfig {
     public static final String jobNote = "DevOps is characterized by several key principles, including shared ownership, workflow automation, and rapid feedback. ";
 
     // Data location
-    public static final String locationName = generateUniqueName("Đống Đa");
+    public static final String locationName = "Đống Đa";
     public static final String cityName = "Hà Nội";
     public static final String provinceName = "Đống Đa";
     public static final String postalCode = "2004";
@@ -37,7 +32,7 @@ public class TestConfig {
     // addEmployee
     public static final String firstName = "Nguyễn";
     public static final String middleName = "Huy";
-    public static final String lastName = generateUniqueName("Phát");
+    public static final String lastName = "Phát";
     public static final String employeeID = String.valueOf(System.currentTimeMillis()).substring(7);
     public static final String statusEnabled = "Enabled";
     public static final String statusDisabled = "Disabled";
@@ -46,5 +41,5 @@ public class TestConfig {
             + "resources" + File.separator + "image" + File.separator + "portraitphoto.jpg";
 
     // Skills
-    public static final String skill = generateUniqueName("Coding");
+    public static final String skill = "Coding";
 }

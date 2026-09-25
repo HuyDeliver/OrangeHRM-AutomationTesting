@@ -2,7 +2,6 @@ package com.hrm.Util;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -100,24 +99,21 @@ public class componentLocator {
                 .isDisplayed();
     }
 
-    public static void editButtonTable(WebDriver driver) {
+    public static void editButtonTable(WebDriver driver, String input) {
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
-        int randomIndex = new Random().nextInt(rows.size());
-        WebElement randomRow = rows.get(randomIndex);
-
-        WebElement click = randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
-        waitUtils.waitElementClick(driver, click);
+        WebElement edit = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
+                .findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
+        waitUtils.waitElementClick(driver, edit);
     }
 
-    public static void deleteButtonTable(WebDriver driver) {
+    public static void deleteButtonTable(WebDriver driver, String input) {
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
-
-        int randomIndex = new Random().nextInt(rows.size());
-        WebElement randomRow = rows.get(randomIndex);
-
-        WebElement deleteItem = randomRow.findElement(By.xpath(".//button[i[contains(@class,'bi-trash')]]"));
-        waitUtils.waitElementClick(driver, deleteItem);
+        WebElement delete = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
+                .findElement(By.xpath(".//button[i[contains(@class,'bi-trash')]]"));
+        waitUtils.waitElementClick(driver, delete);
         By deleteModal = By
                 .cssSelector(".oxd-dialog-container-default .oxd-sheet");
         new WebDriverWait(driver, Duration.ofSeconds(10))
@@ -153,33 +149,6 @@ public class componentLocator {
         } else {
             actions.sendKeys(Keys.TAB).perform();
         }
-
-        // Log.info("Chọn " + label + " = " + option);
-        // if (option != null && !option.isEmpty()) {
-
-        // }
-        // WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        // JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        // By selectInput = By.xpath("//label[text()='" + label +
-        // "']/following::div[contains(@class,'oxd-select-text')]");
-
-        // WebElement input =
-        // wait.until(ExpectedConditions.elementToBeClickable(selectInput));
-        // js.executeScript("arguments[0].click();", input);
-
-        // By listbox = By.xpath("//div[@role='listbox']");
-        // wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
-
-        // By optionLocator =
-        // By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
-        // WebElement optionEl =
-        // wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
-        // js.executeScript("arguments[0].scrollIntoView({block: 'center'});",
-        // optionEl);
-
-        // wait.until(ExpectedConditions.elementToBeClickable(optionEl)).click();
-
     }
 
     public static void clickDropdownNavi(WebDriver driver, String nameNavi, String option) {

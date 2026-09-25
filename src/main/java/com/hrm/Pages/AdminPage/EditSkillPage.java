@@ -17,8 +17,7 @@ public class EditSkillPage {
         return componentLocator.checkTitleH6(driver, "Edit Skill");
     }
 
-    public void editSkill(String name, String description) {
-        componentLocator.fillInput(driver, "Name", name);
+    public void editSkill(String description) {
         componentLocator.fillTexArea(driver, "Description", description);
         componentLocator.buttonSave(driver);
     }

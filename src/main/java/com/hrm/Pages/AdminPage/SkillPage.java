@@ -22,13 +22,13 @@ public class SkillPage {
         return new AddSkillPage(driver);
     }
 
-    public EditSkillPage goToEditSkillPage() {
-        componentLocator.editButtonTable(driver);
+    public EditSkillPage goToEditSkillPage(String skill) {
+        componentLocator.editButtonTable(driver, skill);
         return new EditSkillPage(driver);
     }
 
-    public void deleteSkill() {
-        componentLocator.deleteButtonTable(driver);
+    public void deleteSkill(String skill) {
+        componentLocator.deleteButtonTable(driver, skill);
     }
 
     public boolean isDeleteSkillSuccess() {
