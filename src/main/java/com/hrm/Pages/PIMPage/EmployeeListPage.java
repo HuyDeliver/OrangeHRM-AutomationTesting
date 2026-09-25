@@ -21,4 +21,18 @@ public class EmployeeListPage {
         componentLocator.clickButtonAdd(driver);
         return new AddEmployeePage(driver);
     }
+
+    public void deleteEmployee(String id) {
+        componentLocator.deleteButtonTable(driver, id);
+    }
+
+    public boolean isDeleteEmployeeSuccess(String name) {
+        return componentLocator.checkToasstSuccess(driver, name);
+    }
+
+    public EditEmployeePage goToeEditEmployeePage(String id) {
+        componentLocator.editButtonTable(driver, id);
+        return new EditEmployeePage(driver);
+    }
+
 }

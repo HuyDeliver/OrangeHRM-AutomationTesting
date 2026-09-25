@@ -165,6 +165,13 @@ public class componentLocator {
         waitUtils.waitElementClick(driver, driver.findElement(optionChoose));
     }
 
+    public static void clickSideBarMyInfo(WebDriver driver, String tab) {
+        Log.info("Click vào tab " + tab);
+        WebElement Tab = driver
+                .findElement(By.xpath("//div[@class='orangehrm-tabs']/child::div[contains(.,'" + tab + "')]"));
+        waitUtils.waitElementClick(driver, Tab);
+    }
+
     public static void clickButtonAdd(WebDriver driver) {
         By button = By.cssSelector(".orangehrm-paper-container .orangehrm-header-container button");
         waitUtils.waitElementClick(driver, driver.findElement(button));
@@ -198,5 +205,27 @@ public class componentLocator {
 
             return matchName && matchCity && matchCountry;
         });
+    }
+
+    public static void chooseSelectAction(WebDriver driver, String label, String option) {
+        if (option == null || option.trim().isEmpty()) {
+            return;
+        }
+        Log.info("Chọn " + label + " = " + option);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        Actions actions = new Actions(driver);
+
+        By dropdownLocator = By.xpath("//label[normalize-space()='" + label
+                + "']/ancestor::div[contains(@class,'oxd-input-group')]//div[contains(@class,'oxd-select-text')]");
+
+        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownLocator));
+
+        actions.moveToElement(dropdown).click().perform();
+
+        By optionLocator = By.xpath("//div[@role='listbox']//*[normalize-space()='" + option + "']");
+        WebElement optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+
+        actions.moveToElement(optionEl).click().perform();
     }
 }

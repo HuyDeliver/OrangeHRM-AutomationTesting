@@ -9,6 +9,8 @@ public class TestDataShare {
     public static final String JOB_TITLE = "Devops_" + RUN_ID;
     public static final String LOCATION = "Location_" + RUN_ID;
     public static final String SKILL = "Coding_" + RUN_ID;
+    public static final String IDEMPLOYEE = RUN_ID;
+    public static final String LASTNAME = "PHAT" + RUN_ID;
 
     private TestDataShare() {
     }
