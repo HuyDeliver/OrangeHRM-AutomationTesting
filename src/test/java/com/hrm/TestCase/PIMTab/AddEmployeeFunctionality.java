@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class AddEmployeeFunctionality extends TestBase {
     @Epic("PIM tab")
     @Feature("Quản lý employee")
-    @Test
+    @Test(description = "OHR19: Add new employee")
     public void addNewEmployee() {
         TestUtil.employeeUtil();
         EmployeeListPage employeeListPage = new EmployeeListPage(driver);

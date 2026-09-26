@@ -13,26 +13,26 @@ import com.hrm.Util.TestConfig;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-public class EditJobDetailFunctionality extends TestBase {
+public class EditSupervisorFunctionality extends TestBase {
         @Epic("PIM tab")
         @Feature("Quản lý employee")
-        @Test(description = "OHR20: Edit job detail of employee")
-        public void editEmployeeInfo() {
+        @Test(description = "OHR22: Edit salary of employee")
+        public void editEmployeeSupervisor() {
                 TestUtil.employeeUtil();
                 EmployeeListPage employeeListPage = new EmployeeListPage(driver);
                 Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được trang employeeList");
                 EditEmployeePage editEmployeePage = employeeListPage.goToeEditEmployeePage("0004");
                 Assert.assertTrue(editEmployeePage.isPersonalDetailVisible("Personal Details"),
                                 "Không vào được trang edit employee");
-                editEmployeePage.goToJobDetail("Job");
-
-                editEmployeePage.fillJobDetailInfo(TestConfig.joinedDate, TestConfig.jobTitleName,
-                                TestConfig.jobCategorize,
-                                TestConfig.subUnit, TestConfig.locationName, TestConfig.employmentStatus);
+                editEmployeePage.goToReportTo("Report-to");
+                Assert.assertTrue(editEmployeePage.isReportToVisible("Report to"),
+                                "không vào được trang report");
+                editEmployeePage.addSupervisor("Assigned Supervisors");
+                editEmployeePage.fillSupervisor("Huy", TestConfig.nameSupervisor, TestConfig.reportMethod);
                 editEmployeePage.saveInfo();
 
-                Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Job Detail"),
-                                "Nhập job detail không thành công");
-                Log.info("Edit jobdetail thành công");
+                Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Supervisor"),
+                                "Nhập Supervisor không thành công");
+                Log.info("Edit supervisor thành công");
         }
 }

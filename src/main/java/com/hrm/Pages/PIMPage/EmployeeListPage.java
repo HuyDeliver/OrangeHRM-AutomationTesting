@@ -3,6 +3,7 @@ package com.hrm.Pages.PIMPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
+import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
 
 public class EmployeeListPage {
@@ -33,6 +34,55 @@ public class EmployeeListPage {
     public EditEmployeePage goToeEditEmployeePage(String id) {
         componentLocator.editButtonTable(driver, id);
         return new EditEmployeePage(driver);
+    }
+
+    // Check search
+    public void fillSearchEmployee(String name, String id, String status,
+            String include, String supervisor,
+            String jobTitle, String subUnit) {
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+        }
+        if (isValid(name)) {
+            String keyName = name.trim().split("\\s+")[0];
+            componentLocator.inputDropdown(driver, "Employee Name", keyName, name);
+        }
+        if (isValid(id)) {
+            componentLocator.fillInput(driver, "Employee Id", id);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        if (isValid(status)) {
+            componentLocator.chooseSelectAction(driver, "Employment Status", status);
+        }
+        Log.info("check xí:" + include);
+        if (isValid(include) && !include.equalsIgnoreCase("Current Employees Only")) {
+            componentLocator.chooseSelectAction(driver, "Include", include);
+        }
+        if (isValid(supervisor)) {
+            String keySupervisor = supervisor.trim().split("\\s+")[0]; // Lấy từ đầu tiên của tên Supervisor
+            componentLocator.inputDropdown(driver, "Supervisor Name", keySupervisor, supervisor);
+        }
+        if (isValid(jobTitle)) {
+            componentLocator.chooseSelectAction(driver, "Job Title", jobTitle);
+        }
+        if (isValid(subUnit)) {
+            componentLocator.chooseSelectAction(driver, "Sub Unit", subUnit);
+        }
+    }
+
+    // Hàm phụ trợ kiểm tra dữ liệu từ Excel có hợp lệ không (tránh null/rỗng)
+    private boolean isValid(String str) {
+        return str != null && !str.trim().isEmpty();
+    }
+
+    public void searchEmployee() {
+        componentLocator.clickSearch(driver);
     }
 
 }

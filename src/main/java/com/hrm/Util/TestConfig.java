@@ -48,4 +48,17 @@ public class TestConfig {
         public static final String jobCategorize = "Craft Workers";
         public static final String subUnit = "Administration";
         public static final String employmentStatus = "Full Time Contract";
+
+        // Salary in MyInfo
+        public static final String salary = "base salary";
+        public static final String payGrade = "Engineer";
+        public static final String payFrequency = "Monthly";
+        public static final String currency = "Vietnamese Dong";
+        public static final String amount = "10000";
+        public static final String comment = "nothing";
+
+        // supervisor
+        public static final String nameSupervisor = "Nguyễn Huy Bách";
+        public static final String reportMethod = "Direct";
+
 }

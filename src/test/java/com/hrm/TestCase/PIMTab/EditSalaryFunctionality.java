@@ -13,26 +13,28 @@ import com.hrm.Util.TestConfig;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-public class EditJobDetailFunctionality extends TestBase {
+public class EditSalaryFunctionality extends TestBase {
         @Epic("PIM tab")
         @Feature("Quản lý employee")
-        @Test(description = "OHR20: Edit job detail of employee")
-        public void editEmployeeInfo() {
+        @Test(description = "OHR21: Edit salary of employee")
+        public void editEmployeeSalary() {
                 TestUtil.employeeUtil();
                 EmployeeListPage employeeListPage = new EmployeeListPage(driver);
                 Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được trang employeeList");
                 EditEmployeePage editEmployeePage = employeeListPage.goToeEditEmployeePage("0004");
                 Assert.assertTrue(editEmployeePage.isPersonalDetailVisible("Personal Details"),
                                 "Không vào được trang edit employee");
-                editEmployeePage.goToJobDetail("Job");
-
-                editEmployeePage.fillJobDetailInfo(TestConfig.joinedDate, TestConfig.jobTitleName,
-                                TestConfig.jobCategorize,
-                                TestConfig.subUnit, TestConfig.locationName, TestConfig.employmentStatus);
+                editEmployeePage.goToReportTo("Salary");
+                Assert.assertTrue(editEmployeePage.isSalaryVisible("Add Salary Component"),
+                                "không vào được trang salary");
+                editEmployeePage.addSalary("Assigned Salary Components");
+                editEmployeePage.fillSalaryInfo(TestConfig.salary, TestConfig.payGrade,
+                                TestConfig.payFrequency,
+                                TestConfig.currency, TestConfig.amount, TestConfig.comment);
                 editEmployeePage.saveInfo();
 
-                Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Job Detail"),
-                                "Nhập job detail không thành công");
-                Log.info("Edit jobdetail thành công");
+                Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Salary"),
+                                "Nhập Salary không thành công");
+                Log.info("Edit salary thành công");
         }
 }

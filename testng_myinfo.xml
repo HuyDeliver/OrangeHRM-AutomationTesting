@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="My Info Suite" verbose="1">
+  <listeners>
+    <listener class-name="com.hrm.Util.TestListener" />
+  </listeners>
+  <test name="My Info detail updates">
+    <classes>
+      <class name="com.hrm.TestCase.PIMTab.MyInfoFunctionality" />
+    </classes>
+  </test>
+</suite>

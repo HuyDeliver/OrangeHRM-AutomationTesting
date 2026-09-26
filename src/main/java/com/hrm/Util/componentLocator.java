@@ -2,6 +2,8 @@ package com.hrm.Util;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -22,7 +24,7 @@ public class componentLocator {
     }
 
     public static void fillInput(WebDriver driver, String label, String value) {
-        Log.info("Nhập " + label);
+        Log.info("Nhập " + label + "=" + value);
 
         By inputLocator = By.xpath("//label[text()='" + label + "']/following::input[1]");
 
@@ -39,7 +41,7 @@ public class componentLocator {
     }
 
     public static void fillFile(WebDriver driver, String label, String value) {
-        Log.info("Nhập " + label);
+        Log.info("Nhập " + label + "=" + value);
 
         By inputLocator = By.xpath("//label[text()='" + label + "']/following::input[@type='file'][1]");
 
@@ -48,7 +50,7 @@ public class componentLocator {
     }
 
     public static void fillTexArea(WebDriver driver, String label, String value) {
-        Log.info("Nhập " + label);
+        Log.info("Nhập " + label + "=" + value);
 
         By textLocator = By.xpath("//label[text()='" + label + "']/following::textarea[1]");
 
@@ -140,7 +142,9 @@ public class componentLocator {
             By listbox = By.xpath("//div[@role='listbox']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(listbox));
 
-            By optionLocator = By.xpath("//div[@role='listbox']//span[normalize-space()='" + option + "']");
+            By optionLocator = By
+                    .xpath("//div[@role='listbox' and contains(@class,'oxd-select-dropdown')]//span[normalize-space(.)='"
+                            + option + "']");
             WebElement optionEl = wait.until(ExpectedConditions.presenceOfElementLocated(optionLocator));
             js.executeScript("arguments[0].scrollIntoView({block: 'center'});", optionEl);
 
@@ -207,6 +211,31 @@ public class componentLocator {
         });
     }
 
+    public static boolean checkSearchAdvanced(WebDriver driver, String nameSearch, Map<String, String> criteria) {
+        Log.info(String.format("Kiểm tra [%s] với criteria: %s", nameSearch, criteria));
+
+        List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
+
+        if (rows.isEmpty()) {
+            Log.warn("Bảng kết quả rỗng!");
+            return false;
+        }
+
+        // Lọc lấy danh sách các value không null/rỗng
+        List<String> validValues = criteria.values().stream()
+                .filter(val -> val != null && !val.trim().isEmpty())
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        if (validValues.isEmpty())
+            return true;
+
+        return rows.stream().anyMatch(row -> {
+            String rowText = row.getText();
+            return validValues.stream().allMatch(rowText::contains);
+        });
+    }
+
     public static void chooseSelectAction(WebDriver driver, String label, String option) {
         if (option == null || option.trim().isEmpty()) {
             return;
@@ -223,9 +252,49 @@ public class componentLocator {
 
         actions.moveToElement(dropdown).click().perform();
 
-        By optionLocator = By.xpath("//div[@role='listbox']//*[normalize-space()='" + option + "']");
+        By optionLocator = By
+                .xpath("//div[@role='listbox' and contains(@class,'oxd-select-dropdown')]//span[normalize-space(.)='"
+                        + option + "']");
         WebElement optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
 
         actions.moveToElement(optionEl).click().perform();
+    }
+
+    public static void buttonAddMyInfo(WebDriver driver, String title) {
+        WebElement buttonAdd = driver
+                .findElement(By.xpath("//h6[normalize-space()='" + title + "']/following-sibling::button"));
+        waitUtils.waitElementClick(driver, buttonAdd);
+    }
+
+    public static void inputDropdown(WebDriver driver, String label, String keyword, String option) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return;
+        }
+        Log.info("Chọn " + label + " = " + keyword + " và chọn " + option);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        By dropdownInput = By.xpath("//label[normalize-space()='" + label
+                + "']/ancestor::div[contains(@class,'oxd-input-group')]//input[1]");
+        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownInput));
+
+        dropdown.sendKeys(Keys.CONTROL + "a");
+        dropdown.sendKeys(Keys.BACK_SPACE);
+        dropdown.sendKeys(keyword);
+
+        By optionLocator = By
+                .xpath("//div[@role='listbox' and contains(@class,'oxd-autocomplete-dropdown')]//span[normalize-space()='"
+                        + option + "']");
+        WebElement optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        optionEl.click();
+
+        try {
+            wait.until(ExpectedConditions.invisibilityOf(optionEl));
+        } catch (Exception ignored) {
+        }
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException ignored) {
+        }
     }
 }
