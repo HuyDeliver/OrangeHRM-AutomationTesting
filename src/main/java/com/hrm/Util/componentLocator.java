@@ -111,6 +111,7 @@ public class componentLocator {
     }
 
     public static void deleteButtonTable(WebDriver driver, String input) {
+        Log.info("Chọn xóa: " + input);
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
         WebElement delete = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
@@ -161,12 +162,13 @@ public class componentLocator {
 
         waitUtils.waitElementClick(driver, driver.findElement(navi));
 
-        By dropdown = By.cssSelector(".oxd-topbar-body-nav-tab .oxd-dropdown-menu");
-        waitUtils.waitElementVisibility(driver, driver.findElement(dropdown));
-
-        Log.info("Chọn: " + option);
-        By optionChoose = By.xpath("//a[@class='oxd-topbar-body-nav-tab-link' and contains(.,'" + option + "')]");
-        waitUtils.waitElementClick(driver, driver.findElement(optionChoose));
+        if (!option.isEmpty() && option != null) {
+            By dropdown = By.cssSelector(".oxd-topbar-body-nav-tab .oxd-dropdown-menu");
+            waitUtils.waitElementVisibility(driver, driver.findElement(dropdown));
+            Log.info("Chọn: " + option);
+            By optionChoose = By.xpath("//a[@class='oxd-topbar-body-nav-tab-link' and contains(.,'" + option + "')]");
+            waitUtils.waitElementClick(driver, driver.findElement(optionChoose));
+        }
     }
 
     public static void clickSideBarMyInfo(WebDriver driver, String tab) {

@@ -9,6 +9,7 @@ import com.hrm.Pages.PIMPage.EditEmployeePage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -21,7 +22,7 @@ public class EditSalaryFunctionality extends TestBase {
                 TestUtil.employeeUtil();
                 EmployeeListPage employeeListPage = new EmployeeListPage(driver);
                 Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được trang employeeList");
-                EditEmployeePage editEmployeePage = employeeListPage.goToeEditEmployeePage("0004");
+                EditEmployeePage editEmployeePage = employeeListPage.goToeEditEmployeePage(TestDataShare.IDEMPLOYEE);
                 Assert.assertTrue(editEmployeePage.isPersonalDetailVisible("Personal Details"),
                                 "Không vào được trang edit employee");
                 editEmployeePage.goToReportTo("Salary");

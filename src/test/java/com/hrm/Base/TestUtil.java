@@ -68,7 +68,8 @@ public class TestUtil extends TestBase {
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
         loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
         Log.info("Đăng nhập thành công");
-        componentLocator.clickSideBar(driver, "Recruitment");
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickRecruitmentPage("Recruitment");
     }
 
     public static void myInfoUtil() {

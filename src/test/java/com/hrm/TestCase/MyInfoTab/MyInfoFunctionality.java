@@ -1,4 +1,4 @@
-package com.hrm.TestCase.PIMTab;
+package com.hrm.TestCase.MyInfoTab;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

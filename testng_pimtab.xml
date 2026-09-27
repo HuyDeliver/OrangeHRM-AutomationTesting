@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="PIM suite" verbose="1">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+        <listener class-name="com.hrm.Util.RetryListener" />
+    </listeners>
+    <test name="PIM module test suite">
+        <classes>
+            <class name="com.hrm.TestCase.PIMTab.AddEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.SearchEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditJobDetailFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditSalaryFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditSupervisorFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.DeleteEmployeeFunctionality" />
+        </classes>
+    </test>
+</suite>

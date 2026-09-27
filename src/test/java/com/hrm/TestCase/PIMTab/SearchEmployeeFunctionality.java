@@ -21,21 +21,18 @@ public class SearchEmployeeFunctionality extends TestBase {
             String include, String supervisor,
             String jobTitle, String subUnit) {
 
-        try {
-            TestUtil.employeeUtil();
-            EmployeeListPage employeeListPage = new EmployeeListPage(driver);
-            Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được employee list");
+        TestUtil.employeeUtil();
+        EmployeeListPage employeeListPage = new EmployeeListPage(driver);
+        Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được employee list");
 
-            employeeListPage.fillSearchEmployee(name, id, status, include, supervisor, jobTitle, subUnit);
+        employeeListPage.fillSearchEmployee(name, id, status, include, supervisor, jobTitle, subUnit);
 
-            employeeListPage.searchEmployee();
+        employeeListPage.searchEmployee();
 
-            // Thêm log để xác nhận đã chạy xong 1 dòng Excel
-            Log.info("---> BÀI TEST THÀNH CÔNG CHO DÒNG NÀY <---");
-
-        } catch (Exception e) {
-            Log.error("LỖI TẠI DÒNG NÀY: " + e.getMessage());
-            Assert.fail("Test case thất bại do lỗi: " + e.getMessage());
+        if (employeeListPage.checkSearch(name, id, status, include, supervisor, jobTitle, subUnit)) {
+            Log.info("Không tìm thấy bản ghi");
+        } else {
+            Log.info("Tìm thấy bản ghi");
         }
     }
 

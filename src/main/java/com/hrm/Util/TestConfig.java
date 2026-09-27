@@ -59,6 +59,7 @@ public class TestConfig {
 
         // supervisor
         public static final String nameSupervisor = "Nguyễn Huy Bách";
+        public static final String nameSupervisor2 = "Nguyễn Trí Quân";
         public static final String reportMethod = "Direct";
 
 }

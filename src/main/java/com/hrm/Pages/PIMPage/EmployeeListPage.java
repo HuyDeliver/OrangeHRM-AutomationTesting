@@ -1,5 +1,7 @@
 package com.hrm.Pages.PIMPage;
 
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
@@ -76,7 +78,13 @@ public class EmployeeListPage {
         }
     }
 
-    // Hàm phụ trợ kiểm tra dữ liệu từ Excel có hợp lệ không (tránh null/rỗng)
+    public boolean checkSearch(String name, String id, String status,
+            String include, String supervisor,
+            String jobTitle, String subUnit) {
+        return componentLocator.checkSearchAdvanced(driver, "Search employee", Map.of("name", name, "id", id, "status",
+                status, "include", include, "supervisor", supervisor, "jobTitle", jobTitle, "subUnit", subUnit));
+    }
+
     private boolean isValid(String str) {
         return str != null && !str.trim().isEmpty();
     }

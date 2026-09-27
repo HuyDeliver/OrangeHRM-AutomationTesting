@@ -4,9 +4,10 @@
   <listeners>
     <listener class-name="com.hrm.Util.TestListener" />
   </listeners>
-  <test name="Vacancy add search edit">
+  <test name="Recruitment module">
     <classes>
-      <class name="com.hrm.TestCase.Recruitment.VacancyFunctionality" />
+      <class name="com.hrm.TestCase.Recruitment.AddVacancyFunctionality" />
+      <class name="com.hrm.TestCase.Recruitment.DeleteVacancyFunctionality" />
     </classes>
   </test>
 </suite>
