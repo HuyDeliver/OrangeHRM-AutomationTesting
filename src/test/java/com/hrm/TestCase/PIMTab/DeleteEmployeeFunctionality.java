@@ -15,7 +15,7 @@ import io.qameta.allure.Feature;
 public class DeleteEmployeeFunctionality extends TestBase {
     @Epic("PIM tab")
     @Feature("Quản lý employee")
-    @Test(description = "OHR23: Delete employee")
+    @Test(description = "OHR24: Delete employee")
     public void deleteEmployee() {
         TestUtil.employeeUtil();
         EmployeeListPage employeeListPage = new EmployeeListPage(driver);

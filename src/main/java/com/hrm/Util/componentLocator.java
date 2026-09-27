@@ -213,8 +213,8 @@ public class componentLocator {
         });
     }
 
-    public static boolean checkSearchAdvanced(WebDriver driver, String nameSearch, Map<String, String> criteria) {
-        Log.info(String.format("Kiểm tra [%s] với criteria: %s", nameSearch, criteria));
+    public static boolean checkTable(WebDriver driver, String nameCheck, Map<String, String> criteria) {
+        Log.info(String.format("Verify [%s] có chứa keyword: %s", nameCheck, criteria));
 
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
@@ -298,5 +298,14 @@ public class componentLocator {
             Thread.sleep(300);
         } catch (InterruptedException ignored) {
         }
+    }
+
+    public static void viewButtonTable(WebDriver driver, String input) {
+        Log.info("Chọn xem: " + input);
+        List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
+        WebElement view = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
+                .findElement(By.xpath(".//button[i[contains(@class,'bi-eye-fill')]]"));
+        waitUtils.waitElementClick(driver, view);
     }
 }

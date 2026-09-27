@@ -49,7 +49,7 @@ public class VacanciesPage {
     }
 
     public boolean checkSearch(String job, String vacancy, String manager, String status) {
-        return componentLocator.checkSearchAdvanced(driver, status,
+        return componentLocator.checkTable(driver, status,
                 Map.of("Job Title", job, "Vacancies", vacancy, "Hiring Manager", manager, "Status", status));
     }
 

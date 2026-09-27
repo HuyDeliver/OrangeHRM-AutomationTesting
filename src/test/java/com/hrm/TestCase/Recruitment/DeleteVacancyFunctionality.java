@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class DeleteVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "Delete vacancy")
+    @Test(description = "OHR27: Delete vacancy")
     public void deleteVancancies() {
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);

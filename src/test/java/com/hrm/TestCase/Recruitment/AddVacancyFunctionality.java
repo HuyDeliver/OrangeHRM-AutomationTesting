@@ -18,7 +18,7 @@ import io.qameta.allure.Feature;
 public class AddVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "Add new vacancy")
+    @Test(description = "OHR25: Add new vacancy")
     public void addVacancy() {
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);

@@ -81,7 +81,7 @@ public class EmployeeListPage {
     public boolean checkSearch(String name, String id, String status,
             String include, String supervisor,
             String jobTitle, String subUnit) {
-        return componentLocator.checkSearchAdvanced(driver, "Search employee", Map.of("name", name, "id", id, "status",
+        return componentLocator.checkTable(driver, "Search employee", Map.of("name", name, "id", id, "status",
                 status, "include", include, "supervisor", supervisor, "jobTitle", jobTitle, "subUnit", subUnit));
     }
 

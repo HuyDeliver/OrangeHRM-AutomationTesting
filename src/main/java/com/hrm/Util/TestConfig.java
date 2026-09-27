@@ -62,4 +62,6 @@ public class TestConfig {
         public static final String nameSupervisor2 = "Nguyễn Trí Quân";
         public static final String reportMethod = "Direct";
 
+        public static final String email = "Channelbaby15@gmail.com";
+
 }
