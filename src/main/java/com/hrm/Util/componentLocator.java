@@ -1,5 +1,6 @@
 package com.hrm.Util;
 
+import java.io.ByteArrayInputStream;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +9,15 @@ import java.util.stream.Collectors;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.qameta.allure.Allure;
 
 public class componentLocator {
 
@@ -26,7 +31,7 @@ public class componentLocator {
     public static void fillInput(WebDriver driver, String label, String value) {
         Log.info("Nhập " + label + "=" + value);
 
-        By inputLocator = By.xpath("//label[text()='" + label + "']/following::input[1]");
+        By inputLocator = By.xpath("//label[contains(text(),'" + label + "')]/following::input[1]");
 
         WebElement input = driver.findElement(inputLocator);
         input.click();
@@ -43,7 +48,7 @@ public class componentLocator {
     public static void fillFile(WebDriver driver, String label, String value) {
         Log.info("Nhập " + label + "=" + value);
 
-        By inputLocator = By.xpath("//label[text()='" + label + "']/following::input[@type='file'][1]");
+        By inputLocator = By.xpath("//label[contains(text(),'" + label + "')]/following::input[@type='file'][1]");
 
         WebElement input = driver.findElement(inputLocator);
         input.sendKeys(value);
@@ -259,7 +264,7 @@ public class componentLocator {
                         + option + "']");
         WebElement optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
 
-        actions.moveToElement(optionEl).click().perform();
+        actions.moveToElement(optionEl).scrollToElement(optionEl).click().perform();
     }
 
     public static void buttonAddMyInfo(WebDriver driver, String title) {
@@ -307,5 +312,31 @@ public class componentLocator {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
                 .findElement(By.xpath(".//button[i[contains(@class,'bi-eye-fill')]]"));
         waitUtils.waitElementClick(driver, view);
+    }
+
+    public static void takeScreenshotTable(WebDriver driver, String testName) {
+        Log.info("Chụp ảnh kết quả");
+        WebElement record = driver.findElement(
+                By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span"));
+
+        // Cuộn phần tử vào giữa màn hình
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(
+                "arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});",
+                record);
+
+        byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        Allure.addAttachment("Screenshot - " + testName, new ByteArrayInputStream(screenshotBytes));
+    }
+
+    public static void takeScreenshotResult(WebDriver driver, String testName) {
+        Log.info("Chụp ảnh kết quả");
+        WebElement loading = driver.findElement(
+                By.xpath("//div[contains(@class, 'oxd-loading-spinner')]"));
+
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(loading));
+
+        byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        Allure.addAttachment("Screenshot - " + testName, new ByteArrayInputStream(screenshotBytes));
     }
 }

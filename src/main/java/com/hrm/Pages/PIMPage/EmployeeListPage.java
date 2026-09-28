@@ -5,7 +5,6 @@ import java.util.Map;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
 
 public class EmployeeListPage {
@@ -62,7 +61,6 @@ public class EmployeeListPage {
         if (isValid(status)) {
             componentLocator.chooseSelectAction(driver, "Employment Status", status);
         }
-        Log.info("check xí:" + include);
         if (isValid(include) && !include.equalsIgnoreCase("Current Employees Only")) {
             componentLocator.chooseSelectAction(driver, "Include", include);
         }

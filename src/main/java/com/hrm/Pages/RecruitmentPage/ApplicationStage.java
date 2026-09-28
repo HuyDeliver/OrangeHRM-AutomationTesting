@@ -30,6 +30,8 @@ public class ApplicationStage {
 
     public CandidatesPage goToCandidatesPage(String navi, String option) {
         componentLocator.clickDropdownNavi(driver, navi, option);
+        componentLocator.takeScreenshotTable(driver, "Reject Candidate");
         return new CandidatesPage(driver);
     }
+
 }

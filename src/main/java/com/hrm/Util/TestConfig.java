@@ -64,4 +64,25 @@ public class TestConfig {
 
         public static final String email = "Channelbaby15@gmail.com";
 
+        // personal detail
+        public static final String id = "0382040431386";
+        public static final String license = "0382040431386";
+        public static final String licenseExpired = "2030-01-01";
+
+        public static final String maritualStatus = "Single";
+        public static final String dateOfBirth = "2004-04-18";
+        public static final String gender = "Male";
+
+        // Contact detail
+        public static String street1 = "123 Nguyen Trai";
+        public static String street2 = "Thanh Xuan";
+        // Telephone
+        public static String homePhone = "0241234567";
+        public static String mobilePhone = "0987654321";
+        public static String workPhone = "0917196589";
+
+        // Email
+        public static String otherEmail = "Stunanguyen@gmail.com";
+
+        public static String relationShip = "Mother";
 }

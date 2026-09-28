@@ -59,7 +59,6 @@ public class AddEmployeePage {
 
         componentLocator.fillInput(driver, "Username", name);
 
-        Log.info("Chọn status");
         Log.info("Chọn status: " + status);
         WebElement label = driver.findElement(
                 By.xpath("//label[contains(normalize-space(),'" + status + "')]"));

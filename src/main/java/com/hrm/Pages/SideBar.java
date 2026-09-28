@@ -6,6 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Pages.AdminPage.UserManagePage;
+import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Util.componentLocator;
@@ -44,4 +45,8 @@ public class SideBar {
         return new CandidatesPage(driver);
     }
 
+    public PersonalDetailPage clickMyInfoPage(String tab) {
+        componentLocator.clickSideBar(driver, tab);
+        return new PersonalDetailPage(driver);
+    }
 }

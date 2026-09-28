@@ -7,7 +7,6 @@ import com.hrm.Pages.AdminPage.LoginPage;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Config;
 import com.hrm.Util.Log;
-import com.hrm.Util.componentLocator;
 
 public class TestUtil extends TestBase {
     public static void userUtil() {
@@ -77,6 +76,7 @@ public class TestUtil extends TestBase {
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
         loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
         Log.info("Đăng nhập thành công");
-        componentLocator.clickSideBar(driver, "My Info");
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickMyInfoPage("My Info");
     }
 }
