@@ -17,7 +17,7 @@ public class TestDataShare {
     public static final String MYINFO_STREET = "Automation " + RUN_ID;
     public static final String MYINFO_CITY = "QA_City_" + RUN_ID;
     public static final String MYINFO_OTHER_EMAIL = "qa." + RUN_ID + "@example.com";
-    public static final String EMERGENCY_NAME = "QA Contact " + RUN_ID;
+    public static final String EMERGENCY_NAME = "Nguyễn Trí Hiếu " + RUN_ID;
 
     private TestDataShare() {
     }

@@ -45,11 +45,11 @@ public class LoginPage {
     }
 
     public SideBar loginToMainWeb(String name, String pass) {
-        Log.info("Nhập username");
+        Log.info("Nhập username: " + name);
         userName.sendKeys(name);
-        Log.info("Nhập password");
+        Log.info("Nhập password: " + pass);
         passWord.sendKeys(pass);
-        Log.info("Click login");
+        Log.info("Click login: ");
         waitUtils.waitElementClick(driver, loginButton);
         return new SideBar(driver);
     }

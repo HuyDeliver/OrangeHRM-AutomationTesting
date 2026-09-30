@@ -1,10 +1,18 @@
 package com.hrm.Pages.PIMPage;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
+import com.hrm.Util.waitUtils;
 
 public class EditEmployeePage {
     private WebDriver driver;
@@ -13,6 +21,9 @@ public class EditEmployeePage {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
+
+    @FindBy(xpath = "//div[@role='dialog']/descendant::button[@type='submit']")
+    private WebElement saveTerminate;
 
     public boolean isPersonalDetailVisible(String title) {
         return componentLocator.checkTitleH6(driver, title);
@@ -36,8 +47,9 @@ public class EditEmployeePage {
         componentLocator.chooseSelectAction(driver, "Employment Status", status);
     }
 
-    public void saveInfo() {
+    public void saveInfo(String name) {
         componentLocator.buttonSave(driver);
+        componentLocator.takeScreenshotResult(driver, name);
     }
 
     public boolean isEditSuccess(String toast) {
@@ -85,4 +97,39 @@ public class EditEmployeePage {
         componentLocator.chooseSelectAction(driver, "Reporting Method", method);
     }
 
+    // Terminate employee
+    public void clickTerminateEmployee(String title) {
+        Log.info("Click vào terminate");
+        componentLocator.buttonAddMyInfo(driver, title);
+    }
+
+    public void fillTerrminateReason(String date, String reason, String note) {
+        By terminateModal = By
+                .cssSelector(".oxd-dialog-container-default .oxd-sheet");
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(terminateModal));
+
+        componentLocator.fillInput(driver, "Termination Date", date);
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".oxd-date-input-calendar")));
+        componentLocator.chooseSelectAction(driver, "Termination Reason", reason);
+        componentLocator.fillTexArea(driver, "Note", note);
+    }
+
+    public boolean isTerminateEmployeeSuccess(String toast) {
+        return componentLocator.checkToasstSuccess(driver, toast);
+    }
+
+    public void saveTerminate(String name) {
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions
+                        .invisibilityOfElementLocated(By.xpath("//div[contains(@class,'oxd-select-dropdown')]")));
+        waitUtils.waitElementClick(driver, saveTerminate);
+        componentLocator.takeScreenshotResult(driver, name);
+    }
+
+    public EmployeeListPage clickEmployeeList(String tab) {
+        componentLocator.clickDropdownNavi(driver, tab, "");
+        return new EmployeeListPage(driver);
+    }
 }

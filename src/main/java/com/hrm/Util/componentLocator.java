@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -32,6 +33,23 @@ public class componentLocator {
         Log.info("Nhập " + label + "=" + value);
 
         By inputLocator = By.xpath("//label[contains(text(),'" + label + "')]/following::input[1]");
+
+        WebElement input = driver.findElement(inputLocator);
+        input.click();
+        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+
+        input.sendKeys(Keys.BACK_SPACE);
+
+        if (value != null && !value.isEmpty()) {
+            input.sendKeys(value);
+        }
+        input.sendKeys(Keys.TAB);
+    }
+
+    public static void fillInputNoLabel(WebDriver driver, String label, String value) {
+        Log.info("Nhập " + label + "=" + value);
+
+        By inputLocator = By.xpath("//div[contains(@class,'oxd-input-group')]/following::input[1]");
 
         WebElement input = driver.findElement(inputLocator);
         input.click();
@@ -69,6 +87,21 @@ public class componentLocator {
         input.sendKeys(Keys.TAB);
     }
 
+    public static void fillTexAreaNoLabel(WebDriver driver, String label, String value) {
+        Log.info("Nhập " + label + "=" + value);
+
+        By textLocator = By.xpath("//div[contains(@class,'oxd-input-group')]/following::textarea[1]");
+
+        WebElement input = driver.findElement(textLocator);
+        input.click();
+        input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        input.sendKeys(Keys.BACK_SPACE);
+        if (value != null && !value.isEmpty()) {
+            input.sendKeys(value);
+        }
+        input.sendKeys(Keys.TAB);
+    }
+
     public static void buttonSave(WebDriver driver) {
         Log.info("Click save");
 
@@ -83,7 +116,7 @@ public class componentLocator {
 
         WebElement webTitle = driver
                 .findElement(
-                        By.cssSelector(".oxd-text.oxd-text--h6.orangehrm-main-title"));
+                        By.cssSelector(".oxd-text.oxd-text--h6"));
         return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(webTitle))
                 .isDisplayed();
     }
@@ -93,26 +126,48 @@ public class componentLocator {
 
         WebElement webTitle = driver
                 .findElement(
-                        By.cssSelector(".oxd-text.oxd-text--h5.oxd-table-filter-title"));
+                        By.cssSelector(".oxd-text.oxd-text--h5"));
         return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(webTitle))
                 .isDisplayed();
     }
 
-    public static boolean checkToasstSuccess(WebDriver driver, String toast) {
+    public static boolean checkToasstSuccess(
+            WebDriver driver, String toast) {
+
         Log.info("Kiểm tra " + toast + " thành công hay chưa");
-        WebElement toastSuccess = driver
-                .findElement(By.cssSelector(".oxd-toast.oxd-toast--success.oxd-toast-container--toast"));
-        return new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(toastSuccess))
-                .isDisplayed();
+
+        try {
+            WebElement toastSuccess = new WebDriverWait(
+                    driver, Duration.ofSeconds(10))
+                    .until(ExpectedConditions.visibilityOfElementLocated(
+                            By.cssSelector(
+                                    ".oxd-toast.oxd-toast--success.oxd-toast-container--toast")));
+
+            return toastSuccess.isDisplayed();
+
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public static void editButtonTable(WebDriver driver, String input) {
+        Log.info("Chọn edit: " + input);
         List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
 
         WebElement edit = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
                 .findElement(By.xpath(".//button[i[contains(@class,'bi-pencil')]]"));
         waitUtils.waitElementClick(driver, edit);
+    }
+
+    public static void evaluateButtonTable(WebDriver driver, String input) {
+        Log.info("Chọn write: " + input);
+        List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
+
+        WebElement evaluate = rows.stream().filter(e -> e.getText().contains(input)).findFirst()
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy " + input))
+                .findElement(By.xpath(".//button[i[contains(@class,'bi-file-text-fill')]]"));
+        waitUtils.waitElementClick(driver, evaluate);
     }
 
     public static void deleteButtonTable(WebDriver driver, String input) {

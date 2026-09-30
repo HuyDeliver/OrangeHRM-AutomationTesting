@@ -32,7 +32,7 @@ public class EditSalaryFunctionality extends TestBase {
                 editEmployeePage.fillSalaryInfo(TestConfig.salary, TestConfig.payGrade,
                                 TestConfig.payFrequency,
                                 TestConfig.currency, TestConfig.amount, TestConfig.comment);
-                editEmployeePage.saveInfo();
+                editEmployeePage.saveInfo("edit salary");
 
                 Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Salary"),
                                 "Nhập Salary không thành công");

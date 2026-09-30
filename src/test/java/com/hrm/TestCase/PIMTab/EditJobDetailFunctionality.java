@@ -30,7 +30,7 @@ public class EditJobDetailFunctionality extends TestBase {
                 editEmployeePage.fillJobDetailInfo(TestConfig.joinedDate, TestConfig.jobTitleName,
                                 TestConfig.jobCategorize,
                                 TestConfig.subUnit, TestConfig.locationName, TestConfig.employmentStatus);
-                editEmployeePage.saveInfo();
+                editEmployeePage.saveInfo("Edit job detail");
 
                 Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Job Detail"),
                                 "Nhập job detail không thành công");

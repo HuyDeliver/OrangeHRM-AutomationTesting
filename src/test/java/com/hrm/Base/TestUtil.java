@@ -79,4 +79,13 @@ public class TestUtil extends TestBase {
         SideBar sideBar = new SideBar(driver);
         sideBar.clickMyInfoPage("My Info");
     }
+
+    public static void performanceUtil() {
+        LoginPage loginPage = new LoginPage(driver);
+        Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
+        loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        Log.info("Đăng nhập thành công");
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickPerformancePage("Performance");
+    }
 }

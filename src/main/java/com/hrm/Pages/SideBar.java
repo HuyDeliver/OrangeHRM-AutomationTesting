@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
+import com.hrm.Pages.PerformancePage.ManageReviewPage;
 import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
@@ -48,5 +49,10 @@ public class SideBar {
     public PersonalDetailPage clickMyInfoPage(String tab) {
         componentLocator.clickSideBar(driver, tab);
         return new PersonalDetailPage(driver);
+    }
+
+    public ManageReviewPage clickPerformancePage(String tab) {
+        componentLocator.clickSideBar(driver, tab);
+        return new ManageReviewPage(driver);
     }
 }

@@ -1,6 +1,8 @@
 package com.hrm.Util;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TestConfig {
         public static final String userName = "HuyDeliver";
@@ -59,7 +61,7 @@ public class TestConfig {
 
         // supervisor
         public static final String nameSupervisor = "Nguyễn Huy Bách";
-        public static final String nameSupervisor2 = "Nguyễn Trí Quân";
+        public static final String surbordinate = "Nguyễn Trí Quân";
         public static final String reportMethod = "Direct";
 
         public static final String email = "Channelbaby15@gmail.com";
@@ -85,4 +87,23 @@ public class TestConfig {
         public static String otherEmail = "Stunanguyen@gmail.com";
 
         public static String relationShip = "Mother";
+
+        public static String terminateDate = "2026-09-28";
+        public static String terminateReason = "Dismissed";
+
+        public static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyy-MM-dd");
+
+        public static final String startDate = LocalDate.now().minusDays(30).format(dateFormat);
+        public static final String endDate = LocalDate.now().minusDays(1).format(dateFormat);
+        public static final String dueDate = LocalDate.now().plusDays(7).format(dateFormat);
+
+        public static String shortenName(String name) {
+                String[] nameParts = name.trim().split("\\s+");
+
+                String first = nameParts[0];
+                String last = nameParts[nameParts.length - 1];
+
+                return first + " " + last;
+        }
+
 }

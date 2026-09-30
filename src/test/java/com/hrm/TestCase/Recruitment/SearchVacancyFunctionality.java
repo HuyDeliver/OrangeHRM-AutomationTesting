@@ -17,7 +17,7 @@ import io.qameta.allure.Feature;
 public class SearchVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "OHR26: Search vacancy using data-driven", dataProvider = "searchingVacancy")
+    @Test(description = "OHR27: Search vacancy using data-driven", dataProvider = "searchingVacancy")
     public void searchVacancy(String job, String vacancy, String manager, String status) {
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);

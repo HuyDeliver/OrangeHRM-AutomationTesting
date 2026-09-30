@@ -91,4 +91,8 @@ public class EmployeeListPage {
         componentLocator.clickSearch(driver);
     }
 
+    public boolean checkSearchTerminate(String note) {
+        return componentLocator.checkTable(driver, "Search pass empolyee", Map.of("note", note));
+    }
+
 }

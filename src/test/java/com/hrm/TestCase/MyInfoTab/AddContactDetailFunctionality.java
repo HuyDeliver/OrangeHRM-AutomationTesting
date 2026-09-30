@@ -16,8 +16,8 @@ import io.qameta.allure.Feature;
 public class AddContactDetailFunctionality extends TestBase {
         @Epic("MyInfo")
         @Feature("Contact Details")
-        @Test(description = "OHR32: Add Contact Details")
-        public void saveMyInfoDetails() {
+        @Test(description = "OHR33: Add Contact Details")
+        public void addContactDetails() {
                 TestUtil.myInfoUtil();
                 PersonalDetailPage personalDetailPage = new PersonalDetailPage(driver);
                 Assert.assertTrue(personalDetailPage.isPersonalDetailVisible("Personal Details"),

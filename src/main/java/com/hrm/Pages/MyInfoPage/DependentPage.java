@@ -13,15 +13,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
 
-public class EmergencyContactPage {
+public class DependentPage {
     private final WebDriver driver;
 
-    public EmergencyContactPage(WebDriver driver) {
+    public DependentPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isEmergencyContactVisible(String title) {
+    public boolean isDependentVisible(String title) {
         return componentLocator.checkTitleH6(driver, title);
     }
 
@@ -29,20 +29,17 @@ public class EmergencyContactPage {
         componentLocator.buttonAddMyInfo(driver, title);
     }
 
-    public void fillEmergencyContacts(String name, String relationship, String homePhone, String mobilePhone,
-            String workPhone) {
+    public void fillDependents(String name, String relationship, String Date) {
 
         // Address
         componentLocator.fillInput(driver, "Name", name);
-        componentLocator.fillInput(driver, "Relationship", relationship);
-        componentLocator.fillInput(driver, "Home", homePhone);
-        componentLocator.fillInput(driver, "Mobile", mobilePhone);
-        componentLocator.fillInput(driver, "Work Telephone", workPhone);
+        componentLocator.chooseSelect(driver, "Relationship", relationship);
+        componentLocator.fillInput(driver, "Date of Birth", Date);
     }
 
     public void clicksave() {
         componentLocator.buttonSave(driver);
-        componentLocator.takeScreenshotResult(driver, "Add Emergency contact");
+        componentLocator.takeScreenshotResult(driver, "Add Dependent");
     }
 
     public boolean isCallToActionSuccess(String toast) {
@@ -64,9 +61,10 @@ public class EmergencyContactPage {
 
     }
 
-    public void DeleteEmergencyContact(String name) {
+    public void DeleteDependent(String name) {
+
         componentLocator.deleteButtonTable(driver, name);
-        componentLocator.takeScreenshotResult(driver, "Delete Emergency contact");
+        componentLocator.takeScreenshotResult(driver, "Delete Dependent");
     }
 
 }

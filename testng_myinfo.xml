@@ -6,7 +6,12 @@
   </listeners>
   <test name="My Info detail updates">
     <classes>
-      <class name="com.hrm.TestCase.PIMTab.MyInfoFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.AddContactDetailFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.AddPersonalDetailFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.AddEmergencyContactFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.DeleteEmergencyContactFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.AddDependentFunctionality" />
+      <class name="com.hrm.TestCase.MyInfoTab.DeleteDependentFunctionality" />
     </classes>
   </test>
 </suite>

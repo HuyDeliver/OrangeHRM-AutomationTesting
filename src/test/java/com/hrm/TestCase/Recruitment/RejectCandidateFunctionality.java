@@ -44,7 +44,7 @@ public class RejectCandidateFunctionality extends TestBase {
         applicationStage.goToCandidatesPage("Candidates", "");
     }
 
-    @Test(description = "OHR29: Reject Candidate")
+    @Test(description = "OHR30: Reject Candidate")
     public void rejectCandidate() {
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
         String name = TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME;

@@ -30,7 +30,7 @@ public class EditSupervisorFunctionality extends TestBase {
                                 "không vào được trang report");
                 editEmployeePage.addSupervisor("Assigned Supervisors");
                 editEmployeePage.fillSupervisor("Huy", TestConfig.nameSupervisor, TestConfig.reportMethod);
-                editEmployeePage.saveInfo();
+                editEmployeePage.saveInfo("Edit supervisor");
 
                 Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Supervisor"),
                                 "Nhập Supervisor không thành công");

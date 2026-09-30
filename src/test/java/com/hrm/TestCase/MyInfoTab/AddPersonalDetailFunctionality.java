@@ -12,14 +12,12 @@ import com.hrm.Util.TestConfig;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-@Epic("PIM")
-@Feature("My Info")
 public class AddPersonalDetailFunctionality extends TestBase {
 
     @Epic("MyInfo")
     @Feature("Personal Details")
-    @Test(description = "OHR31: Add Personal Details")
-    public void saveMyInfoDetails() {
+    @Test(description = "OHR32: Add Personal Details")
+    public void addPersonalDetails() {
         TestUtil.myInfoUtil();
         PersonalDetailPage personalDetailPage = new PersonalDetailPage(driver);
         Assert.assertTrue(personalDetailPage.isPersonalDetailVisible("Personal Details"),

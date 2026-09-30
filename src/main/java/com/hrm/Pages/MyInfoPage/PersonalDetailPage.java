@@ -69,4 +69,9 @@ public class PersonalDetailPage {
         return new EmergencyContactPage(driver);
     }
 
+    public DependentPage goToDependentPage(String tab) {
+        componentLocator.clickSideBarMyInfo(driver, tab);
+        return new DependentPage(driver);
+    }
+
 }

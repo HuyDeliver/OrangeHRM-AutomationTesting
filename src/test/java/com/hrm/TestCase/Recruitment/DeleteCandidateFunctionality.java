@@ -42,7 +42,7 @@ public class DeleteCandidateFunctionality extends TestBase {
         applicationStage.goToCandidatesPage("Candidates", "");
     }
 
-    @Test(description = "OHR30: Delete candidate")
+    @Test(description = "OHR31: Delete candidate")
     public void deleteVancancies() {
         String name = TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME;
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
