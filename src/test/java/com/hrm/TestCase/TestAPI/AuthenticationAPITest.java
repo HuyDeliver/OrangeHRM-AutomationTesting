@@ -7,6 +7,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBaseAPI;
+import com.hrm.Util.Log;
 
 import io.restassured.response.Response;
 
@@ -14,9 +15,7 @@ public class AuthenticationAPITest extends TestBaseAPI {
 
     private static final int EMPLOYEE_ID = 7;
 
-    private static final String EMPLOYEE_ENDPOINT =
-            "/api/v2/pim/employees/{empNumber}";
-
+    private static final String EMPLOYEE_ENDPOINT = "/api/v2/pim/employees/{empNumber}";
 
     // =========================================================
     // SEC_AUTH_01
@@ -25,69 +24,55 @@ public class AuthenticationAPITest extends TestBaseAPI {
     @Test
     public void validTokenShouldBeAccepted() {
 
-        Response response =
-                given()
-                    .auth()
-                    .oauth2(token)
-                    .pathParam("empNumber", EMPLOYEE_ID)
+        Response response = given()
+                .auth()
+                .oauth2(token)
+                .pathParam("empNumber", EMPLOYEE_ID)
                 .when()
-                    .get(EMPLOYEE_ENDPOINT);
+                .get(EMPLOYEE_ENDPOINT);
 
-        System.out.println("\n===== VALID TOKEN =====");
-        System.out.println("Status: " + response.statusCode());
-        System.out.println(response.asPrettyString());
+        Log.info("\n===== VALID TOKEN =====");
+        Log.info("Status: " + response.statusCode());
+        Log.info(response.asPrettyString());
 
-        System.out.println("Status: "
-                + response.statusCode());
+        Log.info("Status: " + response.statusCode());
 
-        System.out.println(
-                response.asPrettyString()
-        );
+        Log.info(response.asPrettyString());
 
-
-        Assert.assertEquals(
-                response.statusCode(),
-                200,
-                "Valid token không truy cập được API"
-        );
+        Assert.assertEquals(response.statusCode(), 200, "Valid token không truy cập được API");
     }
-
 
     // =========================================================
     // SEC_AUTH_02
     // Không gửi Bearer Token
     // =========================================================
-     @Test
+    @Test
     public void requestWithoutTokenShouldBeRejected() {
 
-        Response response =
-                given()
-                    .redirects()
-                    .follow(false)
-                    .pathParam("empNumber", EMPLOYEE_ID)
+        Response response = given()
+                .redirects()
+                .follow(false)
+                .pathParam("empNumber", EMPLOYEE_ID)
                 .when()
-                    .get(EMPLOYEE_ENDPOINT);
+                .get(EMPLOYEE_ENDPOINT);
 
-        System.out.println("\n===== NO TOKEN =====");
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Location: " + response.getHeader("Location"));
-        System.out.println(response.asPrettyString());
+        Log.info("\n===== NO TOKEN =====");
+        Log.info("Status: " + response.statusCode());
+        Log.info("Location: " + response.getHeader("Location"));
+        Log.info(response.asPrettyString());
 
         Assert.assertNotEquals(
                 response.statusCode(),
                 200,
-                "Security issue: API cho phép truy cập mà không cần token"
-        );
+                "Security issue: API cho phép truy cập mà không cần token");
 
         Assert.assertTrue(
                 response.statusCode() == 401
-                    || response.statusCode() == 403
-                    || response.statusCode() == 302,
+                        || response.statusCode() == 403
+                        || response.statusCode() == 302,
                 "Unexpected status khi request không có token: "
-                    + response.statusCode()
-        );
+                        + response.statusCode());
     }
-
 
     // =========================================================
     // AUTH_03 - Bearer Token không hợp lệ
@@ -95,66 +80,60 @@ public class AuthenticationAPITest extends TestBaseAPI {
     @Test
     public void invalidTokenShouldBeRejected() {
 
-        Response response =
-                given()
-                    .redirects()
-                    .follow(false)
-                    .auth()
-                    .oauth2("fake-token")
-                    .pathParam("empNumber", EMPLOYEE_ID)
+        Response response = given()
+                .redirects()
+                .follow(false)
+                .auth()
+                .oauth2("fake-token")
+                .pathParam("empNumber", EMPLOYEE_ID)
                 .when()
-                    .get(EMPLOYEE_ENDPOINT);
+                .get(EMPLOYEE_ENDPOINT);
 
-        System.out.println("\n===== INVALID TOKEN =====");
-        System.out.println("Status: " + response.statusCode());
-        System.out.println("Location: " + response.getHeader("Location"));
-        System.out.println(response.asPrettyString());
+        Log.info("\n===== INVALID TOKEN =====");
+        Log.info("Status: " + response.statusCode());
+        Log.info("Location: " + response.getHeader("Location"));
+        Log.info(response.asPrettyString());
 
         Assert.assertNotEquals(
                 response.statusCode(),
                 200,
-                "Security issue: invalid token vẫn truy cập được API"
-        );
+                "Security issue: invalid token vẫn truy cập được API");
 
         Assert.assertTrue(
                 response.statusCode() == 401
-                    || response.statusCode() == 403
-                    || response.statusCode() == 302,
+                        || response.statusCode() == 403
+                        || response.statusCode() == 302,
                 "Unexpected status khi dùng invalid token: "
-                    + response.statusCode()
-        );
+                        + response.statusCode());
 
         if (response.statusCode() == 302) {
 
-            String location =
-                    response.getHeader("Location");
+            String location = response.getHeader("Location");
 
             Assert.assertNotNull(
                     location,
-                    "302 nhưng không có Location header"
-            );
+                    "302 nhưng không có Location header");
 
             Assert.assertTrue(
                     location.contains("/auth/login"),
                     "Invalid token redirect tới URL bất thường: "
-                        + location
-            );
+                            + location);
         }
     }
-//     @Test 
-//     public void checkList(){
-//         Response response =
-//     given()
-//         .auth()
-//         .oauth2(token)
-//     .when()
-//         .get("/api/v2/pim/employees");
+    // @Test
+    // public void checkList(){
+    // Response response =
+    // given()
+    // .auth()
+    // .oauth2(token)
+    // .when()
+    // .get("/api/v2/pim/employees");
 
-// System.out.println(response.asPrettyString());
-//     }
+    // Log.info(response.asPrettyString());
+    // }
 
-    @AfterMethod 
-     public void tearDown() {
+    @AfterMethod
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
