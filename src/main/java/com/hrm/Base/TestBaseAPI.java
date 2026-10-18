@@ -4,8 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
 
 import com.hrm.Util.Config;
+import com.hrm.Util.Log;
 import com.hrm.Util.OAuthTokenManager;
-
 
 import com.hrm.Util.WebDriverFactory;
 
@@ -32,10 +32,9 @@ public class TestBaseAPI {
         token = OAuthTokenManager.getAccessToken(
                 driver,
                 Config.get("username"),
-                Config.get("password")
-        );
+                Config.get("password"));
 
-        System.out.println("===== API SETUP =====");
-        System.out.println("Bearer token created successfully");
+        Log.info("===== API SETUP =====");
+        Log.info("Bearer token created successfully");
     }
 }

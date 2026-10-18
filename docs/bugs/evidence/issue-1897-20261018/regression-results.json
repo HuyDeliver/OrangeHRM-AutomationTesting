@@ -1,0 +1,45 @@
+{
+  "issue": 1897,
+  "environment": "OrangeHRM OS 5.9 local",
+  "method": "Selenium UI / Page Object Model / TestNG / Log4j",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1897.xml\" test",
+  "compile": {
+    "completedAt": "2026-10-18T11:08:05+07:00",
+    "status": "BUILD SUCCESS"
+  },
+  "runCompletedAt": "2026-10-18T11:11:24+07:00",
+  "fullName": "com.hrm.TestCase.AdminTab.Issue1897RegressionTest.updatingOnePayGradeShouldNotChangeAnotherPayGrade",
+  "allureUuid": "51e67b2c-97d5-487a-aeba-851160fd515f",
+  "status": "failed",
+  "totals": {
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "tests": 1
+  },
+  "gradeA": "ISS1897_A_1792296524632",
+  "gradeB": "ISS1897_B_1792296524632",
+  "beforeB": "Euro\n3,000.00\n4,000.00",
+  "afterA": "Euro\n1,500.00\n2,500.00",
+  "expectedB": "Euro\n3,000.00\n4,000.00",
+  "actualB": "Euro\n1,500.00\n2,500.00",
+  "assertionMessage": "Bug #1897: khoảng lương B bị thay đổi khi chỉ sửa A expected [Euro\n3,000.00\n4,000.00] but found [Euro\n1,500.00\n2,500.00]",
+  "screenshot": "regression-failure.png",
+  "cleanup": {
+    "steps": [
+      "Cleanup: đã xóa ISS1897_A_1792296524632",
+      "Cleanup: đã xóa ISS1897_B_1792296524632"
+    ],
+    "completedAt": "2026-10-18T11:11:23.9230000+07:00",
+    "status": "passed"
+  },
+  "independentReadOnlyVerification": {
+    "minimum": "10000",
+    "maximum": "20000",
+    "mutations": false,
+    "currency": "VND",
+    "remainingIssue1897Grades": 0,
+    "remainingEurAssignments": 0,
+    "remainingGrade": "Engineer"
+  }
+}

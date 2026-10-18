@@ -1,0 +1,56 @@
+{
+  "issue": 1923,
+  "environment": "OrangeHRM OS 5.9 local",
+  "method": "Selenium UI / POM / TestNG / Log4j",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1923.xml\" test",
+  "compile": {
+    "status": "BUILD SUCCESS",
+    "completedAt": "2026-10-18T22:02:15+07:00"
+  },
+  "runCompletedAt": "2026-10-18T22:02:53+07:00",
+  "totals": {
+    "tests": 2,
+    "skipped": 0,
+    "failures": 1,
+    "errors": 0,
+    "mavenSeconds": 22.389,
+    "testNgSuiteSeconds": 15.055
+  },
+  "waitStrategy": {
+    "menuStateMaximumWaitSeconds": 2,
+    "globalBaseChanged": false,
+    "threadSleepUsed": false,
+    "implicitWaitAfterLoginSeconds": 0
+  },
+  "cases": [
+    {
+      "fullName": "com.hrm.TestCase.Issue1923RegressionTest.clickingAvatarAgainShouldCloseProfileMenu",
+      "allureUuid": "60a9ce06-6dc9-4e2e-896e-0b73c877bf11",
+      "status": "failed",
+      "durationSeconds": 2.66,
+      "setupStatus": "passed",
+      "menuOpenedBeforeAction": true,
+      "relevantLog": [
+        "Bước 3: Click lại đúng avatar để đóng menu",
+        "Expected: menu đóng | Actual menu đã đóng: false"
+      ],
+      "assertionMessage": "Bug #1923: menu vẫn mở sau khi click avatar lần hai expected [true] but found [false]",
+      "screenshot": "regression-failure.png"
+    },
+    {
+      "fullName": "com.hrm.TestCase.Issue1923RegressionTest.clickingOutsideShouldCloseProfileMenu",
+      "allureUuid": "b257a6f2-1939-4fe7-85fd-d231a263b22f",
+      "status": "passed",
+      "durationSeconds": 0.605,
+      "setupStatus": "passed",
+      "menuOpenedBeforeAction": true,
+      "relevantLog": [
+        "Bước 3: Click tiêu đề trang bên ngoài menu (control)",
+        "Expected: menu đóng | Actual menu đã đóng: true"
+      ],
+      "assertionMessage": null,
+      "screenshot": null
+    }
+  ],
+  "testDataMutated": false
+}

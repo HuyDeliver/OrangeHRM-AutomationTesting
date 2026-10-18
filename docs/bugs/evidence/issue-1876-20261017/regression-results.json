@@ -1,0 +1,37 @@
+{
+  "suite": "testng_issue1876.xml",
+  "environment": "OrangeHRM OS 5.9 local",
+  "completedAt": "2026-10-17T20:29:28+07:00",
+  "timezone": "Asia/Saigon",
+  "compile": "SUCCESS",
+  "total": 2,
+  "passed": 1,
+  "failed": 1,
+  "skipped": 0,
+  "cases": [
+    {
+      "method": "com.hrm.TestCase.PIMTab.Issue1876RegressionTest.includeFilterShouldApplyPastEmployeesWhenLeavingWithTab",
+      "status": "failed",
+      "selection": "Selection: Past Employees Only | Confirmation: TAB",
+      "expectedPastCount": 1,
+      "actualCount": 3,
+      "assertionMessage": "Bug #1876 reproduced: Include displays Past Employees Only, but Search results after TAB differ from ENTER baseline expected [1] but found [3]",
+      "attachments": [
+        {
+          "name": "Screenshot - includeFilterShouldApplyPastEmployeesWhenLeavingWithTab",
+          "source": "eac2f7c3-be1e-4619-9f8a-bdb05e8c3932-attachment.png",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "method": "com.hrm.TestCase.PIMTab.Issue1876RegressionTest.includeFilterShouldApplyPastEmployeesWhenConfirmingWithEnter",
+      "status": "passed",
+      "selection": "Selection: Past Employees Only | Confirmation: ENTER",
+      "expectedPastCount": 1,
+      "actualCount": 1,
+      "assertionMessage": null,
+      "attachments": []
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "cleanupResponse": "{\"data\":[2],\"meta\":[],\"rels\":[]}",
+  "ownedLevelId": 2,
+  "cleanupStatus": 200,
+  "employeeEducationResponse": "{\"data\":[],\"meta\":{\"empNumber\":1,\"total\":0},\"rels\":[]}",
+  "employeeEducationStatus": 200,
+  "ownedLevelName": "ISS1928_1792247546318",
+  "capturedAt": "2026-10-17T21:36:12.911200500+07:00",
+  "catalogResponse": "{\"data\":[],\"meta\":{\"total\":0},\"rels\":[]}",
+  "catalogStatus": 200
+}

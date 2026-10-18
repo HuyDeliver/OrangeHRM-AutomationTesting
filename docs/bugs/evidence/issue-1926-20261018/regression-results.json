@@ -1,0 +1,94 @@
+{
+  "issue": 1926,
+  "environment": "OrangeHRM OS 5.9 local",
+  "method": "Selenium UI / POM / TestNG / Log4j",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1926.xml\" test",
+  "compileOnly": {
+    "completedAt": "2026-10-18T22:15:39+07:00",
+    "status": "BUILD SUCCESS"
+  },
+  "finalMavenStatus": "BUILD SUCCESS",
+  "runCompletedAt": "2026-10-18T22:18:49+07:00",
+  "totals": {
+    "testNgSuiteSeconds": 58.793,
+    "skipped": 0,
+    "failures": 0,
+    "tests": 3,
+    "errors": 0
+  },
+  "cases": [
+    {
+      "vacancy": "Devops",
+      "fullName": "com.hrm.TestCase.Recruitment.Issue1926RegressionTest.shortlistingCandidateShouldUpdateStatusAndHistory",
+      "allureUuid": "dec98c02-7e4b-4f01-aebb-e64f5ff14b84",
+      "status": "passed",
+      "durationSeconds": 12.986,
+      "relevantLog": [
+        "Bước 2: Tạo candidate riêng: ISS1926_1792336676791",
+        "Expected: Status: Shortlisted | Actual: Status: Shortlisted",
+        "Đã xác nhận sau refresh: Status: Shortlisted | History: Shortlisted | Vacancy: Devops"
+      ],
+      "screenshot": "regression-Devops.png",
+      "cleanup": {
+        "relevantLog": [
+          "Cleanup: đã xóa candidate ISS1926_1792336676791"
+        ],
+        "status": "passed"
+      }
+    },
+    {
+      "vacancy": "Sales IT",
+      "fullName": "com.hrm.TestCase.Recruitment.Issue1926RegressionTest.shortlistingCandidateShouldUpdateStatusAndHistory",
+      "allureUuid": "dd14d236-39b1-44f6-9745-ff1421c065b9",
+      "status": "passed",
+      "durationSeconds": 12.121,
+      "relevantLog": [
+        "Bước 2: Tạo candidate riêng: ISS1926_1792336694718",
+        "Expected: Status: Shortlisted | Actual: Status: Shortlisted",
+        "Đã xác nhận sau refresh: Status: Shortlisted | History: Shortlisted | Vacancy: Sales IT"
+      ],
+      "screenshot": "regression-Sales-IT.png",
+      "cleanup": {
+        "relevantLog": [
+          "Cleanup: đã xóa candidate ISS1926_1792336694718"
+        ],
+        "status": "passed"
+      }
+    },
+    {
+      "vacancy": "Tester",
+      "fullName": "com.hrm.TestCase.Recruitment.Issue1926RegressionTest.shortlistingCandidateShouldUpdateStatusAndHistory",
+      "allureUuid": "84d7d8a8-a6cd-4bb9-b47d-15b5ce5226bf",
+      "status": "passed",
+      "durationSeconds": 13.309,
+      "relevantLog": [
+        "Bước 2: Tạo candidate riêng: ISS1926_1792336713209",
+        "Expected: Status: Shortlisted | Actual: Status: Shortlisted",
+        "Đã xác nhận sau refresh: Status: Shortlisted | History: Shortlisted | Vacancy: Tester"
+      ],
+      "screenshot": "regression-Tester.png",
+      "cleanup": {
+        "relevantLog": [
+          "Cleanup: đã xóa candidate ISS1926_1792336713209"
+        ],
+        "status": "passed"
+      }
+    }
+  ],
+  "conclusion": "Chưa tái hiện issue #1926 trên Devops, Sales IT và Tester ở local 5.9; không kết luận lỗi đã được sửa trên dữ liệu trong issue gốc.",
+  "originalReportedVacanciesAvailableLocally": false,
+  "waitStrategy": {
+    "implicitWaitAfterLoginSeconds": 0,
+    "addedConditionalWaitMaximumSeconds": 5,
+    "sharedWaitUtilitiesChanged": false,
+    "threadSleepUsed": false
+  },
+  "independentReadOnlyCleanupVerification": {
+    "remainingIss1926Candidates": 0,
+    "databaseMutated": false,
+    "originalVacancyManagersUnchanged": true,
+    "originalActiveVacancyCount": 3,
+    "originalCandidateCount": 3,
+    "originalCandidateStatusesUnchanged": true
+  }
+}

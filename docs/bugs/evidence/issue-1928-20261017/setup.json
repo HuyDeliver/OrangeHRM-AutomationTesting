@@ -1,0 +1,11 @@
+{
+  "educationLevelId": 2,
+  "createLevelStatus": 200,
+  "marker": "ISS1928_1792247546318",
+  "createLevelResponse": "{\"data\":{\"id\":2,\"name\":\"ISS1928_1792247546318\"},\"meta\":[],\"rels\":[]}",
+  "employeeNumber": 1,
+  "version": "OrangeHRM OS 5.9 local",
+  "educationLevelBaseline": "{\"data\":[],\"meta\":{\"total\":0},\"rels\":[]}",
+  "capturedAt": "2026-10-17T21:33:20.219211+07:00",
+  "employeeEducationBaseline": "{\"data\":[],\"meta\":{\"empNumber\":1,\"total\":0},\"rels\":[]}"
+}

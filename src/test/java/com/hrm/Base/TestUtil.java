@@ -88,4 +88,22 @@ public class TestUtil extends TestBase {
         SideBar sideBar = new SideBar(driver);
         sideBar.clickPerformancePage("Performance");
     }
+
+    public static void timeUtil() {
+        LoginPage loginPage = new LoginPage(driver);
+        Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
+        loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        Log.info("Đăng nhập thành công");
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickTimePage("Time");
+    }
+
+    public static void claimUtil() {
+        LoginPage loginPage = new LoginPage(driver);
+        Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
+        loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        Log.info("Đăng nhập thành công");
+        SideBar sideBar = new SideBar(driver);
+        sideBar.clickClaimPage("Claim");
+    }
 }

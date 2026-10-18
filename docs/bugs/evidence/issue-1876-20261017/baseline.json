@@ -1,0 +1,32 @@
+{
+  "controls": [
+    {
+      "employees": [
+        {
+          "empNumber": 6,
+          "terminationId": null
+        },
+        {
+          "empNumber": 1,
+          "terminationId": null
+        },
+        {
+          "empNumber": 7,
+          "terminationId": null
+        }
+      ],
+      "filter": "onlyCurrent",
+      "status": 200,
+      "total": 3
+    },
+    {
+      "employees": [
+      ],
+      "filter": "onlyPast",
+      "status": 200,
+      "total": 0
+    }
+  ],
+  "capturedAt": "2026-10-17T19:14:29.839139600+07:00",
+  "version": "5.9"
+}

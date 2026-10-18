@@ -148,4 +148,10 @@ public class UserManagePage {
         componentLocator.clickDropdownNavi(driver, "Qualifications", "Skills");
         return new SkillPage(driver);
     }
+
+    public PayGradePage goToPayGradePage() {
+        PayGradePage payGradePage = new PayGradePage(driver);
+        payGradePage.openPayGrades();
+        return payGradePage;
+    }
 }

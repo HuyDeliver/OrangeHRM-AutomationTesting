@@ -1,0 +1,7 @@
+{
+  "employeeNumber": 1,
+  "capturedAt": "2026-10-17T21:35:04.521347300+07:00",
+  "status": 200,
+  "recordId": 2,
+  "response": "{\"data\":[{\"id\":2,\"institute\":\"ISS1928_1792247546318\",\"major\":null,\"year\":null,\"score\":\"ISS1928_1792247546318_B\",\"startDate\":null,\"endDate\":null,\"education\":{\"id\":2,\"name\":\"ISS1928_1792247546318\"}}],\"meta\":{\"empNumber\":1,\"total\":1},\"rels\":[]}"
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "method": "POST",
+    "requestBody": "{\"educationId\":2,\"institute\":\"ISS1928_1792247546318\",\"major\":\"\",\"year\":null,\"score\":\"ISS1928_1792247546318_A\",\"startDate\":\"\",\"endDate\":\"\"}",
+    "response": "{\"data\":{\"id\":1,\"institute\":\"ISS1928_1792247546318\",\"major\":null,\"year\":null,\"score\":\"ISS1928_1792247546318_A\",\"startDate\":null,\"endDate\":null,\"education\":{\"id\":2,\"name\":\"ISS1928_1792247546318\"}},\"meta\":{\"empNumber\":1},\"rels\":[]}",
+    "status": 200,
+    "url": "\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees\u002f1\u002feducations"
+  },
+  {
+    "method": "GET",
+    "requestBody": null,
+    "response": "{\"data\":[{\"id\":1,\"institute\":\"ISS1928_1792247546318\",\"major\":null,\"year\":null,\"score\":\"ISS1928_1792247546318_A\",\"startDate\":null,\"endDate\":null,\"education\":{\"id\":2,\"name\":\"ISS1928_1792247546318\"}}],\"meta\":{\"empNumber\":1,\"total\":1},\"rels\":[]}",
+    "status": 200,
+    "url": "\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees\u002f1\u002feducations?limit=50\u0026offset=0"
+  },
+  {
+    "method": "DELETE",
+    "requestBody": "{\"ids\":[1]}",
+    "response": "{\"data\":[1],\"meta\":{\"empNumber\":1},\"rels\":[]}",
+    "status": 200,
+    "url": "\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees\u002f1\u002feducations"
+  }
+]

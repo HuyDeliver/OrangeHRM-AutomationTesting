@@ -1,0 +1,13 @@
+{
+  "userApprovedRetainedFixture": true,
+  "environment": "OrangeHRM OS 5.9 local",
+  "createdThrough": "Selenium UI",
+  "activities": [
+    "ISS1890 Activity A",
+    "ISS1890 Activity B"
+  ],
+  "customer": "ISS1890 Customer",
+  "timeInitializedWithMonday": true,
+  "createdAt": "2026-10-18T22:33:30.279432300+07:00",
+  "project": "ISS1890 Project"
+}

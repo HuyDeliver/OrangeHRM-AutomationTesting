@@ -1,0 +1,20 @@
+{
+  "bugReproduced": true,
+  "actualFirstDayA": "Không có dòng A",
+  "successToast": "No success toast captured",
+  "environment": "OrangeHRM OS 5.9 local",
+  "expectedFirstDayA": "01:00",
+  "viewTableAfterRefresh": "No Records Found",
+  "rowBDayValuesBeforeSave": [
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    ""
+  ],
+  "period": "2026-10-12 to 2026-10-18",
+  "checkedAt": "2026-10-18T22:36:20.202757600+07:00",
+  "bothRowsNew": true
+}

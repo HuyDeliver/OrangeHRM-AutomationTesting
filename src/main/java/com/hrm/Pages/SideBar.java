@@ -6,10 +6,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Pages.AdminPage.UserManagePage;
+import com.hrm.Pages.ClaimPage.ClaimPage;
 import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Pages.PerformancePage.ManageReviewPage;
 import com.hrm.Pages.RecruitmentPage.CandidatesPage;
+import com.hrm.Pages.TimePage.TimesheetPage;
 import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
 
@@ -54,5 +56,15 @@ public class SideBar {
     public ManageReviewPage clickPerformancePage(String tab) {
         componentLocator.clickSideBar(driver, tab);
         return new ManageReviewPage(driver);
+    }
+
+    public TimesheetPage clickTimePage(String tab) {
+        componentLocator.clickSideBar(driver, tab);
+        return new TimesheetPage(driver);
+    }
+
+    public ClaimPage clickClaimPage(String tab) {
+        componentLocator.clickSideBar(driver, tab);
+        return new ClaimPage(driver);
     }
 }

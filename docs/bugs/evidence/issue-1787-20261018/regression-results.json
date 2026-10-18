@@ -1,0 +1,62 @@
+{
+  "issue": 1787,
+  "environment": "OrangeHRM OS 5.9 local",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1787.xml\" test",
+  "completedAt": "2026-10-18T23:03:47+07:00",
+  "compile": {
+    "seconds": 6.678,
+    "status": "BUILD SUCCESS",
+    "completedAt": "2026-10-18T23:03:24+07:00"
+  },
+  "tests": 1,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "suiteSeconds": 11.72,
+  "mavenSeconds": 14.304,
+  "allureUuid": "efeaa651-8c4d-4a19-8142-a6fd83ef8fb0",
+  "test": "com.hrm.TestCase.TimeTab.Issue1787RegressionTest.attendanceCalendarShouldStartOnMonday",
+  "status": "failed",
+  "assertionMessage": "Tái hiện khác biệt trong issue 1787: lịch không bắt đầu Monday; cần xác nhận phạm vi yêu cầu expected [M] but found [S]",
+  "steps": [
+    "Bước 1: Đăng nhập và mở Time bằng TestUtil",
+    "Nhập username: admin",
+    "Nhập password",
+    "Click login: ",
+    "Đăng nhập thành công",
+    "Click vào tab Time",
+    "Bước 2: Xác nhận Timesheet hiện bắt đầu Monday",
+    "Click vào: Timesheets",
+    "Chọn: My Timesheets",
+    "Timesheet period: 2026-10-12 to 2026-10-18 | Ngày đầu: Mon",
+    "Bước 3: Mở Attendance > My Records > lịch ở ô Date",
+    "Click vào: Attendance",
+    "Chọn: My Records",
+    "Bước 4: Đọc các thứ trên lịch: [S, M, T, W, T, F, S]",
+    "Expected theo issue 1787: M (Monday) | Actual: S",
+    "Giới hạn: chưa xác nhận cấu hình Timesheet phải áp dụng cho lịch Attendance",
+    "[ERROR]: FAIL: attendanceCalendarShouldStartOnMonday",
+    "[ERROR]: REASON: java.lang.AssertionError: Tái hiện khác biệt trong issue 1787: lịch không bắt đầu Monday; cần xác nhận phạm vi yêu cầu expected [M] but found [S]"
+  ],
+  "timesheetFirstWeekday": "Mon",
+  "attendanceWeekdays": [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S"
+  ],
+  "expectedFirstDayAccordingToIssue": "M",
+  "actualFirstDay": "S",
+  "setup": "passed",
+  "teardown": "passed",
+  "dataMutated": false,
+  "requirementScopeConfirmed": false,
+  "screenshots": [
+    "regression-timesheet-monday.png",
+    "regression-attendance-calendar.png",
+    "regression-failure.png"
+  ]
+}

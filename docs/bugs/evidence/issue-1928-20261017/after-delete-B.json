@@ -1,0 +1,6 @@
+{
+  "getResponse": "{\"data\":[{\"id\":2,\"institute\":\"ISS1928_1792247546318\",\"major\":null,\"year\":null,\"score\":\"ISS1928_1792247546318_B\",\"startDate\":null,\"endDate\":null,\"education\":{\"id\":2,\"name\":\"ISS1928_1792247546318\"}}],\"meta\":{\"empNumber\":1,\"total\":1},\"rels\":[]}",
+  "capturedAt": "2026-10-17T21:35:34.374313200+07:00",
+  "getStatus": 200,
+  "toast": "[Error\nRecords Not Found\n×]"
+}

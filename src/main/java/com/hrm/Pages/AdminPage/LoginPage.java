@@ -47,7 +47,7 @@ public class LoginPage {
     public SideBar loginToMainWeb(String name, String pass) {
         Log.info("Nhập username: " + name);
         userName.sendKeys(name);
-        Log.info("Nhập password: " + pass);
+        Log.info("Nhập password");
         passWord.sendKeys(pass);
         Log.info("Click login: ");
         waitUtils.waitElementClick(driver, loginButton);

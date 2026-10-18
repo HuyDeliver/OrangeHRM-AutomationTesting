@@ -23,7 +23,7 @@ public class TestListener implements ITestListener {
         Log.error("REASON: " + result.getThrowable());
         Object testInstance = result.getInstance();
         if (testInstance instanceof TestBase) {
-            ((TestBase) testInstance).takeScreenshot(result.getTestName());
+            ((TestBase) testInstance).takeScreenshot(result.getName());
         }
     }
 

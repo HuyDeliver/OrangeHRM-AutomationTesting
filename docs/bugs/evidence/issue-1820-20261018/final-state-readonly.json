@@ -1,0 +1,13 @@
+{
+  "verification": "Read-only SELECT on local OrangeHRM database after test",
+  "eventName": "ISS1820 Attachment Test",
+  "eventCount": 1,
+  "activeEventCount": 1,
+  "fixtureClaimCount": 1,
+  "referenceId": "202610180000001",
+  "claimStatus": "INITIATED",
+  "attachmentCount": 0,
+  "expenseCount": 0,
+  "dataMutatedByVerification": false,
+  "verifiedAfterRunCompletedAt": "2026-10-19T00:10:15+07:00"
+}

@@ -74,4 +74,9 @@ public class PersonalDetailPage {
         return new DependentPage(driver);
     }
 
+    public QualificationPage goToQualificationPage(String tab) {
+        componentLocator.clickSideBarMyInfo(driver, tab);
+        return new QualificationPage(driver);
+    }
+
 }

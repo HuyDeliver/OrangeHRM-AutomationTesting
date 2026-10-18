@@ -1,0 +1,102 @@
+{
+  "issue": 1890,
+  "environment": "OrangeHRM OS 5.9 local",
+  "method": "Selenium UI / POM / TestNG / Log4j",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1890.xml\" test",
+  "compileOnly": {
+    "durationSeconds": 24.069,
+    "completedAt": "2026-10-18T22:42:01+07:00",
+    "status": "BUILD SUCCESS"
+  },
+  "runCompletedAt": "2026-10-18T22:45:15+07:00",
+  "finalMavenStatus": "BUILD FAILURE due to unchanged regression assertion: expected 01:00, actual 00:00",
+  "totals": {
+    "errors": 0,
+    "testNgSuiteSeconds": 35.891,
+    "skipped": 0,
+    "failures": 1,
+    "tests": 2,
+    "mavenSeconds": 38.229
+  },
+  "cases": [
+    {
+      "fullName": "com.hrm.TestCase.TimeTab.Issue1890RegressionTest.emptyRowShouldNotDiscardValidHours",
+      "allureUuid": "96064c1a-1156-41a1-80a3-b0f807d2a03b",
+      "status": "failed",
+      "durationSeconds": 6.163,
+      "setupStatus": "passed",
+      "baselineLog": [
+        "Baseline: dòng A = 00:00 | Chưa có dòng B | Not Submitted"
+      ],
+      "actualLog": [
+        "REGRESSION | Expected A: 01:00 | Actual A sau refresh: 00:00"
+      ],
+      "assertionMessage": "Bug #1890: dòng B trống làm giờ của A không được lưu expected [01:00] but found [00:00]",
+      "screenshots": [
+        "regression-before-save.png",
+        "regression-failure.png"
+      ],
+      "reset": {
+        "status": "passed",
+        "relevantLog": [
+          "Reset PASS: A = 00:00 | B không tồn tại | Fixture được giữ lại"
+        ]
+      }
+    },
+    {
+      "fullName": "com.hrm.TestCase.TimeTab.Issue1890RegressionTest.validRowShouldKeepOneHourAfterSave",
+      "allureUuid": "88312e19-32ed-427f-87c3-bc8416fe7136",
+      "status": "passed",
+      "durationSeconds": 4.369,
+      "setupStatus": "passed",
+      "baselineLog": [
+        "Baseline: dòng A = 00:00 | Chưa có dòng B | Not Submitted"
+      ],
+      "actualLog": [
+        "CONTROL | Expected A: 01:00 | Actual A sau refresh: 01:00"
+      ],
+      "assertionMessage": null,
+      "screenshots": [
+        "regression-control.png"
+      ],
+      "reset": {
+        "status": "passed",
+        "relevantLog": [
+          "Reset PASS: A = 00:00 | B không tồn tại | Fixture được giữ lại"
+        ]
+      }
+    }
+  ],
+  "bugReproduced": true,
+  "manualScenario": "Two entirely new rows: A=01:00; B has project/activity and seven untouched blank day inputs; A absent after Save/refresh.",
+  "automatedScenario": "Repeatable variant: saved fixture A=00:00 is changed to 01:00, new B has seven untouched blank day inputs; A remains 00:00 after Save/refresh.",
+  "successToastObservedInManualEvidence": false,
+  "waitStrategy": {
+    "implicitWaitAfterLoginSeconds": 0,
+    "threadSleepUsed": false,
+    "addedConditionalWaitMaximumSeconds": 5
+  },
+  "approvedRetainedFixture": {
+    "customer": "ISS1890 Customer",
+    "project": "ISS1890 Project",
+    "activities": [
+      "ISS1890 Activity A",
+      "ISS1890 Activity B"
+    ],
+    "timeInitializedMonday": true,
+    "period": "2026-10-12 to 2026-10-18",
+    "fullCleanupClaimed": false
+  },
+  "independentReadOnlyFinalVerification": {
+    "customerCount": 1,
+    "databaseMutatedByVerification": false,
+    "activityCount": 2,
+    "timesheetCount": 1,
+    "projectCount": 1,
+    "status": "NOT SUBMITTED",
+    "otherTimesheetsOrItems": 0,
+    "activityBItemCount": 0,
+    "totalTimesheetItemCount": 1,
+    "activityATotalDurationSeconds": 0
+  }
+}

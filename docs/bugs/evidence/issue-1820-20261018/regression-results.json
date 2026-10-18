@@ -1,0 +1,74 @@
+{
+  "issue": 1820,
+  "environment": "OrangeHRM OS 5.9 local",
+  "reportedVersion": "5.6",
+  "command": "mvn -o \"-Dtestng.suite=testng_issue1820.xml\" test",
+  "compile": {
+    "seconds": 6.622,
+    "completedAt": "2026-10-19T00:06:09+07:00",
+    "status": "BUILD SUCCESS"
+  },
+  "completedAt": "2026-10-19T00:10:15+07:00",
+  "tests": 1,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "suiteSeconds": 16.13,
+  "mavenSeconds": 18.371,
+  "testSeconds": 9.25,
+  "allureUuid": "366010dc-6560-4723-abd5-56f81c0d7e8e",
+  "test": "com.hrm.TestCase.ClaimTab.Issue1820RegressionTest.uploadedClaimAttachmentShouldRemainAfterRefresh",
+  "status": "passed",
+  "steps": [
+    "Bước 1: Đăng nhập Claim và mở Claim nháp riêng",
+    "Nhập username: admin",
+    "Nhập password",
+    "Click login: ",
+    "Đăng nhập thành công",
+    "Click vào tab Claim",
+    "Click vào: My Claims",
+    "Bước 2: Reference Id=202610180000001 | File=JobSpecification.pdf | Bytes=224012 | Comment=ISS1820_FILE_1792343406454",
+    "Bước 3: Add Attachments, chọn file, nhập Comment rồi Save",
+    "Nhập Select File=E:\\Studying\\GraduateProject\\orangehrmtesting\\src\\test\\resources\\JobSpecification.pdf",
+    "Nhập Comment=ISS1820_FILE_1792343406454",
+    "Click save",
+    "Bước 4: Refresh rồi tìm đúng tên file và Comment vừa nhập",
+    "Verify [Claim attachment] có chứa keyword: {comment=ISS1820_FILE_1792343406454, file=JobSpecification.pdf}",
+    "Expected: file vẫn tồn tại sau refresh | Actual: saved=true",
+    "PASS: uploadedClaimAttachmentShouldRemainAfterRefresh"
+  ],
+  "afters": [
+    {
+      "name": "tearDown",
+      "status": "passed",
+      "steps": null
+    },
+    {
+      "name": "cleanupTestAttachment",
+      "status": "passed",
+      "steps": [
+        "Cleanup: mở lại đúng Claim nháp và chỉ xóa file có Comment=ISS1820_FILE_1792343406454",
+        "Click vào: My Claims",
+        "Verify [Own attachment] có chứa keyword: {comment=ISS1820_FILE_1792343406454}",
+        "Chọn xóa: ISS1820_FILE_1792343406454",
+        "Xác nhận xóa",
+        "Cleanup PASS: không còn file thử; giữ Event và Claim nháp đã được phép"
+      ]
+    }
+  ],
+  "file": "JobSpecification.pdf",
+  "fileBytes": 224012,
+  "expected": "One attachment with exact file name and unique comment persists after refresh",
+  "actual": "saved=true; attachmentCount=1",
+  "cleanup": "passed; attachmentCount=0 after reload",
+  "retainedFixture": "One active Event and one Initiated Claim as approved; no submit or expense",
+  "issueReproduced": false,
+  "scope": "Only this PDF and local environment were tested",
+  "previousRun": {
+    "mavenSeconds": 17.952,
+    "completedAt": "2026-10-19T00:07:15+07:00",
+    "suiteSeconds": 15.55,
+    "status": "passed",
+    "cleanup": "passed"
+  }
+}

@@ -6,7 +6,7 @@
     </listeners>
     <test name="SQL Injection-like input">
         <classes>
-            <class name="com.hrm.TestCase.TestAPI.InjectionAPITest" />
+            <class name="com.hrm.TestCase.TestSecurity.InjectionAPITest" />
         </classes>
     </test>
 </suite>

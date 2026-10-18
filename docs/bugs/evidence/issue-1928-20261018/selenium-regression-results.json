@@ -1,0 +1,22 @@
+{
+  "suite": "testng_issue1928.xml",
+  "completedAt": "2026-10-18T10:53:07+07:00",
+  "implementation": "Selenium + Page Object Model + TestNG + Log4j2",
+  "compile": "SUCCESS",
+  "tests": 1,
+  "failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "method": "com.hrm.TestCase.MyInfoTab.Issue1928RegressionTest.existingEducationShouldBeDeletedSuccessfully",
+  "status": "failed",
+  "educationLevel": "HANUI",
+  "scoreMarker": "ISS1928_1792295559755",
+  "deleteToast": "Kết quả Delete trên UI: Error\nRecords Not Found\n×",
+  "observedResult": "Bước 5: Expected: không còn bản ghi | Actual: stillExists=true",
+  "assertionMessage": "Bug #1928: Education vẫn còn sau khi xóa. GPA/Score=ISS1928_1792295559755 expected [false] but found [true]",
+  "usedRestAssured": false,
+  "catalogLevelsModified": false,
+  "educationRecordRemains": true,
+  "cleanup": "No API, database or catalog cleanup; failed UI deletion leaves this score marker",
+  "screenshot": "selenium-regression-failure.png"
+}

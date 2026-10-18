@@ -1,0 +1,32 @@
+{
+  "suite": "testng_issue1928.xml",
+  "environment": "OrangeHRM OS 5.9 local",
+  "completedAt": "2026-10-17T21:44:49+07:00",
+  "compile": "SUCCESS",
+  "tests": 1,
+  "passed": 0,
+  "failed": 1,
+  "errors": 0,
+  "skipped": 0,
+  "method": "com.hrm.TestCase.MyInfoTab.Issue1928RegressionTest.existingEducationShouldBeDeletedSuccessfully",
+  "status": "failed",
+  "employeeNumber": 1,
+  "educationRecordId": 5,
+  "assertionMessage": "Bug #1928: Education đã tồn tại nhưng vẫn còn sau khi xóa trên UI expected [false] but found [true]",
+  "observedResult": "Expected: bản ghi không còn | Actual: stillExists=true | Success toast=false",
+  "verificationGetStatus": 200,
+  "deleteHttpStatusCapturedByTest": false,
+  "cleanupStatus": "passed",
+  "cleanupSteps": [
+    "Cleanup: xóa đúng Education Level tạm; các Education gắn Level này được xóa theo",
+    "Cleanup hoàn tất: Education và Level tạm không còn"
+  ],
+  "screenshot": "regression-failure.png",
+  "allureAttachments": [
+    {
+      "name": "Screenshot - existingEducationShouldBeDeletedSuccessfully",
+      "source": "3bccd2f0-62a8-49df-a219-b808a5bf166d-attachment.png",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "environment": "OrangeHRM OS 5.9 local",
+  "closedAfterSecondAvatarClick": false,
+  "closedAfterOutsideClick": true,
+  "checkedAt": "2026-10-18T22:00:34.104400800+07:00",
+  "testDataMutated": false,
+  "avatarCloseCheckMilliseconds": 2321,
+  "controlMenuOpened": true,
+  "method": "Selenium UI",
+  "firstMenuOpened": true
+}

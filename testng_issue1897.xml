@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Issue 1897 regression suite" verbose="1" parallel="none">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+    </listeners>
+    <test name="Issue1897 - Pay Grade isolation">
+        <classes>
+            <class name="com.hrm.TestCase.AdminTab.Issue1897RegressionTest" />
+        </classes>
+    </test>
+</suite>

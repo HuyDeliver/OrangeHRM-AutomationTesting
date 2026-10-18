@@ -1,0 +1,12 @@
+{
+  "attachments": 0,
+  "checkedAt": "2026-10-19T00:05:58.688041700+07:00",
+  "status": "Initiated",
+  "expenses": 0,
+  "referenceId": "202610180000001",
+  "event": "ISS1820 Attachment Test",
+  "claimUrl": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fclaim\u002fsubmitClaim\u002fid\u002f1",
+  "remarks": "ISS1820 reusable draft - attachment regression",
+  "retainedByUserApproval": true,
+  "currency": "Vietnamese Dong"
+}

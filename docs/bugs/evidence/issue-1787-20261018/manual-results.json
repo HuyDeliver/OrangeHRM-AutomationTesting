@@ -1,0 +1,20 @@
+{
+  "dataMutated": false,
+  "expectedFirstDayAccordingToIssue": "M (Monday)",
+  "timesheetHeader": "Project Activity\n12\nMon\n13\nTue\n14\nWed\n15\nThu\n16\nFri\n17\nSat\n18\nSun Total",
+  "actualFirstDay": "S",
+  "timesheetPeriod": "2026-10-12 to 2026-10-18",
+  "attendanceWeekdays": [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S"
+  ],
+  "checkedAt": "2026-10-18T23:02:16.119344400+07:00",
+  "requirementScopeConfirmed": false,
+  "method": "Selenium UI read-only",
+  "environment": "OrangeHRM OS 5.9 local"
+}

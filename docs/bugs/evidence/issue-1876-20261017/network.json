@@ -1,0 +1,77 @@
+[
+  {
+    "stage": "TAB",
+    "event": "request",
+    "method": "GET",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyCurrent\u0026sortField=employee.firstName\u0026sortOrder=ASC"
+  },
+  {
+    "stage": "TAB",
+    "event": "response",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyCurrent\u0026sortField=employee.firstName\u0026sortOrder=ASC",
+    "status": 200,
+    "meta": {
+      "total": 3
+    },
+    "employees": [
+      {
+        "empNumber": 1,
+        "terminationId": null
+      },
+      {
+        "empNumber": 7,
+        "terminationId": null
+      },
+      {
+        "empNumber": 6,
+        "terminationId": null
+      }
+    ]
+  },
+  {
+    "stage": "ENTER",
+    "event": "request",
+    "method": "GET",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyPast\u0026sortField=employee.firstName\u0026sortOrder=ASC"
+  },
+  {
+    "stage": "ENTER",
+    "event": "response",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyPast\u0026sortField=employee.firstName\u0026sortOrder=ASC",
+    "status": 200,
+    "meta": {
+      "total": 0
+    },
+    "employees": [
+    ]
+  },
+  {
+    "stage": "TAB_REPEAT",
+    "event": "request",
+    "method": "GET",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyCurrent\u0026sortField=employee.firstName\u0026sortOrder=ASC"
+  },
+  {
+    "stage": "TAB_REPEAT",
+    "event": "response",
+    "url": "http:\u002f\u002flocalhost:8080\u002fweb\u002findex.php\u002fapi\u002fv2\u002fpim\u002femployees?limit=50\u0026offset=0\u0026model=detailed\u0026includeEmployees=onlyCurrent\u0026sortField=employee.firstName\u0026sortOrder=ASC",
+    "status": 200,
+    "meta": {
+      "total": 3
+    },
+    "employees": [
+      {
+        "empNumber": 1,
+        "terminationId": null
+      },
+      {
+        "empNumber": 7,
+        "terminationId": null
+      },
+      {
+        "empNumber": 6,
+        "terminationId": null
+      }
+    ]
+  }
+]

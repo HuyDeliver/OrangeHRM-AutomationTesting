@@ -1,0 +1,7 @@
+{
+  "capturedAt": "2026-10-18T11:04:34.043617900+07:00",
+  "grade": "ISS1897_1792296044596_B",
+  "expectedRow": "Euro\n3,000.00\n4,000.00",
+  "bugReproduced": true,
+  "actualRow": "Euro\n1,500.00\n2,500.00"
+}

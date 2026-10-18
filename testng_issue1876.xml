@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Issue 1876 regression suite" verbose="1" parallel="none">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+    </listeners>
+    <test name="Issue 1876 - TAB defect and ENTER control">
+        <classes>
+            <class name="com.hrm.TestCase.PIMTab.Issue1876RegressionTest" />
+        </classes>
+    </test>
+</suite>

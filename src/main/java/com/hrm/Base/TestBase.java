@@ -38,6 +38,6 @@ public class TestBase {
         byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 
         // Đính thẳng vào report Allure
-        Allure.addAttachment("Screenshot - " + testName, new ByteArrayInputStream(screenshotBytes));
+        Allure.addAttachment("Screenshot - " + testName, "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
     }
 }

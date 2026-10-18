@@ -66,6 +66,37 @@ public class TestConfig {
 
         public static final String email = "Channelbaby15@gmail.com";
 
+        // Issue #1897: currency phải chưa được Pay Grade khác sử dụng
+        public static final String payGradeTestCurrency = "EUR - Euro";
+        public static final String payGradeTestCurrencyName = "Euro";
+        public static final String payGradeAMinimum = "1000";
+        public static final String payGradeAMaximum = "2000";
+        public static final String payGradeBMinimum = "3000";
+        public static final String payGradeBMaximum = "4000";
+        public static final String payGradeANewMinimum = "1500";
+        public static final String payGradeANewMaximum = "2500";
+
+        // Issue #1926: các vacancy Active đã kiểm tra trên local, không tạo vacancy giả.
+        public static final String[] shortlistVacancies = { "Devops", "Sales IT", "Tester" };
+        public static final String shortlistEmailDomain = "@example.invalid";
+
+        // Issue #1890: fixture riêng đã tạo qua UI và được phép giữ lại; không Submit.
+        public static final String timesheetStartDate = "2026-10-12";
+        public static final String timesheetPeriod = "2026-10-12 to 2026-10-18";
+        public static final String timesheetProjectName = "ISS1890 Project";
+        public static final String timesheetProjectOption = "ISS1890 Customer - ISS1890 Project";
+        public static final String timesheetActivityA = "ISS1890 Activity A";
+        public static final String timesheetActivityB = "ISS1890 Activity B";
+        public static final String timesheetHours = "01:00";
+
+        // Issue 1820: giữ Event và Claim nháp đã được phép; chỉ thêm/xóa file thử.
+        public static final String claimTestEvent = "ISS1820 Attachment Test";
+        public static final String claimTestRemarks = "ISS1820 reusable draft - attachment regression";
+        public static final String claimTestCurrency = "Vietnamese Dong";
+
+        // Education: Level đã có sẵn trong Admin > Qualifications > Education
+        public static final String educationLevel = "HANUI";
+
         // personal detail
         public static final String id = "0382040431386";
         public static final String license = "0382040431386";

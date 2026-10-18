@@ -1,0 +1,11 @@
+{
+  "bug1926Reproduced": false,
+  "afterRefreshStatus": "Status: Shortlisted",
+  "ownCandidateMarker": "ISS1926_1792336258332",
+  "environment": "OrangeHRM OS 5.9 local",
+  "afterSaveStatus": "Status: Shortlisted",
+  "vacancy": "Devops",
+  "history": "2026-10-18\nShortlisted for Devops by Huy Deliver\n2026-10-18\nHuy Deliver assigned the job vacancy Devops\n2026-10-18\nHuy Deliver added Nguyễn Huy ISS1926_1792336258332",
+  "beforeStatus": "Status: Application Initiated",
+  "checkedAt": "2026-10-18T22:12:57.783016300+07:00"
+}

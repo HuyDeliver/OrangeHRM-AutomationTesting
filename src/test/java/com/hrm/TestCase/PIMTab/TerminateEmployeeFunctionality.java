@@ -51,7 +51,8 @@ public class TerminateEmployeeFunctionality extends TestBase {
     @AfterMethod
     public void deleteEmployee() {
         employeeListPage = editEmployeePage.clickEmployeeList("Employee List");
-        employeeListPage.fillSearchEmployee("", "", "", "Past Employees Only", "", "", "");
+        employeeListPage.fillSearchEmployee("", "", "", "Past Employees Only", "",
+                "", "");
         employeeListPage.searchEmployee();
         employeeListPage.deleteEmployee(TestDataShare.IDEMPLOYEE);
     }

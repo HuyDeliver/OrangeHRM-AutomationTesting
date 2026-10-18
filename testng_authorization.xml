@@ -6,7 +6,7 @@
     </listeners>
     <test name="Authorization and IDOR">
         <classes>
-            <class name="com.hrm.TestCase.TestAPI.AuthorizationAPITest" />
+            <class name="com.hrm.TestCase.TestSecurity.AuthorizationAPITest" />
         </classes>
     </test>
 </suite>
