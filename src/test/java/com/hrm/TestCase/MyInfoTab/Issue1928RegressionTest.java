@@ -17,7 +17,7 @@ import io.qameta.allure.Feature;
 @Feature("Issue #1928 - Education")
 public class Issue1928RegressionTest extends TestBase {
     // Reported on OrangeHRM 5.8; reproduced on local 5.9.
-    @Test(description = "Issue #1928 - Education đã tồn tại phải xóa được")
+    @Test(description = "OHR42: Issue #1928 - Education đã tồn tại phải xóa được")
     public void existingEducationShouldBeDeletedSuccessfully() {
         // Arrange
         Log.info("Bước 1: Đăng nhập và mở My Info > Qualifications");

@@ -1,6 +1,7 @@
 package com.hrm.Base;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import com.hrm.Util.Config;
@@ -36,5 +37,11 @@ public class TestBaseAPI {
 
         Log.info("===== API SETUP =====");
         Log.info("Bearer token created successfully");
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void closeBrowser() {
+        if (driver != null)
+            driver.quit();
     }
 }

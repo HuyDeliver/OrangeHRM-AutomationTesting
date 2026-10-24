@@ -25,7 +25,7 @@ public class Issue1926RegressionTest extends TestBase {
     private CandidatesPage candidatesPage;
     private String candidateMarker;
 
-    @Test(dataProvider = "localVacancies", description = "Shortlist phải lưu đúng trạng thái và history")
+    @Test(dataProvider = "localVacancies", description = "OHR46: Shortlist phải lưu đúng trạng thái và history")
     public void shortlistingCandidateShouldUpdateStatusAndHistory(String vacancy) {
         // Arrange
         candidateMarker = null;

@@ -34,7 +34,7 @@ public class Issue1923RegressionTest extends TestBase {
         Log.info("Đã xác nhận menu đang mở");
     }
 
-    @Test(description = "Issue #1923 - Click lại avatar phải đóng menu")
+    @Test(description = "OHR44: Issue #1923 - Click lại avatar phải đóng menu")
     public void clickingAvatarAgainShouldCloseProfileMenu() {
         // Act
         Log.info("Bước 3: Click lại đúng avatar để đóng menu");
@@ -46,7 +46,7 @@ public class Issue1923RegressionTest extends TestBase {
         Assert.assertTrue(closed, "Bug #1923: menu vẫn mở sau khi click avatar lần hai");
     }
 
-    @Test(description = "Issue #1923 control - Click ra ngoài phải đóng menu")
+    @Test(description = "OHR45: Issue #1923 control - Click ra ngoài phải đóng menu")
     public void clickingOutsideShouldCloseProfileMenu() {
         // Act
         Log.info("Bước 3: Click tiêu đề trang bên ngoài menu (control)");

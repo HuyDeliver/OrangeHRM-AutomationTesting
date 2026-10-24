@@ -20,7 +20,7 @@ import io.qameta.allure.Feature;
 @Feature("Attendance - Calendar")
 public class Issue1787RegressionTest extends TestBase {
 
-    @Test(description = "Lịch Attendance bắt đầu Monday theo mô tả issue 1787")
+    @Test(description = "OHR49: Lịch Attendance bắt đầu Monday theo mô tả issue 1787")
     public void attendanceCalendarShouldStartOnMonday() {
         // Arrange
         Log.info("Bước 1: Đăng nhập và mở Time bằng TestUtil");

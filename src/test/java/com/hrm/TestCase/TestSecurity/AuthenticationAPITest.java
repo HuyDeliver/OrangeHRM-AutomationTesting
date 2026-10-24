@@ -13,15 +13,15 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 
+@Epic("Security")
+@Feature("AuthenticationAPI")
 public class AuthenticationAPITest extends TestBaseAPI {
 
         private static final int EMPLOYEE_ID = 7;
 
         private static final String EMPLOYEE_ENDPOINT = "/api/v2/pim/employees/{empNumber}";
 
-        @Epic("Security")
-        @Feature("AuthenticationAPI")
-        @Test
+        @Test(description = "OHR51: Authentication - Token hợp lệ phải truy cập được API")
         public void validTokenShouldBeAccepted() {
 
                 Response response = given()
@@ -46,7 +46,7 @@ public class AuthenticationAPITest extends TestBaseAPI {
         // SEC_AUTH_02
         // Không gửi Bearer Token
         // =========================================================
-        @Test
+        @Test(description = "OHR52: Authentication - Request không có token phải bị từ chối")
         public void requestWithoutTokenShouldBeRejected() {
 
                 Response response = given()
@@ -77,7 +77,7 @@ public class AuthenticationAPITest extends TestBaseAPI {
         // =========================================================
         // AUTH_03 - Bearer Token không hợp lệ
         // =========================================================
-        @Test
+        @Test(description = "OHR53: Authentication - Token không hợp lệ phải bị từ chối")
         public void invalidTokenShouldBeRejected() {
 
                 Response response = given()

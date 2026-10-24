@@ -18,11 +18,11 @@ import com.hrm.Util.TestDataShare;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
+@Epic("Recruitment")
+@Feature("Candidate")
 public class RejectCandidateFunctionality extends TestBase {
     private CandidatesPage candidatesPage;
 
-    @Epic("Recruitment")
-    @Feature("Candidate")
     @BeforeMethod
     public void addCandidate() {
         TestUtil.recruitmentUtil();

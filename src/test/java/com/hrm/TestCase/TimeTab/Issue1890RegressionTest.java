@@ -40,7 +40,7 @@ public class Issue1890RegressionTest extends TestBase {
         timesheetPage.openEdit();
     }
 
-    @Test(description = "Một dòng hợp lệ phải lưu được 01:00")
+    @Test(description = "OHR47: Một dòng hợp lệ phải lưu được 01:00")
     public void validRowShouldKeepOneHourAfterSave() {
         // Act
         Log.info("Bước 2 CONTROL: Nhập 01:00 cho A, không thêm dòng trống");
@@ -54,7 +54,7 @@ public class Issue1890RegressionTest extends TestBase {
         takeScreenshot("Issue1890 - Control saved 01:00");
     }
 
-    @Test(description = "Dòng B trống không được làm mất 01:00 của A")
+    @Test(description = "OHR48: Dòng B trống không được làm mất 01:00 của A")
     public void emptyRowShouldNotDiscardValidHours() {
         // Act
         Log.info("Bước 2 REGRESSION: Nhập 01:00 cho A, thêm B nhưng không chạm ô giờ của B");

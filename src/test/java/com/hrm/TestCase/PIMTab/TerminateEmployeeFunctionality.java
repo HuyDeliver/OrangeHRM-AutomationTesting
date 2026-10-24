@@ -17,12 +17,12 @@ import com.hrm.Util.TestDataShare;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
+@Epic("PIM tab")
+@Feature("Quản lý employee")
 public class TerminateEmployeeFunctionality extends TestBase {
     private EmployeeListPage employeeListPage;
     private EditEmployeePage editEmployeePage;
 
-    @Epic("PIM tab")
-    @Feature("Quản lý employee")
     @BeforeMethod
     public void addEmployee() {
         TestUtil.employeeUtil();

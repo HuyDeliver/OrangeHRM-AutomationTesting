@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Recruitment validation API suite" verbose="1" parallel="none">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+    </listeners>
+    <test name="Candidate validation and boundary">
+        <classes>
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateRequiredFieldTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateValidationTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateBoundaryTest" />
+        </classes>
+    </test>
+</suite>

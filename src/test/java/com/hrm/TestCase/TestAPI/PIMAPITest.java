@@ -7,15 +7,18 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBaseAPI;
 import com.hrm.Util.Log;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 
+@Epic("API Testing")
+@Feature("PIM API")
 public class PIMAPITest extends TestBaseAPI {
         private static final String EMPLOYEES_ENDPOINT = "/api/v2/pim/employees";
         private int empNumber;
@@ -39,7 +42,7 @@ public class PIMAPITest extends TestBaseAPI {
                 Log.info("Test employee: empNumber=" + empNumber + ", firstName=" + firstName);
         }
 
-        @Test(description = "API_01 - Get employee list")
+        @Test(description = "OHR56: API_01 - Get employee list")
         public void getEmployeeList() {
                 // Arrange
                 String model = "default";
@@ -63,7 +66,7 @@ public class PIMAPITest extends TestBaseAPI {
                                 "meta.total không hợp lệ");
         }
 
-        @Test(description = "API_02 - Get employee detail")
+        @Test(description = "OHR57: API_02 - Get employee detail")
         public void getEmployeeById() {
                 // Arrange
                 int employeeNumber = empNumber;
@@ -84,7 +87,7 @@ public class PIMAPITest extends TestBaseAPI {
                 Assert.assertEquals(response.jsonPath().getString("data.lastName"), lastName, "Trả sai lastName");
         }
 
-        @Test(description = "API_03 - Filter employee by name")
+        @Test(description = "OHR58: API_03 - Filter employee by name")
         public void searchEmployee() {
                 // Arrange
                 String employeeName = firstName;
@@ -114,7 +117,7 @@ public class PIMAPITest extends TestBaseAPI {
                 }
         }
 
-        @Test(description = "API_04 - Get nonexistent employee")
+        @Test(description = "OHR59: API_04 - Get nonexistent employee")
         public void getInvalidEmployee() {
                 // Arrange: lấy ID lớn nhất, bao gồm cả employee đã nghỉ để tránh chọn nhầm ID
                 // đang tồn tại.
@@ -145,11 +148,5 @@ public class PIMAPITest extends TestBaseAPI {
                 Assert.assertNull(response.jsonPath().get("data"), "Không được trả employee cho ID không tồn tại");
                 Assert.assertEquals(response.jsonPath().getString("error.message"), "Record Not Found",
                                 "Sai lỗi không tìm thấy");
-        }
-
-        @AfterClass(alwaysRun = true)
-        public void closeBrowser() {
-                if (driver != null)
-                        driver.quit();
         }
 }

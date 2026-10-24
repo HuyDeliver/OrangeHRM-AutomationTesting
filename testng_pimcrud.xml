@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="PIM CRUD API suite" verbose="1">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+    </listeners>
+    <test name="PIM create update delete">
+        <classes>
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APICreateEmployeeTest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIUpdateEmployeeTest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIDeleteEmployeeTest" />
+        </classes>
+    </test>
+</suite>

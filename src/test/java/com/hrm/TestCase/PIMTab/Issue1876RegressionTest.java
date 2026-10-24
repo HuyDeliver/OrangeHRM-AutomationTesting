@@ -53,7 +53,7 @@ public class Issue1876RegressionTest extends TestBase {
     }
 
     @Issue("1876")
-    @Test(description = "Issue #1876 - TAB phải áp dụng bộ lọc Past giống ENTER")
+    @Test(description = "OHR41: Issue #1876 - TAB phải áp dụng bộ lọc Past giống ENTER")
     public void tabShouldApplyPastFilterLikeEnter() {
         // Arrange: baseline Current, và Past lấy bằng ENTER (cách xác nhận đã biết là
         // đúng)

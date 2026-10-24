@@ -88,7 +88,7 @@ public class AuthorizationAPITest extends TestBaseAPI {
                 return data;
         }
 
-        @Test(dataProvider = "authorizationData", description = "Authorization / IDOR từ Excel")
+        @Test(dataProvider = "authorizationData", description = "OHR54: Authorization / IDOR từ Excel")
         public void userShouldHaveCorrectAccess(String testId, String role, String endpoint, String expectedStatuses) {
                 // Hiện AUTHZ_01, AUTHZ_02... làm tên test trong báo cáo Allure
                 Allure.getLifecycle().updateTestCase(tc -> tc.setName(testId));

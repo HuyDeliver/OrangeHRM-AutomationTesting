@@ -68,7 +68,7 @@ public class InjectionAPITest extends TestBaseAPI {
                 return data;
         }
 
-        @Test(dataProvider = "injectionData", description = "SQL-like input từ Excel không được bypass bộ lọc")
+        @Test(dataProvider = "injectionData", description = "OHR55: SQL-like input từ Excel không được bypass bộ lọc")
         public void sqlLikeInputShouldBeHandledSafely(String testId, String payload, String expectedStatuses) {
                 // Hiện INJ_01, INJ_02... làm tên test trong báo cáo Allure
                 Allure.getLifecycle().updateTestCase(tc -> tc.setName(testId));

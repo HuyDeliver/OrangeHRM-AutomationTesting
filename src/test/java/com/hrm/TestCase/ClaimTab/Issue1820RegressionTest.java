@@ -25,7 +25,7 @@ public class Issue1820RegressionTest extends TestBase {
     private String comment;
     private boolean draftReady;
 
-    @Test(description = "File đính kèm Claim phải được lưu sau Save và refresh")
+    @Test(description = "OHR50: File đính kèm Claim phải được lưu sau Save và refresh")
     public void uploadedClaimAttachmentShouldRemainAfterRefresh() throws IOException {
         // Arrange
         draftReady = false;

@@ -21,7 +21,7 @@ public class Issue1897RegressionTest extends TestBase {
     private String gradeA;
     private String gradeB;
 
-    @Test(description = "Issue #1897 - Sửa lương A không được làm thay đổi lương B")
+    @Test(description = "OHR43: Issue #1897 - Sửa lương A không được làm thay đổi lương B")
     public void updatingOnePayGradeShouldNotChangeAnotherPayGrade() {
         // Arrange
         Log.info("Bước 1: Đăng nhập Admin và kiểm tra currency chưa được sử dụng");
