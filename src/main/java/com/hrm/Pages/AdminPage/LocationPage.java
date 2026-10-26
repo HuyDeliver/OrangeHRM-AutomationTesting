@@ -52,7 +52,10 @@ public class LocationPage {
         componentLocator.clickSearch(driver);
     }
 
-    public boolean isSearchLocationSuccess(String name, String city, String country) {
+    public boolean isSearchLocationSuccess(String name, String city, String country, boolean expectedFound) {
+        if (!expectedFound) {
+            return componentLocator.checkNoRecordFound(driver);
+        }
         return componentLocator.checkSearch(driver, "Locations", name, city, country);
     }
 }

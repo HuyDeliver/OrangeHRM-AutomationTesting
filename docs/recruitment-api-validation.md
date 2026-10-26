@@ -1,5 +1,7 @@
 # Recruitment API: Validation & Boundary
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=RecruitmentAPI"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](test-execution.md).
+
 8 testcase kiểm tra dữ liệu khi tạo Candidate trên OrangeHRM local.
 Mỗi testcase chỉ thay đổi một điều kiện để dễ hiểu nguyên nhân PASS/FAIL.
 

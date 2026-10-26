@@ -77,10 +77,13 @@ public class EmployeeListPage {
     }
 
     public boolean checkSearch(String name, String id, String status,
-            String include, String supervisor,
-            String jobTitle, String subUnit) {
+            String supervisor, String jobTitle, boolean expectedFound) {
+        if (!expectedFound) {
+            return componentLocator.checkNoRecordFound(driver);
+        }
+        // Include không phải cột dữ liệu; Sub Unit cha có thể trả về các đơn vị con.
         return componentLocator.checkTable(driver, "Search employee", Map.of("name", name, "id", id, "status",
-                status, "include", include, "supervisor", supervisor, "jobTitle", jobTitle, "subUnit", subUnit));
+                status, "supervisor", supervisor, "jobTitle", jobTitle));
     }
 
     private boolean isValid(String str) {

@@ -128,6 +128,29 @@ public class EditEmployeePage {
         componentLocator.takeScreenshotResult(driver, name);
     }
 
+    public void reloadJobDetails() {
+        driver.navigate().refresh();
+    }
+
+    public boolean isEmploymentTerminated() {
+        return driver.findElement(By.xpath("//button[normalize-space()='Activate Employment']")).isDisplayed();
+    }
+
+    public void openTerminationDetails() {
+        waitUtils.waitElementClick(driver, driver.findElement(By.cssSelector(".orangehrm-terminate-date")));
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(d -> !getTerminationDate().isBlank());
+    }
+
+    public String getTerminationDate() {
+        return driver.findElement(By.xpath("//label[normalize-space()='Termination Date']/following::input[1]"))
+                .getDomProperty("value");
+    }
+
+    public String getTerminationReason() {
+        return driver.findElement(By.xpath("//label[normalize-space()='Termination Reason']/following::div[contains(@class,'oxd-select-text-input')][1]"))
+                .getText();
+    }
+
     public EmployeeListPage clickEmployeeList(String tab) {
         componentLocator.clickDropdownNavi(driver, tab, "");
         return new EmployeeListPage(driver);

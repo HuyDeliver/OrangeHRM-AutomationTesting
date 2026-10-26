@@ -1,4 +1,4 @@
-package com.hrm.TestCase.TestAPI;
+package com.hrm.TestCase.TestAPI.PIMAPI;
 
 import static io.restassured.RestAssured.given;
 

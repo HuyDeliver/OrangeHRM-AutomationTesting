@@ -1,5 +1,7 @@
 # Issue #1928 — Xóa Education báo Records Not Found dù bản ghi tồn tại
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=MyInfo"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Đã tái hiện trên OrangeHRM OS 5.9 local ngày 17/10/2026.** Trong phép thử chẩn đoán lịch sử, UI gửi DELETE cho bản ghi Education đang tồn tại nhưng API trả **404 — Records Not Found**. Đọc lại API và refresh giao diện đều xác nhận bản ghi chưa bị xóa.
 
 **Từ ngày 18/10/2026, regression chuyển sang Selenium/POM/TestNG/Log4j thuần UI theo yêu cầu mới.** Không dùng Rest Assured, không tạo hoặc xóa danh mục Education Level. Các request, ID, baseline rỗng và cleanup API dưới đây thuộc lần chẩn đoán ngày 17/10, không mô tả trạng thái dữ liệu hoặc cách chạy của regression hiện tại.
@@ -66,7 +68,7 @@ Giữ [kết quả Allure lịch sử](E:/Studying/GraduateProject/orangehrmtest
 
 ## Regression hiện tại — Selenium và Page Object
 
-[Issue1928RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/MyInfoTab/Issue1928RegressionTest.java) extends `TestBase`, chạy bằng [testng_issue1928.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1928.xml). Dùng TestNG để kiểm tra kết quả, Log4j qua `Log` để ghi từng bước và `TestListener` hiện có để chụp ảnh khi FAIL.
+[Issue1928RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/MyInfoTab/Issue1928RegressionTest.java) extends `TestBase`, chạy bằng `testng_issue1928.xml` (suite lịch sử, đã gộp). Dùng TestNG để kiểm tra kết quả, Log4j qua `Log` để ghi từng bước và `TestListener` hiện có để chụp ảnh khi FAIL.
 
 ```powershell
 mvn -o "-Dtestng.suite=testng_issue1928.xml" test

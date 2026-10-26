@@ -1,5 +1,7 @@
 # PIM API — Create, Update, Delete
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=PIMAPI"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](test-execution.md).
+
 Ba class nằm trong `com.hrm.TestCase.TestAPI.PIMAPI`, mỗi class có một testcase và chạy độc lập. Các testcase GET cũ vẫn nằm trong suite riêng `testng_pimapi.xml`.
 
 ## Cách chạy

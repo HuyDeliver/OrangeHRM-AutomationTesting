@@ -1,5 +1,7 @@
 # Issue #1890 — Timesheet có một dòng giờ trống
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Time"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Đã tái hiện mất dữ liệu giờ qua giao diện OrangeHRM OS 5.9 local ngày 18/10/2026.** Trong phép thử thủ công, thêm hai dòng mới: A có `01:00`, B đã chọn Project/Activity nhưng để nguyên bảy ô giờ trống. Sau Save và refresh, bảng hiển thị **No Records Found**, không có dòng A.
 
 Tham chiếu: [OrangeHRM issue #1890](https://github.com/orangehrm/orangehrm/issues/1890), báo cáo gốc trên 5.7. Phép thử local xác nhận phần dữ liệu không được lưu; **không bắt được toast thành công**, nên không khẳng định đã quan sát được thông báo Success.
@@ -69,7 +71,7 @@ Chỉ class này đặt implicit wait về **0 sau đăng nhập**. Các bước
 
 ## Chạy và kết quả TestNG
 
-[testng_issue1890.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1890.xml) chỉ chạy hai testcase này, chạy tuần tự, dùng listener hiện có và không retry để che kết quả FAIL.
+`testng_issue1890.xml` (suite lịch sử, đã gộp) chỉ chạy hai testcase này, chạy tuần tự, dùng listener hiện có và không retry để che kết quả FAIL.
 
 ```powershell
 mvn -o "-Dtestng.suite=testng_issue1890.xml" test

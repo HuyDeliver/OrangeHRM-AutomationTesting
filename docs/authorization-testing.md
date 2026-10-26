@@ -1,5 +1,7 @@
 # Kiểm thử phân quyền OrangeHRM
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Security"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](test-execution.md).
+
 Bộ kiểm thử gồm ba ca GET chỉ đọc trong môi trường OrangeHRM local. Ba dòng trong sheet `Authorization` dùng chung một method Java; vẫn kiểm tra đủ quyền Admin, quyền ESS và việc đổi ID nhân viên. Các kết quả cũ bên dưới được ghi rõ theo phiên bản, không thay cho kết quả chạy bản dùng Excel.
 
 ## Điều kiện và cách chạy

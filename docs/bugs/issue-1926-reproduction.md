@@ -1,5 +1,7 @@
 # Issue #1926 — Shortlist Candidate
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Recruitment"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Chưa tái hiện được issue trên OrangeHRM OS 5.9 local trong phép thử chẩn đoán ngày 18/10/2026.** Candidate riêng ứng tuyển **Devops** được Shortlist thành công, giữ trạng thái sau refresh và có history.
 
 Issue tham chiếu: [OrangeHRM #1926](https://github.com/orangehrm/orangehrm/issues/1926). Báo cáo gốc thuộc **5.8 demo**, mô tả lỗi 500 khi Shortlist vacancy **Senior QA Lead** và dùng **Payroll Administrator** làm đối chứng. Local hiện có ba vacancy Active: **Devops, Sales IT, Tester**; không có hai vacancy của báo cáo gốc.
@@ -58,7 +60,7 @@ Lần chạy đầu có ba lỗi setup vì nút Add chưa render khi implicit wa
 
 ## Chạy suite và kết quả TestNG
 
-[testng_issue1926.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1926.xml) chỉ chạy regression này với listener hiện có.
+`testng_issue1926.xml` (suite lịch sử, đã gộp) chỉ chạy regression này với listener hiện có.
 
 ```powershell
 mvn -o "-Dtestng.suite=testng_issue1926.xml" test

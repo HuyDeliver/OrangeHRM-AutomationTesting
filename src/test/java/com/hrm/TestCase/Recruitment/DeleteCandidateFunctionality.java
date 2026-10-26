@@ -20,6 +20,7 @@ import io.qameta.allure.Feature;
 @Feature("Candidate")
 public class DeleteCandidateFunctionality extends TestBase {
     private CandidatesPage candidatesPage;
+    private final String candidateLastName = "DELETE_" + TestDataShare.LASTNAME;
 
     @BeforeMethod
     public void addCandidate() {
@@ -30,7 +31,7 @@ public class DeleteCandidateFunctionality extends TestBase {
         addCandidatePage.addCandidateFunction(
                 TestConfig.firstName,
                 TestConfig.middleName,
-                TestDataShare.LASTNAME,
+                candidateLastName,
                 TestConfig.jobTitleName,
                 TestConfig.email,
                 TestConfig.phoneNumber,
@@ -44,7 +45,7 @@ public class DeleteCandidateFunctionality extends TestBase {
 
     @Test(description = "OHR31: Delete candidate")
     public void deleteVancancies() {
-        String name = TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME;
+        String name = TestConfig.firstName + " " + TestConfig.middleName + " " + candidateLastName;
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
         candidatesPage.deleteCandidate(name);
         Assert.assertTrue(candidatesPage.isDeleteCandidateSuccess("Delete candidate"), "Delete không thành công");

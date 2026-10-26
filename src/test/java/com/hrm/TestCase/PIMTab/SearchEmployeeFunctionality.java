@@ -19,7 +19,10 @@ public class SearchEmployeeFunctionality extends TestBase {
     @Test(description = "OHR23: search employee using data-driven", dataProvider = "searchingEmployee")
     public void searchEmployee(String name, String id, String status,
             String include, String supervisor,
-            String jobTitle, String subUnit) {
+            String jobTitle, String subUnit, String expectedFound) {
+
+        Assert.assertTrue("true".equalsIgnoreCase(expectedFound) || "false".equalsIgnoreCase(expectedFound),
+                "Excel: expectedFound phải là true hoặc false");
 
         TestUtil.employeeUtil();
         EmployeeListPage employeeListPage = new EmployeeListPage(driver);
@@ -29,11 +32,10 @@ public class SearchEmployeeFunctionality extends TestBase {
 
         employeeListPage.searchEmployee();
 
-        if (employeeListPage.checkSearch(name, id, status, include, supervisor, jobTitle, subUnit)) {
-            Log.info("Không tìm thấy bản ghi");
-        } else {
-            Log.info("Tìm thấy bản ghi");
-        }
+        Assert.assertTrue(employeeListPage.checkSearch(name, id, status, supervisor, jobTitle,
+                Boolean.parseBoolean(expectedFound)), "Kết quả Employee không đúng expectedFound=" + expectedFound
+                        + " | name=" + name + ", id=" + id + ", status=" + status);
+        Log.info("OHR23: Kết quả tìm Employee đúng expectedFound=" + expectedFound);
     }
 
     @DataProvider(name = "searchingEmployee")

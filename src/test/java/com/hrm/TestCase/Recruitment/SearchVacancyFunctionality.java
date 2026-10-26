@@ -18,7 +18,9 @@ public class SearchVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
     @Test(description = "OHR27: Search vacancy using data-driven", dataProvider = "searchingVacancy")
-    public void searchVacancy(String job, String vacancy, String manager, String status) {
+    public void searchVacancy(String job, String vacancy, String manager, String status, String expectedFound) {
+        Assert.assertTrue("true".equalsIgnoreCase(expectedFound) || "false".equalsIgnoreCase(expectedFound),
+                "Excel: expectedFound phải là true hoặc false");
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
@@ -26,11 +28,10 @@ public class SearchVacancyFunctionality extends TestBase {
         Assert.assertTrue(vacanciesPage.isVacanciesPageVisible("Vacancies"));
         vacanciesPage.searchVacancy(job, vacancy, manager, status);
         vacanciesPage.clickSearch();
-        if (vacanciesPage.checkSearch(job, vacancy, manager, status)) {
-            Log.info("Tìm thấy bản ghi");
-        } else {
-            Log.info("Không tìm thấy bản ghi");
-        }
+        Assert.assertTrue(vacanciesPage.checkSearch(job, vacancy, manager, status,
+                Boolean.parseBoolean(expectedFound)), "Kết quả Vacancy không đúng expectedFound=" + expectedFound
+                        + " | job=" + job + ", vacancy=" + vacancy + ", manager=" + manager + ", status=" + status);
+        Log.info("OHR27: Kết quả tìm Vacancy đúng expectedFound=" + expectedFound);
     }
 
     @DataProvider(name = "searchingVacancy")

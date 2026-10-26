@@ -1,5 +1,7 @@
 # Injection API dùng dữ liệu Excel
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Security"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](test-execution.md).
+
 Ba input được lưu trong Excel và chạy qua cùng một method Java. Các request chỉ GET để kiểm tra bộ lọc username; không tạo, sửa hoặc xóa dữ liệu.
 
 ## File và cấu trúc

@@ -1,8 +1,10 @@
 # PIM API functional testing
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=PIMAPI"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](test-execution.md).
+
 Phạm vi: đúng bốn testcase PIM `API_01`–`API_04`. Các request đều là GET chỉ đọc, không tạo, sửa hoặc xóa employee.
 
-Class: `com.hrm.TestCase.TestAPI.PIMAPITest`, kế thừa `TestBaseAPI`. Token được lấy động bằng `OAuthTokenManager` hiện có. Không hard-code token hoặc employee ID; không in token hay mật khẩu ra log.
+Class: `com.hrm.TestCase.TestAPI.PIMAPI.PIMAPITest`, kế thừa `TestBaseAPI`. Token được lấy động bằng `OAuthTokenManager` hiện có. Không hard-code token hoặc employee ID; không in token hay mật khẩu ra log.
 
 Tài liệu endpoint đã đối chiếu: [List All Employees](https://api-starter-orangehrm.readme.io/reference/list-all-employees), [Get an Employee](https://api-starter-orangehrm.readme.io/reference/get-an-employee).
 

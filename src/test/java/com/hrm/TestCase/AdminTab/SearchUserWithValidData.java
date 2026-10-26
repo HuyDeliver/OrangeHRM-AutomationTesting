@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
-import com.hrm.Pages.SideBar;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
@@ -14,28 +13,22 @@ import com.hrm.Util.TestDataShare;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-public class SearchingUserWithValidData extends TestBase {
+public class SearchUserWithValidData extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
-    @Test(description = "OHR4: searching user with invalid data from excel", dependsOnGroups = {
+    @Test(description = "OHR4: Search user with valid data", dependsOnGroups = {
             "add-user" })
     public void searchUserUsingDataDriven() {
-        Log.info("Bắt đầu test searching");
         TestUtil.userUtil();
-        SideBar sideBar = new SideBar(driver);
-        sideBar.clickAdminPage();
 
         UserManagePage userManagePage = new UserManagePage(driver);
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
         userManagePage.searchSystemUser(TestDataShare.USERNAME, TestConfig.userRole, TestConfig.employeeName,
                 TestConfig.status);
 
-        if (userManagePage.isRecordFoundMatchKeySearch(TestConfig.userName) == true) {
-            Log.info("Tìm thấy bản ghi");
-        } else {
-            Log.info("Không tìm thấy bản ghi");
-        }
-
-        Log.info("TÌm thấy bản ghi");
+        Assert.assertTrue(userManagePage.isRecordFoundMatchKeySearch(TestDataShare.USERNAME,
+                TestConfig.userRole, TestConfig.employeeName, TestConfig.status),
+                "Không tìm thấy user khớp username, role, employee và status đã nhập");
+        Log.info("OHR4: Kết quả tìm user khớp dữ liệu đã nhập");
     }
 }

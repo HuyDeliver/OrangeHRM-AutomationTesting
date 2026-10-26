@@ -14,6 +14,7 @@
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <testng.suite>testng.xml</testng.suite>
+    <module>Login</module>
 
     <selenium.version>4.48.0</selenium.version>
     <testng.version>7.12.0</testng.version>
@@ -84,6 +85,13 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${testng.suite}</suiteXmlFile>
                     </suiteXmlFiles>
+                    <properties>
+                        <property>
+                            <name>testnames</name>
+                            <value>${module}</value>
+                        </property>
+                    </properties>
+                    <failIfNoTests>true</failIfNoTests>
                     <!-- Cần cho Allure gắn ảnh/annotation vào report đúng cách -->
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"

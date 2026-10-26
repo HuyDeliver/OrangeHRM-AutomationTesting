@@ -30,7 +30,8 @@ public class SideBar {
     private WebElement adminTab;
 
     public boolean isDashBoardVisible() {
-        return dashBoardTitle.isDisplayed();
+        return componentLocator.checkTitleH6(driver, "Dashboard")
+                && "Dashboard".equals(dashBoardTitle.getText());
     }
 
     public UserManagePage clickAdminPage() {

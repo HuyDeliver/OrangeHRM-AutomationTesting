@@ -1,4 +1,4 @@
-package com.hrm.TestCase;
+package com.hrm.TestCase.ProfileTab;
 
 import java.time.Duration;
 

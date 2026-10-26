@@ -1,5 +1,7 @@
 package com.hrm.Pages.AdminPage;
 
+import java.util.Map;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,9 +40,6 @@ public class UserManagePage {
     @FindBy(xpath = "//label[normalize-space()='Status']/ancestor::div[contains(@class, 'oxd-input-group')]//div[contains(@class, 'oxd-select-wrapper')]")
     private WebElement status;
 
-    @FindBy(xpath = "//div[@class='oxd-form-actions']/button[normalize-space()='Search' and contains(@class,'oxd-button')]")
-    private WebElement buttonSearch;
-
     @FindBy(css = ".oxd-text.oxd-text--span")
     private WebElement noRecordFound;
 
@@ -64,17 +63,17 @@ public class UserManagePage {
         By userStatusSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + statusAcc + "']");
         waitUtils.waitElementClick(driver, driver.findElement(userStatusSelect));
 
-        Log.info("Click search");
-        waitUtils.waitElementClick(driver, buttonSearch);
+        componentLocator.clickSearch(driver);
     }
 
     public boolean isNoRecordFound() {
         return noRecordFound.isDisplayed();
     }
 
-    public boolean isRecordFoundMatchKeySearch(String userName) {
-        By nameFound = By.xpath("//div[@class='oxd-table-card']//div[2]/div[contains(text(),'HuyDeliver')]");
-        return driver.findElement(nameFound).getText().contains(userName);
+    public boolean isRecordFoundMatchKeySearch(String name, String role, String employee, String statusAcc) {
+        return componentLocator.checkTable(driver, "Search user",
+                Map.of("Username", name, "User Role", role, "Employee Name", employee, "Status", statusAcc))
+                && driver.findElements(By.cssSelector(".oxd-table-card")).size() == 1;
     }
 
     // Add functionality

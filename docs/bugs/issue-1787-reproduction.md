@@ -1,5 +1,7 @@
 # Issue #1787 — Ngày đầu tuần trong lịch Attendance
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Time"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Local OrangeHRM OS 5.9 hiển thị Timesheet bắt đầu Monday nhưng lịch Attendance bắt đầu Sunday.** Kiểm tra thủ công và Selenium đều quan sát được khác biệt này ngày 18/10/2026.
 
 Tham chiếu: [issue #1787](https://github.com/orangehrm/orangehrm/issues/1787), báo cáo gốc trên **5.5**. Expected Monday của test lấy từ mô tả issue. Chưa có xác nhận nghiệp vụ rằng cấu hình **Timesheet Period** phải áp dụng cho mọi date picker; vì vậy kết quả FAIL tái hiện hiện tượng được báo, chưa tự nó chứng minh vi phạm một yêu cầu đã được phê duyệt.

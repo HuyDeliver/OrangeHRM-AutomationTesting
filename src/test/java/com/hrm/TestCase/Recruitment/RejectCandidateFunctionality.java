@@ -22,9 +22,12 @@ import io.qameta.allure.Feature;
 @Feature("Candidate")
 public class RejectCandidateFunctionality extends TestBase {
     private CandidatesPage candidatesPage;
+    private boolean candidateCreated;
+    private final String candidateLastName = "REJECT_" + TestDataShare.LASTNAME;
 
     @BeforeMethod
     public void addCandidate() {
+        candidateCreated = false;
         TestUtil.recruitmentUtil();
         candidatesPage = new CandidatesPage(driver);
         AddCandidatePage addCandidatePage = candidatesPage.openAddCandidatePage();
@@ -32,7 +35,7 @@ public class RejectCandidateFunctionality extends TestBase {
         addCandidatePage.addCandidateFunction(
                 TestConfig.firstName,
                 TestConfig.middleName,
-                TestDataShare.LASTNAME,
+                candidateLastName,
                 TestConfig.jobTitleName,
                 TestConfig.email,
                 TestConfig.phoneNumber,
@@ -41,13 +44,17 @@ public class RejectCandidateFunctionality extends TestBase {
                 "2026-09-27",
                 TestConfig.comment);
         ApplicationStage applicationStage = addCandidatePage.clickSave();
+        applicationStage.waitForApplicationStage();
+        candidateCreated = true;
+        Assert.assertEquals(applicationStage.getCandidateStatus(), "Status: Application Initiated",
+                "Setup: candidate mới phải ở trạng thái Application Initiated");
         applicationStage.goToCandidatesPage("Candidates", "");
     }
 
     @Test(description = "OHR30: Reject Candidate")
     public void rejectCandidate() {
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
-        String name = TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME;
+        String name = TestConfig.firstName + " " + TestConfig.middleName + " " + candidateLastName;
         ApplicationStage applicationStage = candidatesPage.goToApplicationStage(name);
         Assert.assertTrue(applicationStage.isApplicationPagePageVisible("Application stage"),
                 "Không vào được Application stage");
@@ -55,13 +62,21 @@ public class RejectCandidateFunctionality extends TestBase {
         Assert.assertTrue(rejectCandidate.isRejectPagePageVisible("Reject Candidates"),
                 "Không vào được Rejectc Candidate");
         rejectCandidate.fillNote("Ứng viên ko đạt");
-        applicationStage.goToCandidatesPage("Candidates", "");
-        Log.info("Reject candidate thành công");
+        applicationStage.waitForApplicationStage();
+        Assert.assertEquals(applicationStage.getCandidateStatus(), "Status: Rejected",
+                "Candidate chưa chuyển sang Rejected sau Save");
+
+        applicationStage.reloadApplicationStage();
+        Assert.assertEquals(applicationStage.getCandidateStatus(), "Status: Rejected",
+                "Trạng thái Rejected không được giữ sau refresh");
+        Assert.assertTrue(applicationStage.hasRejectHistory(), "History chưa có thao tác Rejected");
+        Log.info("OHR30: Trạng thái Rejected và history được giữ sau refresh");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void deleteCandidate() {
-        String name = TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME;
-        candidatesPage.deleteCandidate(name);
+        if (candidateCreated) {
+            candidatesPage.deleteTestCandidate(candidateLastName);
+        }
     }
 }

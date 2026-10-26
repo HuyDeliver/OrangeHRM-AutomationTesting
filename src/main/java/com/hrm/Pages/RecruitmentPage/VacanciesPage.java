@@ -48,7 +48,10 @@ public class VacanciesPage {
         componentLocator.clickSearch(driver);
     }
 
-    public boolean checkSearch(String job, String vacancy, String manager, String status) {
+    public boolean checkSearch(String job, String vacancy, String manager, String status, boolean expectedFound) {
+        if (!expectedFound) {
+            return componentLocator.checkNoRecordFound(driver);
+        }
         return componentLocator.checkTable(driver, status,
                 Map.of("Job Title", job, "Vacancies", vacancy, "Hiring Manager", manager, "Status", status));
     }

@@ -1,5 +1,7 @@
 # Issue #1897 — Sửa khoảng lương của Pay Grade A làm đổi cả Pay Grade B
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Admin"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Đã tái hiện bằng giao diện trên OrangeHRM OS 5.9 local ngày 18/10/2026.** Chỉ sửa khoảng lương EUR của Pay Grade A, nhưng mở lại Pay Grade B thì khoảng lương EUR của B cũng đổi theo.
 
 Issue tham chiếu: [OrangeHRM #1897](https://github.com/orangehrm/orangehrm/issues/1897), được báo trên **5.7**. Kết quả ở đây thuộc local **5.9**. Đây là lỗi cập nhật dữ liệu giữa các Pay Grade; chưa đủ bằng chứng để gọi là lỗ hổng bảo mật hoặc kết luận mọi currency đều bị ảnh hưởng.

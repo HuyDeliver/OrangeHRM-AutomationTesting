@@ -1,10 +1,11 @@
-package com.hrm.TestCase;
+package com.hrm.TestCase.LoginTab;
 
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
+import com.hrm.Pages.SideBar;
 import com.hrm.Pages.AdminPage.AlertResetPassSuccess;
 import com.hrm.Pages.AdminPage.ForgotPage;
 import com.hrm.Pages.AdminPage.LoginPage;
@@ -22,7 +23,8 @@ public class LoginTest extends TestBase {
     public void loginSuccess() {
         LoginPage loginPage = new LoginPage(driver);
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
-        loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        SideBar sideBar = loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
+        Assert.assertTrue(sideBar.isDashBoardVisible(), "Đăng nhập xong nhưng chưa hiển thị Dashboard");
         Log.info("Đăng nhập thành công");
     }
 

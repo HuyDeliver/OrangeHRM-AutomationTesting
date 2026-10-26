@@ -1,6 +1,7 @@
 package com.hrm.TestCase.Recruitment;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBase;
@@ -15,12 +16,16 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
 public class AddCandidateFunctionality extends TestBase {
+    private CandidatesPage candidatesPage;
+    private boolean candidateCreated;
+
     @Epic("Recruitment")
     @Feature("Candidate")
     @Test(description = "OHR29: Add new Candidate")
     public void addCandidate() {
+        candidateCreated = false;
         TestUtil.recruitmentUtil();
-        CandidatesPage candidatesPage = new CandidatesPage(driver);
+        candidatesPage = new CandidatesPage(driver);
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
         AddCandidatePage addCandidatePage = candidatesPage.openAddCandidatePage();
         Assert.assertTrue(addCandidatePage.isAddCandidatePageVisible("Add Candidate"),
@@ -37,7 +42,15 @@ public class AddCandidateFunctionality extends TestBase {
                 "2026-09-27",
                 TestConfig.comment);
         addCandidatePage.clickSave();
-        Assert.assertTrue(addCandidatePage.isAddCandidateSuccess(), "Add candidate không thành công");
+        candidateCreated = addCandidatePage.isAddCandidateSuccess();
+        Assert.assertTrue(candidateCreated, "Add candidate không thành công");
         Log.info("Add candidate thành công");
+    }
+
+    @AfterMethod(alwaysRun = true)
+    public void deleteTestCandidate() {
+        if (candidateCreated) {
+            candidatesPage.deleteTestCandidate(TestDataShare.LASTNAME);
+        }
     }
 }

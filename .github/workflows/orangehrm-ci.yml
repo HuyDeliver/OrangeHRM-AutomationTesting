@@ -1,0 +1,111 @@
+name: OrangeHRM CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: Module cần chạy trên OrangeHRM local
+        required: true
+        default: Login
+        type: choice
+        options:
+          - Login
+          - Admin
+          - PIM
+          - Recruitment
+          - MyInfo
+          - Performance
+          - Profile
+          - Time
+          - Claim
+          - PIMAPI
+          - AdminAPI
+          - RecruitmentAPI
+          - Security
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    name: Compile Java 21
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Compile main and test code
+        run: mvn -B -ntp -DskipTests test-compile
+
+  test:
+    name: Test ${{ inputs.module }} on local OrangeHRM
+    if: github.event_name == 'workflow_dispatch' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: compile
+    runs-on: [self-hosted, Windows, X64, orangehrm-local]
+    timeout-minutes: 45
+    # Các module dùng chung database local, chỉ chạy một job test tại một thời điểm.
+    concurrency:
+      group: orangehrm-local-tests
+      cancel-in-progress: false
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Create test configuration from GitHub Secret
+        env:
+          TEST_CONFIG: ${{ secrets.ORANGEHRM_CONFIG }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:TEST_CONFIG)) {
+            throw 'Missing repository secret ORANGEHRM_CONFIG. See docs/github-actions.md.'
+          }
+          $configPath = Join-Path $env:GITHUB_WORKSPACE 'config.properties'
+          [System.IO.File]::WriteAllText($configPath, $env:TEST_CONFIG)
+
+      - name: Run selected module
+        env:
+          TEST_MODULE: ${{ inputs.module }}
+        run: |
+          # Giữ response, token và screenshot trong máy runner, không đưa lên log GitHub.
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp clean test "-Dmodule=$env:TEST_MODULE" *> ci-test.log
+          exit $LASTEXITCODE
+
+      - name: Show local report locations
+        if: always()
+        run: |
+          Write-Host 'Reports are kept on the runner, not uploaded.'
+          Write-Host "$env:GITHUB_WORKSPACE\ci-test.log"
+          Write-Host "$env:GITHUB_WORKSPACE\target\surefire-reports"
+          Write-Host "$env:GITHUB_WORKSPACE\target\allure-results"
+
+      - name: Remove generated configuration
+        if: always()
+        run: |
+          $configPath = Join-Path $env:GITHUB_WORKSPACE 'config.properties'
+          if (Test-Path -LiteralPath $configPath) {
+            Remove-Item -LiteralPath $configPath -Force
+          }

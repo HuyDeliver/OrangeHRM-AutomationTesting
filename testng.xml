@@ -1,13 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="OrangeHRM Suite">
-  <listeners>
-    <listener class-name="com.hrm.Util.TestListener"/>
-    <listener class-name="com.hrm.Util.RetryListener"/>
-  </listeners>
-  <test name="Sanity Test">
-    <classes>
-      <class name="com.hrm.TestCase.LoginTest"/>
-    </classes>
-  </test>
+<suite name="OrangeHRM Modules" verbose="1" parallel="none">
+    <listeners>
+        <listener class-name="com.hrm.Util.TestListener" />
+    </listeners>
+
+    <test name="Login" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.LoginTab.LoginTest" />
+        </classes>
+    </test>
+
+    <test name="Admin" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.AdminTab.AddUserFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.SearchUserWithInvalidData" />
+            <class name="com.hrm.TestCase.AdminTab.SearchUserWithValidData" />
+            <class name="com.hrm.TestCase.AdminTab.EditUserFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.DeleteUserFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.AddJobTitlesFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.EditJobTitleFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.DeleteJobTitlesFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.AddLocationFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.SearchLocationFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.EditLocationFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.DeleteLocationFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.AddSkillFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.EditSkillFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.DeleteSkillFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.Issue1897RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="PIM" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.PIMTab.AddEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.SearchEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditJobDetailFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditSalaryFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.EditSupervisorFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.DeleteEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.TerminateEmployeeFunctionality" />
+            <class name="com.hrm.TestCase.PIMTab.Issue1876RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="Recruitment" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.Recruitment.AddVacancyFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.SearchVacancyFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.DeleteVacancyFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.AddCandidateFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.RejectCandidateFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.DeleteCandidateFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.Issue1926RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="MyInfo" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.MyInfoTab.AddContactDetailFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.AddPersonalDetailFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.AddEmergencyContactFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.DeleteEmergencyContactFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.AddDependentFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.DeleteDependentFunctionality" />
+            <class name="com.hrm.TestCase.MyInfoTab.Issue1928RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="Performance" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.PerformanceTab.AddReviewFunctionality" />
+            <class name="com.hrm.TestCase.PerformanceTab.WriteReviewFunctionality" />
+            <class name="com.hrm.TestCase.PerformanceTab.DeleteReviewFunctionality" />
+        </classes>
+    </test>
+
+    <test name="Profile" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.ProfileTab.Issue1923RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="Time" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.TimeTab.Issue1890RegressionTest" />
+            <class name="com.hrm.TestCase.TimeTab.Issue1787RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="Claim" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.ClaimTab.Issue1820RegressionTest" />
+        </classes>
+    </test>
+
+    <test name="PIMAPI" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.PIMAPITest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APICreateEmployeeTest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIUpdateEmployeeTest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIDeleteEmployeeTest" />
+        </classes>
+    </test>
+
+    <test name="AdminAPI" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.TestAPI.AdminAPI.GetUserListAPITest" />
+        </classes>
+    </test>
+
+    <test name="RecruitmentAPI" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateRequiredFieldTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateValidationTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateBoundaryTest" />
+        </classes>
+    </test>
+
+    <test name="Security" preserve-order="true">
+        <classes>
+            <class name="com.hrm.TestCase.TestSecurity.AuthenticationAPITest" />
+            <class name="com.hrm.TestCase.TestSecurity.AuthorizationAPITest" />
+            <class name="com.hrm.TestCase.TestSecurity.InjectionAPITest" />
+        </classes>
+    </test>
 </suite>

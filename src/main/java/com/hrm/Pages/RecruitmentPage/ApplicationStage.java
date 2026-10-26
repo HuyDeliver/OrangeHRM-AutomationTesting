@@ -86,4 +86,9 @@ public class ApplicationStage {
             return false;
         }
     }
+
+    public boolean hasRejectHistory() {
+        // History dùng chữ "rejected", khác với nhãn trạng thái "Rejected".
+        return componentLocator.checkTable(driver, "History Reject", Map.of("action", "rejected"));
+    }
 }

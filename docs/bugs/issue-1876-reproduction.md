@@ -1,5 +1,7 @@
 # Issue #1876 — Include hiển thị Past nhưng tìm Current sau khi nhấn Tab
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=PIM"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Trạng thái: REPRODUCED trên local 5.9, ngày 17/10/2026.** Lặp lại từ trang mới: thao tác Tab gặp lỗi **2/2 lần**; thao tác Enter đối chứng đúng **1/1 lần**.
 
 Issue tham chiếu: [#1876 — Select component does not update model when TAB key is pressed](https://github.com/orangehrm/orangehrm/issues/1876), reporter ghi version **5.7**. Môi trường thực tế dưới đây là **5.9**, vì vậy kết quả này không được ghi thành reproduce trên 5.7.
@@ -59,7 +61,7 @@ Các file bằng chứng được lưu cùng báo cáo trong `docs/bugs/evidence
 
 ## Regression automation
 
-Đã bổ sung [Issue1876RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/PIMTab/Issue1876RegressionTest.java) và suite chạy riêng [testng_issue1876.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1876.xml). Phần chẩn đoán và bằng chứng phía trên là kết quả trước khi tạo class này; không được dùng thay cho kết quả chạy TestNG mới.
+Đã bổ sung [Issue1876RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/PIMTab/Issue1876RegressionTest.java) và suite chạy riêng `testng_issue1876.xml` (suite lịch sử, đã gộp). Phần chẩn đoán và bằng chứng phía trên là kết quả trước khi tạo class này; không được dùng thay cho kết quả chạy TestNG mới.
 
 Class ghi đúng nguồn gốc: “Regression test based on GitHub Issue #1876, originally reported on OrangeHRM 5.7 and reproduced on local OrangeHRM 5.9.” Đây là regression dựa trên issue đã có, không ghi bug do project tự phát hiện.
 

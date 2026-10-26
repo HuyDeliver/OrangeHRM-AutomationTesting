@@ -1,5 +1,7 @@
 # Issue #1820 — Upload attachment trong Claim
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Claim"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Chưa tái hiện lỗi trên OrangeHRM OS 5.9 local với PDF đã thử.** Upload `JobSpecification.pdf` thành công, tên file và Comment vẫn có trong Attachments sau refresh. TestNG **1 PASS**, cleanup đã xóa file thử.
 
 Tham chiếu: [issue #1820](https://github.com/orangehrm/orangehrm/issues/1820), báo cáo trên **5.6**: tạo Claim rồi upload file, Save báo “Unexpected error occurred”. Báo cáo không cung cấp file cụ thể. Kết quả local với một PDF không chứng minh lỗi đã được sửa trong mọi môi trường hoặc với mọi định dạng.
@@ -57,7 +59,7 @@ Implicit wait chỉ đặt về 0 sau login trong test này. Chờ có điều k
 
 ## Chạy và kết quả thật
 
-[testng_issue1820.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1820.xml) chỉ chạy testcase này, tuần tự, dùng listener hiện có và không retry.
+`testng_issue1820.xml` (suite lịch sử, đã gộp) chỉ chạy testcase này, tuần tự, dùng listener hiện có và không retry.
 
 ```powershell
 mvn -o -DskipTests test-compile

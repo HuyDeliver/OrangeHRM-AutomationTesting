@@ -73,4 +73,8 @@ public class AddEmployeePage {
     public boolean isCreateNewEmployeeSuccess() {
         return componentLocator.checkToasstSuccess(driver, "Add New Employee");
     }
+
+    public void saveEmployee() {
+        componentLocator.buttonSave(driver);
+    }
 }

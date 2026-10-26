@@ -1,5 +1,7 @@
 # Issue #1923 — Click lại avatar nhưng menu tài khoản không đóng
 
+> Cách chạy hiện tại (26/10/2026): `mvn test "-Dmodule=Profile"` qua `testng.xml`; lệnh này chạy toàn bộ module đã chọn, gồm cả issue. Các tên XML/lệnh riêng và số liệu bên dưới là lịch sử trước khi gộp. Xem [hướng dẫn module](../test-execution.md).
+
 **Đã tái hiện bằng Selenium trên OrangeHRM OS 5.9 local ngày 18/10/2026 lúc 22:00:34 (UTC+7).** Click avatar lần đầu mở menu; click lại đúng avatar thì menu vẫn mở. Click bên ngoài đóng được menu.
 
 Issue tham chiếu: [OrangeHRM #1923](https://github.com/orangehrm/orangehrm/issues/1923), được báo trên **5.8**. Kết quả dưới đây thuộc bản local **5.9**. Đây là lỗi tương tác UI/UX; phép thử này không đánh giá bảo mật.
@@ -24,7 +26,7 @@ Bằng chứng chẩn đoán: [kết quả JSON](E:/Studying/GraduateProject/ora
 
 ## Hai testcase regression
 
-[Issue1923RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/Issue1923RegressionTest.java) extends `TestBase`, dùng `@BeforeMethod` để đăng nhập qua `TestUtil.userUtil()` và mở menu. Bước setup assert menu đã mở trước khi chạy thao tác cần kiểm tra.
+[Issue1923RegressionTest.java](E:/Studying/GraduateProject/orangehrmtesting/src/test/java/com/hrm/TestCase/ProfileTab/Issue1923RegressionTest.java) extends `TestBase`, dùng `@BeforeMethod` để đăng nhập qua `TestUtil.userUtil()` và mở menu. Bước setup assert menu đã mở trước khi chạy thao tác cần kiểm tra.
 
 | Testcase | Thao tác chính | Assertion |
 |---|---|---|
@@ -55,7 +57,7 @@ Không cần thêm phương thức vào `componentLocator`: phần dùng chung �
 
 ## Chạy suite riêng
 
-[testng_issue1923.xml](E:/Studying/GraduateProject/orangehrmtesting/testng_issue1923.xml) chỉ chạy hai testcase này và listener hiện có; không thêm retry để che kết quả FAIL.
+`testng_issue1923.xml` (suite lịch sử, đã gộp) chỉ chạy hai testcase này và listener hiện có; không thêm retry để che kết quả FAIL.
 
 ```powershell
 mvn -o "-Dtestng.suite=testng_issue1923.xml" test

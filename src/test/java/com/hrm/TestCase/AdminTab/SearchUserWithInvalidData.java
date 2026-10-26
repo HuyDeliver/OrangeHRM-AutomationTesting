@@ -13,7 +13,7 @@ import com.hrm.Util.Log;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 
-public class SearchingUserWithInvalidData extends TestBase {
+public class SearchUserWithInvalidData extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
     @Test(dataProvider = "searchingUserInvalidData", description = "OHR5: searching user with invalid data from excel", dependsOnGroups = {

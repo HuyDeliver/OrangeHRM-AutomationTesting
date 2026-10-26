@@ -248,6 +248,18 @@ public class componentLocator {
         WebElement buttonSearch = driver
                 .findElement(By.xpath("//div[@class='oxd-form-actions']/child::button[@type='submit']"));
         waitUtils.waitElementClick(driver, buttonSearch);
+        Duration implicitWait = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector(".oxd-form-loader, .oxd-loading-spinner")));
+        } finally {
+            driver.manage().timeouts().implicitlyWait(implicitWait);
+        }
+    }
+
+    public static boolean checkNoRecordFound(WebDriver driver) {
+        return driver.findElement(By.xpath("//span[normalize-space()='No Records Found']")).isDisplayed();
     }
 
     public static boolean checkSearch(WebDriver driver, String nameSearch, String name, String city, String country) {
@@ -293,7 +305,7 @@ public class componentLocator {
             return true;
 
         return rows.stream().anyMatch(row -> {
-            String rowText = row.getText();
+            String rowText = row.getText().replaceAll("\\s+", " ");
             return validValues.stream().allMatch(rowText::contains);
         });
     }
