@@ -88,6 +88,7 @@ jobs:
       - name: Run selected module
         env:
           TEST_MODULE: ${{ inputs.module }}
+          HEADLESS: 'true'
         run: |
           # Giữ response, token và screenshot trong máy runner, không đưa lên log GitHub.
           $ErrorActionPreference = 'Continue'

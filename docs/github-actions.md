@@ -18,7 +18,7 @@ OrangeHRM hiện chạy local và có fixture riêng. Máy runner GitHub không 
 2. Mở **Settings → Actions → Runners → New self-hosted runner**. Chọn Windows x64, làm theo lệnh GitHub cung cấp trong thư mục riêng, ví dụ `C:\actions-runner`. Không dùng thư mục project hiện tại làm thư mục runner.
 3. Thêm label **orangehrm-local**. Workflow yêu cầu `self-hosted`, `Windows`, `X64`, `orangehrm-local`. Dùng runner mới theo hướng dẫn GitHub để tương thích các action hiện tại.
 4. Máy runner cần Maven trong PATH, Chrome/Firefox tương ứng config, Internet để tải dependency/driver và OrangeHRM local đang chạy. Workflow tự thiết lập Java 21.
-5. Selenium hiện mở browser có giao diện. Chạy runner bằng `.\run.cmd` trong phiên Windows đang đăng nhập; chưa cài dưới dạng service cho luồng UI này. Giữ máy thức khi test chạy.
+5. Workflow bật `HEADLESS=true`: Chrome/Firefox chạy không mở cửa sổ, kích thước ban đầu 1920×1080. Khởi động runner bằng `.\run.cmd` và giữ máy thức khi chạy. Không cần thay đổi secret để bật headless.
 6. Mở **Settings → Secrets and variables → Actions → New repository secret**. Tạo secret **ORANGEHRM_CONFIG**, giá trị là toàn bộ nội dung `config.properties` đang chạy được trên máy bạn. Giữ đủ cấu hình UI, OAuth, ESS và fixture cần cho module. Không dán nội dung vào YAML hay log.
 
 Workflow checkout vào workspace riêng của runner, tạo `config.properties` từ secret rồi xóa file đó sau job. Không sửa config trong thư mục project bạn đang làm việc.
@@ -38,6 +38,16 @@ Lệnh bên trong job giữ đúng cách chạy hiện tại:
 ```powershell
 mvn -B -ntp clean test "-Dmodule=Login"
 ```
+
+Workflow truyền biến môi trường `HEADLESS=true` cho lệnh trên. Khi chạy local, mặc định browser vẫn có giao diện. Muốn thử headless ở PowerShell:
+
+```powershell
+$env:HEADLESS = 'true'
+mvn test -Dmodule=Login
+Remove-Item Env:HEADLESS
+```
+
+Headless không bỏ qua testcase hoặc sửa assertion. Case OHR3 quên mật khẩu vẫn được giữ; lỗi tìm element cần được điều tra riêng.
 
 Không chạy IDE hoặc Maven khác đồng thời trên cùng database. Các job test của workflow được xếp tuần tự để tránh tranh chấp fixture. Dữ liệu và quyền tài khoản vẫn cần đúng [tiền điều kiện của module](test-execution.md).
 
