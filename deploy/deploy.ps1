@@ -30,8 +30,12 @@ foreach ($key in @('username', 'password')) {
 }
 
 $compose = @('compose', '-p', 'orangehrm-cd', '-f', (Join-Path $PSScriptRoot 'compose.cd.yml'))
+Get-Command docker -ErrorAction Stop | Out-Null
 
 try {
+    # PowerShell 5.1 coi progress stderr của Docker là ErrorRecord khi redirect log.
+    # Cho phép đọc hết output; từng lệnh Docker vẫn phải trả exit code 0 ở dưới.
+    $ErrorActionPreference = 'Continue'
     Write-Output 'CD 1: Check Docker and pull pinned images'
     & docker info --format '{{.ServerVersion}}'
     if ($LASTEXITCODE -ne 0) { throw 'Docker Engine is not running' }
@@ -56,5 +60,6 @@ try {
     & docker @compose ps
     if ($LASTEXITCODE -ne 0) { throw 'Cannot read deployed container state' }
 } finally {
+    $ErrorActionPreference = 'Stop'
     Remove-Item Env:CD_ADMIN_USERNAME, Env:CD_ADMIN_PASSWORD -ErrorAction SilentlyContinue
 }
