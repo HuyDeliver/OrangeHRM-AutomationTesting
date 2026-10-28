@@ -1,0 +1,29 @@
+# Môi trường riêng, không dùng container/volume của docker-compose.yml ở root.
+services:
+  db:
+    image: mariadb@sha256:22edfe1c78349f8cae88bbb5c2873b7e6c515be767c91c691308ce57445806f3
+    environment:
+      MYSQL_ROOT_PASSWORD: ${CD_DB_PASSWORD:?Set CD_DB_PASSWORD}
+    volumes:
+      - cd-db:/var/lib/mysql
+    healthcheck:
+      test: [CMD, mysqladmin, ping, --silent]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+
+  web:
+    # Image OrangeHRM 5.9 đã xác minh trên Docker local, pin digest để deploy đúng artifact.
+    image: orangehrm/orangehrm@sha256:d692780efbb118b1ede754cfb153057baecf4c4c5f84627621ed015cf837ac28
+    ports:
+      - "127.0.0.1:8081:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - cd-config:/var/www/html/lib/confs
+      - ./install.php:/opt/ci-install.php:ro
+
+volumes:
+  cd-db:
+  cd-config:

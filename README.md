@@ -87,8 +87,8 @@ testng.xml dùng TestListener hiện có và chạy tuần tự vì TestBase đa
 
 Lệnh dùng cho một job CI có thể là `mvn -B test -Dmodule=RecruitmentAPI`.
 Runner phải truy cập được OrangeHRM, có browser, config và fixture tương ứng.
-Workflow `.github/workflows/orangehrm-ci.yml` tự compile khi push/PR; chạy test theo module bằng Run workflow trên Windows self-hosted runner có OrangeHRM local.
-Xem [thiết lập GitHub Actions](docs/github-actions.md) để cấu hình runner, secret và xem report local. Chưa có kết quả chạy GitHub Actions được xác nhận.
+Workflow `.github/workflows/orangehrm-ci.yml`: push/merge main tự compile rồi deploy môi trường kiểm thử CD 8081 và chạy OHR1 Login smoke headless. PR chỉ compile; Run workflow trên main chạy lại cùng pipeline, không có checkbox Deploy.
+Xem [hướng dẫn CI/CD](docs/docker-cd.md) để khởi tạo CD một lần, cấu hình runner/Secrets và đọc report. Phase đầu chưa bật API/regression, chưa có xác nhận workflow mới PASS trên GitHub.
 
 Xem [cách chạy và cấu trúc module](docs/test-execution.md), [Search/assertion](docs/ui-search-assertions.md) và [Terminate/Reject](docs/ui-workflow-assertions.md).
 

@@ -9,7 +9,7 @@ public class Config {
 
     static {
         try {
-            FileInputStream file = new FileInputStream("config.properties");
+            FileInputStream file = new FileInputStream(System.getProperty("config.file", "config.properties"));
             prop.load(file);
         } catch (IOException e) {
             throw new RuntimeException("không đọc được file config.properties");

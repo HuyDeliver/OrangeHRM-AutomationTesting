@@ -107,4 +107,27 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <!-- Chọn đúng OHR1, giữ listener khi không chạy qua testng.xml. -->
+        <profile>
+            <id>cd-smoke</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <test>LoginTest#loginSuccess</test>
+                            <properties combine.self="override">
+                                <property>
+                                    <name>listener</name>
+                                    <value>com.hrm.Util.TestListener</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

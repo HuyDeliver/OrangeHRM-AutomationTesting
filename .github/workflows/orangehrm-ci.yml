@@ -1,36 +1,18 @@
-name: OrangeHRM CI
+name: OrangeHRM CI-CD
 
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      module:
-        description: Module cần chạy trên OrangeHRM local
-        required: true
-        default: Login
-        type: choice
-        options:
-          - Login
-          - Admin
-          - PIM
-          - Recruitment
-          - MyInfo
-          - Performance
-          - Profile
-          - Time
-          - Claim
-          - PIMAPI
-          - AdminAPI
-          - RecruitmentAPI
-          - Security
 
 permissions:
   contents: read
 
 jobs:
-  compile:
-    name: Compile Java 21
+  ci:
+    name: Compile project
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -46,22 +28,23 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Compile main and test code
-        run: mvn -B -ntp -DskipTests test-compile
+      - name: Compile project
+        run: mvn -B -ntp clean test-compile -DskipTests
 
-  test:
-    name: Test ${{ inputs.module }} on local OrangeHRM
-    if: github.event_name == 'workflow_dispatch' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-    needs: compile
+  deploy-verify:
+    name: Deploy and verify CD
+    needs: ci
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: [self-hosted, Windows, X64, orangehrm-local]
-    timeout-minutes: 45
-    # Các module dùng chung database local, chỉ chạy một job test tại một thời điểm.
+    timeout-minutes: 30
     concurrency:
       group: orangehrm-local-tests
       cancel-in-progress: false
     defaults:
       run:
         shell: powershell
+    env:
+      HEADLESS: 'true'
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
@@ -75,38 +58,77 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Create test configuration from GitHub Secret
-        env:
-          TEST_CONFIG: ${{ secrets.ORANGEHRM_CONFIG }}
+      - name: Record DEV state
+        id: dev_before
         run: |
-          if ([string]::IsNullOrWhiteSpace($env:TEST_CONFIG)) {
-            throw 'Missing repository secret ORANGEHRM_CONFIG. See docs/github-actions.md.'
-          }
-          $configPath = Join-Path $env:GITHUB_WORKSPACE 'config.properties'
-          [System.IO.File]::WriteAllText($configPath, $env:TEST_CONFIG)
+          $dev = @('orangehrmtesting-orangehrm-1', 'orangehrmtesting-db-1', 'orangehrmtesting-allure-1')
+          $state = & docker inspect $dev --format '{{.Id}} {{.State.Running}} {{json .Mounts}}'
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect DEV containers' }
+          $state | Set-Content "$env:RUNNER_TEMP/dev-before-$env:GITHUB_RUN_ID.log"
 
-      - name: Run selected module
+      - name: Create CD config
         env:
-          TEST_MODULE: ${{ inputs.module }}
-          HEADLESS: 'true'
+          CD_CONFIG: ${{ secrets.ORANGEHRM_CD_CONFIG }}
         run: |
-          # Giữ response, token và screenshot trong máy runner, không đưa lên log GitHub.
+          if ([string]::IsNullOrWhiteSpace($env:CD_CONFIG)) {
+            throw 'Missing ORANGEHRM_CD_CONFIG. See docs/docker-cd.md.'
+          }
+          $configPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/config.cd.properties'
+          [System.IO.File]::WriteAllText($configPath, $env:CD_CONFIG)
+
+      - name: Deploy OrangeHRM CD
+        env:
+          CD_DB_PASSWORD: ${{ secrets.ORANGEHRM_CD_DB_PASSWORD }}
+        run: |
+          & .\deploy\deploy.ps1 *> ci-deploy.log
+
+      - name: Wait for OrangeHRM
+        run: .\deploy\wait-ready.ps1
+
+      - name: Run login smoke
+        run: |
           $ErrorActionPreference = 'Continue'
-          & mvn -B -ntp clean test "-Dmodule=$env:TEST_MODULE" *> ci-test.log
+          & mvn -B -ntp clean test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
           exit $LASTEXITCODE
+
+      # Phase 2: regression sau smoke, khi da co fixture CD va cau hinh API/OAuth CD.
+
+      - name: Check smoke result and prepare evidence
+        if: always()
+        run: .\deploy\smoke-report.ps1
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cd-smoke-${{ github.run_number }}
+          path: target/cd-evidence/smoke-summary.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Check DEV is unchanged
+        if: always() && steps.dev_before.outcome == 'success'
+        run: |
+          $dev = @('orangehrmtesting-orangehrm-1', 'orangehrmtesting-db-1', 'orangehrmtesting-allure-1')
+          $after = & docker inspect $dev --format '{{.Id}} {{.State.Running}} {{json .Mounts}}'
+          if ($LASTEXITCODE -ne 0) { throw 'Cannot inspect DEV after CD' }
+          $before = Get-Content "$env:RUNNER_TEMP/dev-before-$env:GITHUB_RUN_ID.log"
+          if (Compare-Object $before $after) { throw 'DEV container state or mounts changed; inspect locally' }
+          Write-Host 'DEV container IDs, running state and volumes are unchanged.'
 
       - name: Show local report locations
         if: always()
         run: |
-          Write-Host 'Reports are kept on the runner, not uploaded.'
-          Write-Host "$env:GITHUB_WORKSPACE\ci-test.log"
-          Write-Host "$env:GITHUB_WORKSPACE\target\surefire-reports"
-          Write-Host "$env:GITHUB_WORKSPACE\target\allure-results"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-deploy.log"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-smoke.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/surefire-reports"
+          Write-Host "$env:GITHUB_WORKSPACE/target/allure-results"
 
-      - name: Remove generated configuration
+      - name: Remove generated config
         if: always()
         run: |
-          $configPath = Join-Path $env:GITHUB_WORKSPACE 'config.properties'
+          $configPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/config.cd.properties'
           if (Test-Path -LiteralPath $configPath) {
             Remove-Item -LiteralPath $configPath -Force
           }
