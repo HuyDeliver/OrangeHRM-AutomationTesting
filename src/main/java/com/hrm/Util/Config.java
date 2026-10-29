@@ -20,4 +20,8 @@ public class Config {
         return prop.getProperty(key);
     }
 
+    public static String get(String key, String defaultValue) {
+        return prop.getProperty(key, defaultValue);
+    }
+
 }

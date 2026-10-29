@@ -39,8 +39,10 @@ public class AddEmployeePage {
     }
 
     public void infoNewEmployee(String file, String firstname, String lastname, String middlename, String employeeID) {
-        Log.info("Thêm ảnh chân dung");
-        fileImage.sendKeys(file);
+        if (file != null && !file.isBlank()) {
+            Log.info("Thêm ảnh chân dung");
+            fileImage.sendKeys(file);
+        }
         Log.info("Nhập firstname: " + firstname);
         firstName.sendKeys(firstname);
         Log.info("Nhập middlename: " + middlename);

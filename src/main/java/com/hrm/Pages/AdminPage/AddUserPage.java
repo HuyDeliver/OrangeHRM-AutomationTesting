@@ -49,6 +49,15 @@ public class AddUserPage {
         return titleAddUser.isDisplayed();
     }
 
+    // Chỉ kiểm tra prerequisite, chưa Save/tạo tài khoản.
+    public boolean canSelectEmployee(String name) {
+        componentLocator.inputDropdown(driver, "Employee Name", name, name);
+        String selected = employeeName.getAttribute("value");
+        Log.info("Employee selected: [" + selected + "]");
+        // Middle name trống có thể tạo hai khoảng trắng giữa first/last name.
+        return name.equals(selected.trim().replaceAll("\\s+", " "));
+    }
+
     public void addUserWithValidData(String name, String role, String employee, String statusAcc, String pass,
             String confirmPass) {
         Log.info("Nhập tên");

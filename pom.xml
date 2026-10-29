@@ -108,6 +108,30 @@
         </plugins>
     </build>
     <profiles>
+        <!-- Setup riêng: report không trộn vào functional/security/regression. -->
+        <profile>
+            <id>cd-seed</id>
+            <properties>
+                <seed.output>${project.build.directory}/cd-seed/manual</seed.output>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <test>com.hrm.Setup.CDSeedTest</test>
+                            <reportsDirectory>${seed.output}/surefire</reportsDirectory>
+                            <properties combine.self="override" />
+                            <systemPropertyVariables>
+                                <seed.output>${seed.output}</seed.output>
+                                <allure.results.directory>${seed.output}/allure-setup</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- Chọn đúng OHR1, giữ listener khi không chạy qua testng.xml. -->
         <profile>
             <id>cd-smoke</id>

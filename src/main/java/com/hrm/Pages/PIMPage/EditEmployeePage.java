@@ -29,6 +29,20 @@ public class EditEmployeePage {
         return componentLocator.checkTitleH6(driver, title);
     }
 
+    public String getEmployeeNumber() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlMatches(".*/empNumber/[0-9]+.*"));
+        return driver.getCurrentUrl().split("/empNumber/")[1].split("[/?#]")[0];
+    }
+
+    public boolean hasEmployeeIdentity(String employeeId, String firstName, String lastName) {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeToBe(
+                By.cssSelector("input[name='firstName']"), "value", firstName));
+        return lastName.equals(driver.findElement(By.cssSelector("input[name='lastName']")).getAttribute("value"))
+                && employeeId.equals(driver.findElement(By.xpath(
+                        "//label[normalize-space()='Employee Id']/following::input[1]")).getAttribute("value"));
+    }
+
     public void goToJobDetail(String job) {
         componentLocator.clickSideBarMyInfo(driver, job);
     }

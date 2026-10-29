@@ -84,11 +84,19 @@ jobs:
 
       - name: Wait for OrangeHRM
         run: .\deploy\wait-ready.ps1
+        
+      - name: Wait for OrangeHRM
+        run: .\deploy\wait-ready.ps1
+
+      - name: Seed CD test data
+        run: .\deploy\seed.ps1
+
+      - name: Run login smoke
 
       - name: Run login smoke
         run: |
           $ErrorActionPreference = 'Continue'
-          & mvn -B -ntp clean test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
+          & mvn -B -ntp test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
           exit $LASTEXITCODE
 

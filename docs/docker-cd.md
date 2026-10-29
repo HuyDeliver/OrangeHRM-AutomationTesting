@@ -12,6 +12,9 @@ Push/merge `main` → CI compile → deploy CD 8081 → readiness → OHR1 Login
 - Concurrency giữ một job deploy/test tại một thời điểm; không hủy job đang chạy để thay lượt mới.
 - Regression và API CD chưa bật. Automatic rollback: TODO / future improvement.
 
+Phase 2 đã có bước seed chạy thủ công riêng, chưa thêm vào workflow:
+[Minimal CD seed](cd-seeding.md). Đây là data preparation, không tính vào regression PASS.
+
 ## Môi trường
 
 | | DEV | CD |

@@ -1,9 +1,14 @@
 package com.hrm.Pages.PIMPage;
 
 import java.util.Map;
+import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.componentLocator;
 
@@ -92,6 +97,22 @@ public class EmployeeListPage {
 
     public void searchEmployee() {
         componentLocator.clickSearch(driver);
+    }
+
+    // Tìm cả Current/Past để không tạo lại một employee đã terminated.
+    public int searchByEmployeeIdAndCount(String employeeId) {
+        fillSearchEmployee("", employeeId, "", "Current and Past Employees", "", "", "");
+        By summary = By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement oldResult = wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
+        searchEmployee();
+        wait.until(ExpectedConditions.stalenessOf(oldResult));
+        String result = wait.until(ExpectedConditions.visibilityOfElementLocated(summary)).getText();
+        if (result.equals("No Records Found")) return 0;
+        if (!result.matches("\\(\\d+\\) Records? Found")) {
+            throw new IllegalStateException("Không đọc được kết quả Employee: " + result);
+        }
+        return Integer.parseInt(result.replaceAll("\\D", ""));
     }
 
     public boolean checkSearchTerminate(String note) {

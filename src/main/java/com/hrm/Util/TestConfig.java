@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class TestConfig {
         public static final String userName = "HuyDeliver";
         public static final String userRole = "Admin";
-        public static final String employeeName = "Nguyễn";
+        public static final String employeeName = Config.get("admin.employee.name", "Nguyễn");
         public static final String status = "Enabled";
         public static final String password = "HuyDeliver@1234";
         public static final String confirmPassword = "HuyDeliver@1234";
