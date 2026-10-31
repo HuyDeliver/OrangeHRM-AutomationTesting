@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class SearchUserWithValidData extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý User")
-    @Test(description = "OHR4: Search user with valid data", dependsOnGroups = {
+    @Test(priority = 1, description = "OHR4: Search user with valid data", dependsOnGroups = {
             "add-user" })
     public void searchUserUsingDataDriven() {
         TestUtil.userUtil();

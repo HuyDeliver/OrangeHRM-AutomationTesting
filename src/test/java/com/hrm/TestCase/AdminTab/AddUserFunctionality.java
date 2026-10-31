@@ -25,11 +25,12 @@ public class AddUserFunctionality extends TestBase {
         Assert.assertTrue(userManagePage.isUsserMangeTitleVisible(), "Không vào được trang Admin");
 
         AddUserPage addUserPage = userManagePage.addUserPage();
-        Log.info("Bắt đầu test add user");
+        Log.info("OHR6 - Tạo user của lượt chạy: " + TestDataShare.USERNAME);
         addUserPage.addUserWithValidData(TestDataShare.USERNAME, TestConfig.userRole, TestConfig.employeeName,
-                TestConfig.status, TestConfig.password, TestConfig.confirmPassword);
+                TestConfig.status, TestDataShare.USER_PASSWORD, TestDataShare.USER_PASSWORD);
         Assert.assertTrue(addUserPage.isAddUserSuccess(), "add user không thành công");
-
-        Log.info("Tạo user thành công");
+        Assert.assertEquals(userManagePage.searchByUsernameAndCount(TestDataShare.USERNAME), 1,
+                "Sau khi tạo phải tìm thấy đúng một user");
+        Log.info("OHR6 - Đã lưu và tìm lại được user");
     }
 }

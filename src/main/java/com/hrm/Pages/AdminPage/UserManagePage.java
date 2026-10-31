@@ -1,12 +1,15 @@
 package com.hrm.Pages.AdminPage;
 
 import java.util.Map;
+import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
 import com.hrm.Util.componentLocator;
@@ -62,8 +65,28 @@ public class UserManagePage {
         waitUtils.waitElementClick(driver, status);
         By userStatusSelect = By.xpath("//div[contains(@class, 'oxd-select-option')]/span[text()='" + statusAcc + "']");
         waitUtils.waitElementClick(driver, driver.findElement(userStatusSelect));
+        searchAndCount();
+    }
 
+    public int searchByUsernameAndCount(String username) {
+        // Sau Save, đợi ô của trang danh sách thay vì nhập vào form Add còn đang tải.
+        waitUtils.waitElementVisibility(driver, userName);
+        componentLocator.fillInput(driver, "Username", username);
+        return searchAndCount();
+    }
+
+    private int searchAndCount() {
+        By summary = By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement oldResult = wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
         componentLocator.clickSearch(driver);
+        wait.until(ExpectedConditions.stalenessOf(oldResult));
+        String result = wait.until(ExpectedConditions.visibilityOfElementLocated(summary)).getText();
+        if (result.equals("No Records Found")) return 0;
+        if (!result.matches("\\(\\d+\\) Records? Found")) {
+            throw new IllegalStateException("Không đọc được kết quả User: " + result);
+        }
+        return Integer.parseInt(result.replaceAll("\\D", ""));
     }
 
     public boolean isNoRecordFound() {

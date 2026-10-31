@@ -6,6 +6,9 @@ public class TestDataShare {
     private static final String RUN_ID = UUID.randomUUID().toString().substring(0, 8);
 
     public static final String USERNAME = "HuyDeliver_" + RUN_ID;
+    // Mật khẩu riêng cho user tạm của lượt chạy; không ghi giá trị vào log.
+    public static final String USER_PASSWORD = "Aa1!" + UUID.randomUUID().toString().substring(0, 12);
+    public static final String USER_NEW_PASSWORD = "Bb2!" + UUID.randomUUID().toString().substring(0, 12);
     public static final String JOB_TITLE = "Devops_" + RUN_ID;
     public static final String LOCATION = "Location_" + RUN_ID;
     public static final String SKILL = "Coding_" + RUN_ID;

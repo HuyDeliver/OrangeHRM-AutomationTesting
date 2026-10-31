@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.time.Duration;
 
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
@@ -21,7 +22,12 @@ public class TestBase {
     @BeforeMethod
     public void setUp() {
         driver = WebDriverFactory.createDriver();
-        driver.manage().window().maximize();
+        boolean headless = Boolean.parseBoolean(System.getProperty("headless", System.getenv("HEADLESS")));
+        if (headless) {
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+        } else {
+            driver.manage().window().maximize();
+        }
         driver.get(Config.get("app.url"));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }

@@ -11,6 +11,17 @@
         </classes>
     </test>
 
+    <!-- Chạy cùng JVM để bốn class chia sẻ đúng TestDataShare.USERNAME. -->
+    <test name="CDAdminUser" preserve-order="true">
+        <classes>
+            <class name="com.hrm.Setup.CDAdminUserSetup" />
+            <class name="com.hrm.TestCase.AdminTab.AddUserFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.SearchUserWithValidData" />
+            <class name="com.hrm.TestCase.AdminTab.EditUserFunctionality" />
+            <class name="com.hrm.TestCase.AdminTab.DeleteUserFunctionality" />
+        </classes>
+    </test>
+
     <test name="Admin" preserve-order="true">
         <classes>
             <class name="com.hrm.TestCase.AdminTab.AddUserFunctionality" />

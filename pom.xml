@@ -108,6 +108,26 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>cd-admin-user</id>
+            <properties>
+                <module>CDAdminUser</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-admin-user/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <allure.results.directory>${project.build.directory}/cd-admin-user/allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- Ba case PIM độc lập, chỉ dùng fixture CD; report tách khỏi Login và seed. -->
         <profile>
             <id>cd-pim</id>

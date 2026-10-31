@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.Log;
 import com.hrm.Util.waitUtils;
+import com.hrm.Util.componentLocator;
 
 public class EditUserPage {
     private WebDriver driver;
@@ -55,6 +56,6 @@ public class EditUserPage {
     }
 
     public boolean isEditUserSuccess() {
-        return toastEditSuccess.isDisplayed();
+        return componentLocator.checkToasstSuccess(driver, "Edit User");
     }
 }

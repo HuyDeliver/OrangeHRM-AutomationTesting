@@ -75,6 +75,10 @@ jobs:
           }
           $configPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/config.cd.properties'
           [System.IO.File]::WriteAllText($configPath, $env:CD_CONFIG)
+          # Cùng nguồn dữ liệu với seed; không yêu cầu sửa Secret khi đổi tên fixture.
+          $fixture = Get-Content 'deploy/seed.properties' -Raw | ConvertFrom-StringData
+          $employee = $fixture['employee.firstName'] + ' ' + $fixture['employee.lastName']
+          [System.IO.File]::AppendAllText($configPath, "`nadmin.employee.name=$employee`n")
 
       - name: Deploy OrangeHRM CD
         env:
@@ -113,6 +117,20 @@ jobs:
         if: always() && (steps.pim.outcome == 'success' || steps.pim.outcome == 'failure')
         run: .\deploy\pim-report.ps1
 
+      - name: Run Admin User chain
+        id: admin_user
+        run: |
+          $report = 'target/cd-admin-user/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-admin-user "-Dconfig.file=deploy/config.cd.properties" *> ci-admin-user.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check Admin User result and cleanup
+        if: always() && (steps.admin_user.outcome == 'success' || steps.admin_user.outcome == 'failure')
+        run: .\deploy\admin-user-report.ps1
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -121,6 +139,7 @@ jobs:
           path: |
             target/cd-evidence/smoke-summary.json
             target/cd-evidence/pim-summary.json
+            target/cd-evidence/admin-user-summary.json
           if-no-files-found: error
           retention-days: 7
 
@@ -140,6 +159,8 @@ jobs:
           Write-Host "$env:GITHUB_WORKSPACE/ci-deploy.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-smoke.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim.log"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-admin-user.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-admin-user"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim"
           Write-Host "$env:GITHUB_WORKSPACE/target/surefire-reports"
           Write-Host "$env:GITHUB_WORKSPACE/target/allure-results"

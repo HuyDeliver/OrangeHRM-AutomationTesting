@@ -69,8 +69,8 @@ Nhóm `CDPIMTest` đọc trực tiếp `deploy/seed.properties` để dùng cùn
 PIM Search cũ vẫn đọc Excel cũ; chưa tuyên bố toàn bộ PIM Excel hoặc module Admin/PIM chạy được.
 Các danh mục Job/Salary và baseline khác được bổ sung khi mở rộng phạm vi.
 
-Workflow hiện chạy readiness → seed → Login smoke → kiểm tra smoke → ba test PIM CD.
-Seed/smoke lỗi sẽ dừng bước chạy PIM. Report setup vẫn tách riêng.
+Workflow hiện chạy readiness → seed → Login smoke → ba test PIM CD → chuỗi Admin User.
+Mỗi nhóm phải qua bước kiểm tra report trước khi chạy nhóm tiếp theo. Report setup vẫn tách riêng.
 Các chuỗi Add/Edit/Delete dùng TestDataShare phải chạy cùng một Maven/TestNG invocation.
 
 CDSeedTest chỉ là một class setup dùng POM. Không thêm service/repository/factory.
@@ -141,3 +141,63 @@ Không đổi expected hoặc dùng skip để làm pipeline xanh khi assertion 
 - Report PIM: 3 PASS, 0 FAIL, 0 SKIP; file `target/cd-evidence/pim-summary.json`.
 - DEV 8080 không được truy cập bởi các test; container IDs/status/mounts trước/sau không đổi.
 - Workflow đã thêm bước PIM nhưng chưa push/chạy bản thay đổi này trên GitHub Actions.
+
+## Chuỗi Admin User trên CD
+
+Tái sử dụng bốn testcase hiện có, giữ mã OHR; không tạo thêm bốn testcase mới để tăng số lượng.
+Nhóm `CDAdminUser` được khai báo trong `testng.xml` hiện có. Maven profile `cd-admin-user`
+chọn đúng nhóm này và chạy cả chuỗi trong một JVM để giữ nguyên `TestDataShare.USERNAME`.
+
+| Thứ tự | Case | Assertion |
+|---|---|---|
+| 1 | OHR6 - Add User | Có toast thành công và tìm lại được đúng 1 user |
+| 2 | OHR4 - Search User | Bảng có đúng username, role, employee, status; đúng 1 dòng |
+| 3 | OHR7 - Edit User | Đổi mật khẩu thành công; xóa cookie rồi đăng nhập user bằng mật khẩu mới và thấy Dashboard |
+| 4 | OHR8 - Delete User | Có toast thành công; tìm lại username trả 0 record |
+
+Employee baseline được giữ lại. Username và hai mật khẩu của user tạm được tạo riêng cho mỗi
+lượt chạy trong TestDataShare; không đổi mật khẩu Admin dùng đăng nhập môi trường.
+Không log giá trị mật khẩu. Các thao tác vẫn dùng Selenium/POM/componentLocator/TestUtil.
+
+`CDAdminUserSetup` kiểm tra URL CD 8081 và tên baseline trước khi chạy. `@AfterTest(alwaysRun=true)`
+đăng nhập lại bằng Admin môi trường, tìm username của lượt chạy, xóa nếu còn và xác nhận 0 record.
+Nếu cleanup lỗi, toàn nhóm FAIL dù bốn test đã PASS. Setup/cleanup không được tính vào số test.
+Cleanup chỉ xử lý username của cùng lượt chạy; nếu runner bị tắt đột ngột thì cần kiểm tra log
+và dọn user đó thủ công. Không tự xóa user của các lượt khác.
+
+Workflow tự thêm `admin.employee.name` từ seed.properties vào config CD được tạo trên runner,
+nên không cần đổi GitHub Secret. Chạy local cần property này trong deploy/config.cd.properties:
+
+```properties
+admin.employee.name=AUTO SeedEmployee
+```
+
+Sau seed, chạy tại thư mục project:
+
+```powershell
+mvn -B -ntp test -Pcd-admin-user "-Dconfig.file=deploy/config.cd.properties" "-Dheadless=true"
+.\deploy\admin-user-report.ps1
+```
+
+Report riêng: `target/cd-admin-user/surefire`, `target/cd-admin-user/allure-results`.
+Log trên runner: `ci-admin-user.log`. GitHub chỉ nhận `admin-user-summary.json` gồm kết quả,
+tên testcase và trạng thái cleanup. Report chỉ PASS khi đủ đúng 4 test PASS, không SKIP,
+không lỗi configuration và cleanup đã PASS. Không chạy profile này cùng cd-seed/cd-pim/cd-smoke
+trong một lệnh; riêng bốn testcase Admin phải luôn đi cùng nhau.
+
+### Kết quả xác minh Admin User ngày 31/10/2026
+
+- Chuỗi cuối: OHR6 → OHR4 → OHR7 → OHR8, **4 PASS, 0 FAIL, 0 SKIP**.
+- User tạm: `HuyDeliver_8d2b253c`. Sau Delete và cleanup: 0 record; baseline vẫn được giữ.
+- Đã xác nhận đăng nhập được bằng mật khẩu mới qua phiên không có cookie Admin.
+- Cleanup: PASS; không tính là testcase thứ năm. Seed: REUSED, employee empNumber=2.
+- Lượt thử đầu FAIL sau khi tạo vì form Save còn loading; cleanup đã xóa user còn lại.
+  Đã dùng waitUtils đợi ô tìm kiếm của trang danh sách trước khi nhập, không thêm sleep.
+- Lượt thứ hai Search FAIL do cách thao tác dropdown mới; đã giữ lại cách chọn có sẵn
+  trong POM. Add/Edit/Delete và cleanup của lượt đó vẫn PASS. Hai lượt lỗi lưu riêng tại
+  `target/cd-admin-first-failure` và `target/cd-admin-second-failure`, không đổi assertion để PASS.
+- Bộ tổng hợp report đã được thử bằng XML giả lập 4 PASS nhưng cleanup FAIL: từ chối đúng.
+- Kiểm tra lại sau thay đổi TestBase headless: Login 1 PASS, PIM 3 PASS. Tổng ba nhóm
+  ở lượt xác minh cuối: 8 functional PASS; seed/cleanup không cộng vào số này.
+- DEV không được các test truy cập; container IDs/status/mounts trước và sau không đổi.
+- Workflow đã cập nhật local; chưa push/chạy bản Admin User mới trên GitHub Actions.
