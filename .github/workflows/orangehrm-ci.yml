@@ -95,18 +95,32 @@ jobs:
           if ($null -eq $LASTEXITCODE) { exit 1 }
           exit $LASTEXITCODE
 
-      # Phase 2: regression sau smoke, khi da co fixture CD va cau hinh API/OAuth CD.
-
       - name: Check smoke result and prepare evidence
         if: always()
         run: .\deploy\smoke-report.ps1
+
+      - name: Run PIM baseline tests
+        id: pim
+        run: |
+          $report = 'target/cd-pim/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-pim "-Dconfig.file=deploy/config.cd.properties" *> ci-pim.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check PIM result and prepare evidence
+        if: always() && (steps.pim.outcome == 'success' || steps.pim.outcome == 'failure')
+        run: .\deploy\pim-report.ps1
 
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cd-smoke-${{ github.run_number }}
-          path: target/cd-evidence/smoke-summary.json
+          path: |
+            target/cd-evidence/smoke-summary.json
+            target/cd-evidence/pim-summary.json
           if-no-files-found: error
           retention-days: 7
 
@@ -125,6 +139,8 @@ jobs:
         run: |
           Write-Host "$env:GITHUB_WORKSPACE/ci-deploy.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-smoke.log"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-pim.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim"
           Write-Host "$env:GITHUB_WORKSPACE/target/surefire-reports"
           Write-Host "$env:GITHUB_WORKSPACE/target/allure-results"
 

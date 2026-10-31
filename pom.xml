@@ -108,6 +108,31 @@
         </plugins>
     </build>
     <profiles>
+        <!-- Ba case PIM độc lập, chỉ dùng fixture CD; report tách khỏi Login và seed. -->
+        <profile>
+            <id>cd-pim</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <test>com.hrm.TestCase.PIMTab.CDPIMTest</test>
+                            <reportsDirectory>${project.build.directory}/cd-pim/surefire</reportsDirectory>
+                            <properties combine.self="override">
+                                <property>
+                                    <name>listener</name>
+                                    <value>com.hrm.Util.TestListener</value>
+                                </property>
+                            </properties>
+                            <systemPropertyVariables>
+                                <allure.results.directory>${project.build.directory}/cd-pim/allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <!-- Setup riêng: report không trộn vào functional/security/regression. -->
         <profile>
             <id>cd-seed</id>

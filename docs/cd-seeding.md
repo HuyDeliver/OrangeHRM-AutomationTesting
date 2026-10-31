@@ -65,12 +65,12 @@ TestConfig.employeeName hỗ trợ config `admin.employee.name`, mặc định D
 admin.employee.name=AUTO SeedEmployee
 ```
 
-PIM Search hiện vẫn đọc Excel cũ. Trước khi bật regression CD cần chọn các dòng dữ liệu
-synthetic khớp fixture này; chưa tuyên bố toàn bộ PIM Excel hoặc module Admin/PIM chạy được.
+Nhóm `CDPIMTest` đọc trực tiếp `deploy/seed.properties` để dùng cùng dữ liệu với seed.
+PIM Search cũ vẫn đọc Excel cũ; chưa tuyên bố toàn bộ PIM Excel hoặc module Admin/PIM chạy được.
 Các danh mục Job/Salary và baseline khác được bổ sung khi mở rộng phạm vi.
 
-Chưa thay workflow GitHub ở Phase 2. Khi tích hợp Phase 4, gọi seed sau readiness,
-trước smoke; exit code khác 0 phải dừng smoke/regression. Report setup vẫn tách riêng.
+Workflow hiện chạy readiness → seed → Login smoke → kiểm tra smoke → ba test PIM CD.
+Seed/smoke lỗi sẽ dừng bước chạy PIM. Report setup vẫn tách riêng.
 Các chuỗi Add/Edit/Delete dùng TestDataShare phải chạy cùng một Maven/TestNG invocation.
 
 CDSeedTest chỉ là một class setup dùng POM. Không thêm service/repository/factory.
@@ -99,4 +99,45 @@ tên có middle name trống (UI trả `AUTO  SeedEmployee`). Đã cố định 
 1920x1080 và chuẩn hóa khoảng trắng khi đọc tên được chọn. Hai lượt final ở trên
 chứng minh reuse cả fixture còn lại sau một lần setup bị dừng, không tạo bản sao.
 
-Fixture baseline được giữ lại. Functional/security/regression testcase được thêm: **0**.
+Fixture baseline được giữ lại. Riêng bước seed thêm **0** functional/security/regression testcase.
+
+## Nhóm PIM CD nhỏ (OHR67–69)
+
+| Case | Thao tác | Expected |
+|---|---|---|
+| OHR67 | Tìm Employee ID positive trong seed.properties | Đúng 1 record và bảng chứa đúng ID |
+| OHR68 | Tìm Employee ID negative đã được seed xác nhận không tồn tại | 0 record, hiển thị No Records Found |
+| OHR69 | Tìm rồi mở detail của employee baseline | Employee ID, First Name, Last Name khớp fixture |
+
+Expected dựa trên dữ liệu fixture đã kiểm chứng và chức năng tìm kiếm/hiển thị employee.
+Ba test chỉ đọc; không tạo/sửa/xóa employee. Không dùng empNumber hard-code.
+Đây là ba lượt kiểm tra chức năng trên CD, có phần tìm kiếm trùng phạm vi OHR23;
+không coi là ba chức năng nghiệp vụ hoàn toàn mới khi thống kê coverage.
+
+Chạy sau seed, tại thư mục project (dùng Windows PowerShell):
+
+```powershell
+mvn -B -ntp test -Pcd-pim "-Dconfig.file=deploy/config.cd.properties" "-Dheadless=true"
+.\deploy\pim-report.ps1
+```
+
+Profile chỉ chọn `com.hrm.TestCase.PIMTab.CDPIMTest`; không chạy cả module PIM cũ.
+Trong GitHub Actions, log chi tiết nằm ở `ci-pim.log` trên runner; bước kiểm tra report
+hiển thị tổng PASS/FAIL/SKIP. Artifact có thêm `pim-summary.json`, ghi tên và kết quả
+từng test. Surefire nằm trong `target/cd-pim/surefire`, Allure trong
+`target/cd-pim/allure-results`, không ghi đè Login hoặc setup.
+Chỉ PASS khi đúng cả ba method đều PASS và không có lỗi setup/teardown.
+Không đổi expected hoặc dùng skip để làm pipeline xanh khi assertion thất bại.
+
+### Kết quả chạy local ngày 31/10/2026
+
+- Compile: PASS. Chrome headless, Windows PowerShell 5.1, CD 8081.
+- Seed `pim-integration-20261031`: SUCCESS, REUSED `AUTOEMP001`, empNumber=2,
+  match.count=1, duplicate=NO. Đây là setup, không cộng vào functional PASS.
+- Login smoke: 1 PASS, 0 FAIL, 0 SKIP.
+- OHR67: PASS, actual count=1 và ID trong bảng khớp fixture.
+- OHR68: PASS, actual count=0 và có No Records Found.
+- OHR69: PASS, ID/First Name/Last Name khớp fixture.
+- Report PIM: 3 PASS, 0 FAIL, 0 SKIP; file `target/cd-evidence/pim-summary.json`.
+- DEV 8080 không được truy cập bởi các test; container IDs/status/mounts trước/sau không đổi.
+- Workflow đã thêm bước PIM nhưng chưa push/chạy bản thay đổi này trên GitHub Actions.
