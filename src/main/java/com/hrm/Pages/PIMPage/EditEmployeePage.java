@@ -1,6 +1,7 @@
 package com.hrm.Pages.PIMPage;
 
 import java.time.Duration;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -144,6 +145,39 @@ public class EditEmployeePage {
 
     public void reloadJobDetails() {
         driver.navigate().refresh();
+    }
+
+    public boolean hasJobDetails(String joined, String title, String category, String unit, String location, String status) {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeToBe(
+                By.xpath("//label[normalize-space()='Joined Date']/following::input[1]"), "value", joined));
+        return selectValue("Job Title").equals(title) && selectValue("Job Category").equals(category)
+                && selectValue("Sub Unit").equals(unit) && selectValue("Location").equals(location)
+                && selectValue("Employment Status").equals(status);
+    }
+
+    private String selectValue(String label) {
+        return driver.findElement(By.xpath("//label[normalize-space()='" + label
+                + "']/ancestor::div[contains(@class,'oxd-input-group')]//div[contains(@class,'oxd-select-text-input')]"))
+                .getText().trim();
+    }
+
+    public boolean hasSalary(String name, String amount, String currency, String frequency) {
+        waitUtils.waitForTable(driver);
+        // Amount nằm sau checkbox và Salary Component (đã đối chiếu source EmployeeSalary.vue).
+        for (WebElement row : driver.findElements(By.cssSelector(".oxd-table-card"))) {
+            var cells = row.findElements(By.cssSelector(".oxd-table-cell"));
+            if (cells.size() > 4 && cells.get(1).getText().trim().equals(name)) {
+                return new java.math.BigDecimal(cells.get(2).getText().trim().replace(",", ""))
+                        .compareTo(new java.math.BigDecimal(amount)) == 0
+                        && cells.get(3).getText().equals(currency) && cells.get(4).getText().equals(frequency);
+            }
+        }
+        return false;
+    }
+
+    public boolean hasSupervisor(String name, String method) {
+        waitUtils.waitForTable(driver);
+        return componentLocator.checkTable(driver, "Assigned Supervisors", Map.of("name", name, "method", method));
     }
 
     public boolean isEmploymentTerminated() {

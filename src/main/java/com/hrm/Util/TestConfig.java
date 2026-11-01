@@ -13,7 +13,7 @@ public class TestConfig {
         public static final String confirmPassword = "HuyDeliver@1234";
 
         // Data Job title
-        public static final String jobTitleName = "Devops";
+        public static final String jobTitleName = Config.get("pim.job.title", "Devops");
         public static final String jobDescription = "DevOps is a software development methodology that combines and automates the work of software development (Dev) and IT operations (Ops) to improve and shorten the systems development life cycle.";
         public static final String jobSpecification = System.getProperty("user.dir")
                         + File.separator + "src" + File.separator + "test" + File.separator
@@ -21,7 +21,7 @@ public class TestConfig {
         public static final String jobNote = "DevOps is characterized by several key principles, including shared ownership, workflow automation, and rapid feedback. ";
 
         // Data location
-        public static final String locationName = "Đống Đa";
+        public static final String locationName = Config.get("pim.location", "Đống Đa");
         public static final String cityName = "Hà Nội";
         public static final String provinceName = "Đống Đa";
         public static final String postalCode = "2004";
@@ -46,21 +46,21 @@ public class TestConfig {
         public static final String skill = "Coding";
 
         // Job detail in My infor
-        public static final String joinedDate = "2026-5-10";
-        public static final String jobCategorize = "Craft Workers";
-        public static final String subUnit = "Administration";
-        public static final String employmentStatus = "Full Time Contract";
+        public static final String joinedDate = Config.get("pim.joined.date", "2026-05-10");
+        public static final String jobCategorize = Config.get("pim.job.category", "Craft Workers");
+        public static final String subUnit = Config.get("pim.subunit", "Administration");
+        public static final String employmentStatus = Config.get("pim.employment.status", "Full Time Contract");
 
         // Salary in MyInfo
         public static final String salary = "base salary";
-        public static final String payGrade = "Engineer";
+        public static final String payGrade = Config.get("pim.paygrade", "Engineer");
         public static final String payFrequency = "Monthly";
         public static final String currency = "Vietnamese Dong";
         public static final String amount = "10000";
         public static final String comment = "nothing";
 
         // supervisor
-        public static final String nameSupervisor = "Nguyễn Huy Bách";
+        public static final String nameSupervisor = Config.get("pim.supervisor", "Nguyễn Huy Bách");
         public static final String surbordinate = "Nguyễn Trí Quân";
         public static final String reportMethod = "Direct";
 

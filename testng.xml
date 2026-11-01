@@ -46,6 +46,7 @@
 
     <test name="PIM" preserve-order="true">
         <classes>
+            <class name="com.hrm.Setup.CDPIMSetup" />
             <class name="com.hrm.TestCase.PIMTab.AddEmployeeFunctionality" />
             <class name="com.hrm.TestCase.PIMTab.SearchEmployeeFunctionality" />
             <class name="com.hrm.TestCase.PIMTab.EditJobDetailFunctionality" />

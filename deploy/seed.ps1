@@ -1,4 +1,5 @@
 param(
+    [switch]$IncludePIM,
     [string]$ConfigPath = (Join-Path $PSScriptRoot 'config.cd.properties'),
     [ValidatePattern('^[a-zA-Z0-9_-]+$')]
     [string]$RunName = (Get-Date -Format 'yyyyMMdd-HHmmss-fff')
@@ -33,13 +34,20 @@ try {
     Write-Output "[SEED] Preparing data on CD 8081. Local log: $output/seed.log"
     # Windows PowerShell 5.1: native stderr progress không phải lỗi nếu exit code=0.
     $ErrorActionPreference = 'Continue'
-    & mvn -B -ntp test -Pcd-seed "-Dconfig.file=$configFile" '-Dheadless=true' `
+    $seedTest = 'com.hrm.Setup.CDSeedTest'
+    if ($IncludePIM) { $seedTest = 'com.hrm.Setup.CDPIMSeedTest' }
+    & mvn -B -ntp test -Pcd-seed "-Dseed.test=$seedTest" "-Dconfig.file=$configFile" '-Dheadless=true' `
         '-Dcd.seed.verified=true' "-Dseed.output=$output" *> "$output/seed.log"
     $code = $LASTEXITCODE
     $ErrorActionPreference = 'Stop'
     if ($null -eq $code -or $code -ne 0) { throw "Seed failed; see $output/seed.log" }
     $result = Get-Content -LiteralPath "$output/seed-result.properties" -Raw | ConvertFrom-StringData
     if ($result['result'] -ne 'SUCCESS') { throw 'Seed did not produce successful preparation evidence' }
+    if ($IncludePIM) {
+        $pim = Get-Content -LiteralPath "$output/pim-seed-result.properties" -Raw | ConvertFrom-StringData
+        if ($pim['result'] -ne 'SUCCESS') { throw 'PIM seed did not complete' }
+        Write-Output '[SEED] PIM catalogs verified; setup only, not functional PASS.'
+    }
     Write-Output "[SEED] $($result['fixture.key']) $($result['action']) | empNumber=$($result['employee.empNumber']) | matches=$($result['match.count'])"
     Write-Output '[SEED] Setup completed. Functional/security/regression testcase count added: 0.'
 } finally {

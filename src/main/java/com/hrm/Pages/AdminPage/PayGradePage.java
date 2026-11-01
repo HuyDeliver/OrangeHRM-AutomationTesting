@@ -88,6 +88,15 @@ public class PayGradePage {
         return driver.findElement(By.cssSelector(".oxd-table-body")).getText();
     }
 
+    public boolean hasCurrency(String name) {
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            return driver.findElements(By.cssSelector(".oxd-table-card")).stream()
+                    .anyMatch(row -> row.getText().contains(name));
+        } finally { driver.manage().timeouts().implicitlyWait(original); }
+    }
+
     public boolean hasSalaryRange(String currencyName, String minimum, String maximum) {
         // Bảng hiển thị 1,000.00 thay vì 1000.
         String minText = String.format(Locale.US, "%,.2f", Double.parseDouble(minimum));
@@ -113,6 +122,10 @@ public class PayGradePage {
     }
 
     private void waitForLoading() {
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".oxd-loading-spinner"), 0));
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".oxd-loading-spinner"), 0));
+        } finally { driver.manage().timeouts().implicitlyWait(original); }
     }
 }

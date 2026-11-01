@@ -55,7 +55,7 @@ public class componentLocator {
     }
 
     public static void fillInput(WebDriver driver, String label, String value) {
-        Log.info("Nhập " + label + "=" + value);
+        Log.info("Nhập " + label + "=" + (label.toLowerCase().contains("password") ? "[hidden]" : value));
 
         By inputLocator = By.xpath("//label[contains(text(),'" + label + "')]/following::input[1]");
 

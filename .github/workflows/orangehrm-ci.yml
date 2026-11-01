@@ -79,6 +79,8 @@ jobs:
           $fixture = Get-Content 'deploy/seed.properties' -Raw | ConvertFrom-StringData
           $employee = $fixture['employee.firstName'] + ' ' + $fixture['employee.lastName']
           [System.IO.File]::AppendAllText($configPath, "`nadmin.employee.name=$employee`n")
+          $pimDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/pim.properties'
+          [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($pimDataPath) + "`n")
 
       - name: Deploy OrangeHRM CD
         env:
@@ -90,7 +92,8 @@ jobs:
         run: .\deploy\wait-ready.ps1
 
       - name: Seed CD test data
-        run: .\deploy\seed.ps1
+        id: seed
+        run: .\deploy\seed.ps1 -IncludePIM
 
       - name: Run login smoke
         run: |
@@ -100,6 +103,7 @@ jobs:
           exit $LASTEXITCODE
 
       - name: Check smoke result and prepare evidence
+        id: smoke_check
         if: always()
         run: .\deploy\smoke-report.ps1
 
@@ -117,8 +121,24 @@ jobs:
         if: always() && (steps.pim.outcome == 'success' || steps.pim.outcome == 'failure')
         run: .\deploy\pim-report.ps1
 
+      - name: Run full PIM regression
+        id: pim_regression
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-pim-regression/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-pim-regression "-Dconfig.file=deploy/config.cd.properties" *> ci-pim-regression.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check PIM regression result and cleanup
+        if: always() && (steps.pim_regression.outcome == 'success' || steps.pim_regression.outcome == 'failure')
+        run: .\deploy\pim-regression-report.ps1
+
       - name: Run full Admin regression
         id: admin
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
         run: |
           $report = 'target/cd-admin/surefire/testng-results.xml'
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
@@ -139,6 +159,7 @@ jobs:
           path: |
             target/cd-evidence/smoke-summary.json
             target/cd-evidence/pim-summary.json
+            target/cd-evidence/pim-regression-summary.json
             target/cd-evidence/admin-summary.json
           if-no-files-found: error
           retention-days: 7
@@ -159,6 +180,8 @@ jobs:
           Write-Host "$env:GITHUB_WORKSPACE/ci-deploy.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-smoke.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim.log"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-pim-regression.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim-regression"
           Write-Host "$env:GITHUB_WORKSPACE/ci-admin.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-admin"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim"

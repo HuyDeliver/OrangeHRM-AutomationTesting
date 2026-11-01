@@ -69,8 +69,10 @@ Nhóm `CDPIMTest` đọc trực tiếp `deploy/seed.properties` để dùng cùn
 PIM Search cũ vẫn đọc Excel cũ; chưa tuyên bố toàn bộ PIM Excel hoặc module Admin/PIM chạy được.
 Các danh mục Job/Salary và baseline khác được bổ sung khi mở rộng phạm vi.
 
-Workflow hiện chạy readiness → seed → Login smoke → ba test PIM CD → toàn bộ module Admin.
-Mỗi nhóm phải qua bước kiểm tra report trước khi chạy nhóm tiếp theo. Report setup vẫn tách riêng.
+Workflow hiện chạy readiness → seed → Login smoke → ba test PIM CD → PIM regression → Admin.
+Seed và Login phải thành công trước khi chạy regression. PIM và Admin vẫn chạy khi module
+regression kia FAIL, nhưng job tổng vẫn FAIL. Report setup vẫn tách riêng.
+Chi tiết prerequisite và chuỗi PIM: [cd-pim.md](cd-pim.md).
 Các chuỗi Add/Edit/Delete dùng TestDataShare phải chạy cùng một Maven/TestNG invocation.
 
 CDSeedTest chỉ là một class setup dùng POM. Không thêm service/repository/factory.

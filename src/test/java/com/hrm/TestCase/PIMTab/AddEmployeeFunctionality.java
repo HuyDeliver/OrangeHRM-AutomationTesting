@@ -7,6 +7,7 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.PIMPage.AddEmployeePage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
+import com.hrm.Pages.PIMPage.EditEmployeePage;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
 
@@ -16,7 +17,7 @@ import io.qameta.allure.Feature;
 public class AddEmployeeFunctionality extends TestBase {
     @Epic("PIM tab")
     @Feature("Quản lý employee")
-    @Test(description = "OHR19: Add new employee")
+    @Test(description = "OHR19: Add new employee", groups = "pim-employee")
     public void addNewEmployee() {
         TestUtil.employeeUtil();
         EmployeeListPage employeeListPage = new EmployeeListPage(driver);
@@ -27,10 +28,12 @@ public class AddEmployeeFunctionality extends TestBase {
                 TestConfig.middleName,
                 TestDataShare.IDEMPLOYEE);
 
-        addEmployeePage.createLoginDetail(TestDataShare.USERNAME, TestConfig.statusDisabled, TestConfig.password,
-                TestConfig.confirmPassword);
+        addEmployeePage.createLoginDetail(TestDataShare.USERNAME, TestConfig.statusDisabled, TestDataShare.USER_PASSWORD,
+                TestDataShare.USER_PASSWORD);
 
         Assert.assertTrue(addEmployeePage.isCreateNewEmployeeSuccess(), "Add new employee not success");
+        Assert.assertTrue(new EditEmployeePage(driver).hasEmployeeIdentity(TestDataShare.IDEMPLOYEE,
+                TestConfig.firstName, TestDataShare.LASTNAME), "Employee đã lưu sai ID/họ tên");
     }
 
 }

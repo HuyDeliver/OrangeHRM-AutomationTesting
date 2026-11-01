@@ -96,7 +96,12 @@ public class EmployeeListPage {
     }
 
     public void searchEmployee() {
+        By summary = By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement oldResult = wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
         componentLocator.clickSearch(driver);
+        wait.until(ExpectedConditions.stalenessOf(oldResult));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
     }
 
     // Tìm cả Current/Past để không tạo lại một employee đã terminated.
@@ -104,9 +109,7 @@ public class EmployeeListPage {
         fillSearchEmployee("", employeeId, "", "Current and Past Employees", "", "", "");
         By summary = By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement oldResult = wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
         searchEmployee();
-        wait.until(ExpectedConditions.stalenessOf(oldResult));
         String result = wait.until(ExpectedConditions.visibilityOfElementLocated(summary)).getText();
         if (result.equals("No Records Found")) return 0;
         if (!result.matches("\\(\\d+\\) Records? Found")) {

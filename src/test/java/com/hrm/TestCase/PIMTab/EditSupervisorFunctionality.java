@@ -17,11 +17,12 @@ import io.qameta.allure.Feature;
 public class EditSupervisorFunctionality extends TestBase {
         @Epic("PIM tab")
         @Feature("Quản lý employee")
-        @Test(description = "OHR22: Edit salary of employee")
+        @Test(priority = 1, description = "OHR22: Assign supervisor to employee", dependsOnGroups = "pim-employee", groups = "pim-supervisor")
         public void editEmployeeSupervisor() {
                 TestUtil.employeeUtil();
                 EmployeeListPage employeeListPage = new EmployeeListPage(driver);
                 Assert.assertTrue(employeeListPage.isEmployeeListVisible(), "Không vào được trang employeeList");
+                Assert.assertEquals(employeeListPage.searchByEmployeeIdAndCount(TestDataShare.IDEMPLOYEE), 1, "Không tìm được employee của lượt chạy");
                 EditEmployeePage editEmployeePage = employeeListPage.goToeEditEmployeePage(TestDataShare.IDEMPLOYEE);
                 Assert.assertTrue(editEmployeePage.isPersonalDetailVisible("Personal Details"),
                                 "Không vào được trang edit employee");
@@ -29,11 +30,14 @@ public class EditSupervisorFunctionality extends TestBase {
                 Assert.assertTrue(editEmployeePage.isReportToVisible("Report to"),
                                 "không vào được trang report");
                 editEmployeePage.addSupervisor("Assigned Supervisors");
-                editEmployeePage.fillSupervisor("Huy", TestConfig.nameSupervisor, TestConfig.reportMethod);
+                editEmployeePage.fillSupervisor(TestConfig.nameSupervisor.split("\\s+")[0], TestConfig.nameSupervisor, TestConfig.reportMethod);
                 editEmployeePage.saveInfo("Edit supervisor");
 
                 Assert.assertTrue(editEmployeePage.isEditSuccess("Fill Supervisor"),
                                 "Nhập Supervisor không thành công");
+                driver.navigate().refresh();
+                Assert.assertTrue(editEmployeePage.hasSupervisor(TestConfig.nameSupervisor, TestConfig.reportMethod),
+                                "Supervisor hoặc Reporting Method chưa được lưu đúng");
                 Log.info("Edit supervisor thành công");
         }
 }
