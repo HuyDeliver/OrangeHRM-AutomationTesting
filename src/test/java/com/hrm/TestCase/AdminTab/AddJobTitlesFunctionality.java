@@ -31,6 +31,7 @@ public class AddJobTitlesFunctionality extends TestBase {
                 TestConfig.jobNote);
 
         Assert.assertTrue(addJobTitlePage.isAddTitleJobSuccess(), "Add không thành công");
+        Assert.assertEquals(jobTitlePage.countJobTitles(TestDataShare.JOB_TITLE), 1, "Không thấy Job Title vừa tạo");
 
         Log.info("Add job title thành công");
     }

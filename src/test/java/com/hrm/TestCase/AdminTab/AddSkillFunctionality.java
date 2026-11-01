@@ -26,6 +26,7 @@ public class AddSkillFunctionality extends TestBase {
         Assert.assertTrue(addSkillPage.isAddSkillPageVisible(), "Không vào được trang Skill");
         addSkillPage.addSkillFunction(TestDataShare.SKILL, "JavaCore, OOP, Selenium, TestNg");
         Assert.assertTrue(addSkillPage.isAddSkillSuccess(), "Add skill không thành công");
+        Assert.assertEquals(skillPage.countSkills(TestDataShare.SKILL), 1, "Không thấy Skill vừa tạo");
         Log.info("Add skill thành công");
     }
 }

@@ -1,9 +1,12 @@
 package com.hrm.Pages.AdminPage;
 
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.componentLocator;
+import com.hrm.Util.waitUtils;
 
 public class SkillPage {
     private WebDriver driver;
@@ -33,6 +36,15 @@ public class SkillPage {
 
     public boolean isDeleteSkillSuccess() {
         return componentLocator.checkToasstSuccess(driver, "Delete Skill");
+    }
+
+    public int countSkills(String name) {
+        return componentLocator.countTableRows(driver, name);
+    }
+
+    public boolean hasDescription(String name, String description) {
+        waitUtils.waitForTable(driver);
+        return componentLocator.checkTable(driver, "Skill Description", Map.of("name", name, "description", description));
     }
 
 }

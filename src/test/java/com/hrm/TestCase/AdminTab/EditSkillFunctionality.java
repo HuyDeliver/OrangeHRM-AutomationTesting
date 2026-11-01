@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class EditSkillFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý qualification")
-    @Test(description = "OHR17: Edit Skill", dependsOnGroups = { "add-skill" })
+    @Test(priority = 2, description = "OHR17: Edit Skill", dependsOnGroups = { "add-skill" })
     public void editSkillSuccess() {
         TestUtil.qualificationUtil();
         SkillPage skillPage = new SkillPage(driver);
@@ -25,6 +25,8 @@ public class EditSkillFunctionality extends TestBase {
         Assert.assertTrue(editSkillPage.isEditPageVisible(), "Không vào đc trâng Edit Skill");
         editSkillPage.editSkill("Không bao giờ được nói dối");
         Assert.assertTrue(editSkillPage.isEditSkillSuccess(), "Edit không thành công");
+        Assert.assertTrue(skillPage.hasDescription(TestDataShare.SKILL, "Không bao giờ được nói dối"),
+                "Description của Skill chưa được lưu đúng");
         Log.info("Edit skill thành công");
     }
 }

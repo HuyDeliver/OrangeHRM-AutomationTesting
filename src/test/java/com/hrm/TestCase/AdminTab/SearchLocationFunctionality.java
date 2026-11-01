@@ -9,6 +9,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -16,7 +17,7 @@ import io.qameta.allure.Feature;
 public class SearchLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(dataProvider = "searchingLocation", description = "OHR15: Search location with City", dependsOnGroups = {
+    @Test(priority = 1, dataProvider = "searchingLocation", description = "OHR15: Search location with City", dependsOnGroups = {
             "Location-test" })
     public void searchLocationWithCity(String name, String city, String country, String expectedFound) {
         Assert.assertTrue("true".equalsIgnoreCase(expectedFound) || "false".equalsIgnoreCase(expectedFound),
@@ -35,6 +36,13 @@ public class SearchLocationFunctionality extends TestBase {
     public Object[][] getSearchingData() {
         String path = "src/test/resources/data/Datadriven-OrangeHrm.xlsx";
         String sheetName = "Search Location";
-        return ExelReader.getDataFromExel(path, sheetName);
+        Object[][] data = ExelReader.getDataFromExel(path, sheetName);
+        if (Boolean.getBoolean("cd.admin")) {
+            // Dùng location do OHR12 tạo, giữ nguyên city/country/expected của Excel.
+            for (Object[] row : data) {
+                if (!row[0].toString().isBlank()) row[0] = TestDataShare.LOCATION;
+            }
+        }
+        return data;
     }
 }

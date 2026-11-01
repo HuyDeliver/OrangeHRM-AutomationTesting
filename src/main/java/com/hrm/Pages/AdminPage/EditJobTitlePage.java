@@ -18,7 +18,7 @@ public class EditJobTitlePage {
     }
 
     public void editJobTitle(String description) {
-        componentLocator.fillInput(driver, "Job Description", description);
+        componentLocator.fillTexArea(driver, "Job Description", description);
         componentLocator.buttonSave(driver);
     }
 

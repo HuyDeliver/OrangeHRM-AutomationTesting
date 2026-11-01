@@ -15,13 +15,14 @@ import io.qameta.allure.Feature;
 public class DeleteSkillFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý qualification")
-    @Test(description = "OHR18: Delete Skill", dependsOnGroups = { "add-skill" })
+    @Test(priority = 3, description = "OHR18: Delete Skill", dependsOnGroups = { "add-skill" })
     public void editSkillSuccess() {
         TestUtil.qualificationUtil();
         SkillPage skillPage = new SkillPage(driver);
         Assert.assertTrue(skillPage.isSkillTitleVisible(), "Không vào được trang Skill");
         skillPage.deleteSkill(TestDataShare.SKILL);
         Assert.assertTrue(skillPage.isDeleteSkillSuccess(), "Delete không thành công");
-        Log.info("Edit skill thành công");
+        Assert.assertEquals(skillPage.countSkills(TestDataShare.SKILL), 0, "Skill vẫn còn sau khi xóa");
+        Log.info("Xóa Skill thành công");
     }
 }

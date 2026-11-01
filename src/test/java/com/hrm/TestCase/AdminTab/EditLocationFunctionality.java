@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class EditLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(description = "OHR14: Edit Location", dependsOnGroups = { "Location-test" })
+    @Test(priority = 2, description = "OHR14: Edit Location", dependsOnGroups = { "Location-test" })
     public void editCityinLocation() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
@@ -27,6 +27,9 @@ public class EditLocationFunctionality extends TestBase {
         Assert.assertTrue(editLocationPage.isTitleEditVisible(), "Không vào được trang Edit Location");
         editLocationPage.editCity("Hồ Chí Minh");
         Assert.assertTrue(editLocationPage.isEditLocationSuccess(), "Edit không thành công");
+        locationPage.searchLocation(TestDataShare.LOCATION, "Hồ Chí Minh", "");
+        Assert.assertTrue(locationPage.isSearchLocationSuccess(TestDataShare.LOCATION, "Hồ Chí Minh", "", true),
+                "City chưa được lưu đúng sau khi sửa");
         Log.info("Edit City thành công");
     }
 }

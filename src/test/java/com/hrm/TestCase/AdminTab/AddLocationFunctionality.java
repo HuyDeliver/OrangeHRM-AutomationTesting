@@ -30,6 +30,7 @@ public class AddLocationFunctionality extends TestBase {
                 TestConfig.cityName, TestConfig.locationNote);
         addLocationPage.saveLocation();
         Assert.assertTrue(addLocationPage.isAddLocationSucess(), "Add Location không thành công");
+        Assert.assertEquals(locationPage.countLocations(TestDataShare.LOCATION), 1, "Không thấy Location vừa tạo");
         Log.info("Add location thành công");
     }
 }

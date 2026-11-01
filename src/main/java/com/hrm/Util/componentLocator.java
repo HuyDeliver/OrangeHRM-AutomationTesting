@@ -21,6 +21,31 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.qameta.allure.Allure;
 
 public class componentLocator {
+    // Đếm theo giá trị nguyên ô; không nhầm tên gần giống khi kiểm tra/cleanup.
+    public static int countTableRows(WebDriver driver, String value) {
+        waitUtils.waitForTable(driver);
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            List<WebElement> rows = driver.findElements(By.cssSelector(".oxd-table-card"));
+            String summary = driver.findElement(By.xpath(
+                    "//div[contains(@class,'orangehrm-horizontal-padding')]/child::span")).getText();
+            int total;
+            if (summary.equals("No Records Found")) total = 0;
+            else if (summary.matches("\\(\\d+\\) Records? Found")) total = Integer.parseInt(summary.replaceAll("\\D", ""));
+            else throw new IllegalStateException("Không đọc được tổng record: " + summary);
+            if (rows.size() != total) throw new IllegalStateException("Chưa đọc đủ bảng; cần lọc hoặc xử lý phân trang");
+            int matches = 0;
+            for (WebElement row : rows) {
+                if (row.findElements(By.cssSelector(".oxd-table-cell")).stream()
+                        .anyMatch(cell -> cell.getText().trim().equals(value))) matches++;
+            }
+            return matches;
+        } finally {
+            driver.manage().timeouts().implicitlyWait(original);
+        }
+    }
+
 
     public static void clickSideBar(WebDriver driver, String tab) {
         Log.info("Click vào tab " + tab);

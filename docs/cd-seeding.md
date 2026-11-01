@@ -69,7 +69,7 @@ Nhóm `CDPIMTest` đọc trực tiếp `deploy/seed.properties` để dùng cùn
 PIM Search cũ vẫn đọc Excel cũ; chưa tuyên bố toàn bộ PIM Excel hoặc module Admin/PIM chạy được.
 Các danh mục Job/Salary và baseline khác được bổ sung khi mở rộng phạm vi.
 
-Workflow hiện chạy readiness → seed → Login smoke → ba test PIM CD → chuỗi Admin User.
+Workflow hiện chạy readiness → seed → Login smoke → ba test PIM CD → toàn bộ module Admin.
 Mỗi nhóm phải qua bước kiểm tra report trước khi chạy nhóm tiếp theo. Report setup vẫn tách riêng.
 Các chuỗi Add/Edit/Delete dùng TestDataShare phải chạy cùng một Maven/TestNG invocation.
 
@@ -201,3 +201,79 @@ trong một lệnh; riêng bốn testcase Admin phải luôn đi cùng nhau.
   ở lượt xác minh cuối: 8 functional PASS; seed/cleanup không cộng vào số này.
 - DEV không được các test truy cập; container IDs/status/mounts trước và sau không đổi.
 - Workflow đã cập nhật local; chưa push/chạy bản Admin User mới trên GitHub Actions.
+
+## Toàn bộ Admin trên CD
+
+Workflow dùng `cd-admin` thay cho bước `cd-admin-user`, không chạy User hai lần.
+Profile `cd-admin-user` vẫn giữ để kiểm tra riêng chuỗi User khi cần.
+`cd-admin` chọn module Admin trong testng.xml hiện có: 16 method / 19 lượt test.
+Tất cả chạy trong một Maven/TestNG invocation, dùng chung TestDataShare.
+
+| Nhóm | Mã | Số lượt |
+|---|---|---:|
+| User: thêm, tìm đúng/sai, sửa mật khẩu, xóa | OHR4–8 | 6 |
+| Job Title: thêm, sửa mô tả, xóa | OHR9–11 | 3 |
+| Location: thêm, tìm, sửa city, xóa | OHR12–15 | 6 |
+| Skill: thêm, sửa mô tả, xóa | OHR16–18 | 3 |
+| Pay Grade: sửa A không được đổi B | OHR43 / Issue #1897 | 1 |
+
+Chỉ employee cần seed. Job/Location/Skill/User và hai Pay Grade do test tự tạo.
+Search chạy priority 1, Edit priority 2, Delete priority 3, sau các nhóm Add mà chúng phụ thuộc.
+Không phụ thuộc vào kết quả Search để cleanup vẫn có thể thực hiện nếu Search FAIL.
+
+Excel gốc được giữ nguyên. Khi profile bật `cd.admin=true`, DataProvider ánh xạ dữ liệu CD:
+
+- Search User dòng 1 dùng username của lượt chạy + `_missing`; dòng 2 dùng username có thật
+  nhưng role/status sai. Employee dùng baseline; role/status vẫn đọc từ Excel.
+- Search Location thay các ô Name có giá trị bằng location do OHR12 vừa tạo.
+  Giữ nguyên City/Country/expectedFound. Country-only Canada vẫn là ca không có kết quả;
+  nếu môi trường có location Canada thì cần xem lại prerequisite của dữ liệu negative,
+  không đổi expected để PASS hoặc xóa dữ liệu khác.
+- Khi không bật profile CD, DataProvider vẫn dùng nguyên dữ liệu Excel cho DEV.
+
+Add kiểm tra record đã xuất hiện; Edit đọc lại mô tả/city; Delete kiểm tra record đã biến mất.
+`CDAdminSetup` chỉ kích hoạt trên profile CD, kế thừa guard/cleanup User và bổ sung ba cleanup
+riêng cho Job Title, Location, Skill. Mỗi cleanup chỉ xử lý tên ngẫu nhiên của lượt chạy,
+kiểm tra số record cuối là 0. Pay Grade giữ cleanup riêng của Issue1897RegressionTest.
+Setup/cleanup không cộng vào functional PASS. Không sửa hoặc xóa employee baseline.
+
+Đếm record dùng giá trị nguyên ô để tránh tên gần giống. Nếu danh sách phân trang chưa hiển thị
+đủ record thì dừng rõ lỗi; không coi record ngoài trang hiện tại là đã được xóa.
+
+```powershell
+mvn -B -ntp test -Pcd-admin "-Dconfig.file=deploy/config.cd.properties" "-Dheadless=true"
+.\deploy\admin-report.ps1
+```
+
+Log runner: `ci-admin.log`. Report: `target/cd-admin/surefire`, Allure:
+`target/cd-admin/allure-results`. Artifact GitHub: `admin-summary.json`.
+Report yêu cầu đúng 19 lượt, tất cả PASS, không SKIP/configuration failure, và đủ cleanup PASS.
+Issue #1897 vẫn là test bình thường: nếu lỗi còn tồn tại thì module/pipeline phải FAIL.
+Không dùng retry, expected failure hay continue-on-error để che kết quả.
+
+### Kết quả chạy toàn bộ Admin
+
+Lượt chạy trên CD 8081 ngày 31/10/2026, hoàn tất lúc 12:24:59 (giờ Việt Nam),
+được đối chiếu report ngày 01/11/2026: **19 lượt, 18 PASS, 1 FAIL, 0 SKIP**.
+Compile thành công; Chrome headless, Windows PowerShell 5.1. Thời gian Maven: 5 phút 47 giây.
+
+| Nhóm | PASS | FAIL | SKIP |
+|---|---:|---:|---:|
+| User | 6 | 0 | 0 |
+| Job Title | 3 | 0 | 0 |
+| Location | 6 | 0 | 0 |
+| Skill | 3 | 0 | 0 |
+| OHR43 / Issue #1897 | 0 | 1 | 0 |
+
+OHR43 phát hiện B đổi từ Euro 3,000.00–4,000.00 sang Euro 1,500.00–2,500.00
+sau khi chỉ sửa A. Đây là assertion nghiệp vụ thất bại, không phải lỗi tìm locator.
+Giữ nguyên expected và giữ case trong module Admin. Chưa sửa source ứng dụng OrangeHRM.
+
+Cleanup User/Job Title/Location/Skill đều xác nhận 0 record của lượt chạy; hai Pay Grade
+`ISS1897_A_1793424025893` và `ISS1897_B_1793424025893` cũng đã được xóa.
+Employee baseline vẫn được giữ. Setup và 5 cleanup không cộng vào 19 lượt functional.
+
+`admin-report.ps1` đã đọc report thật và trả FAIL/nonzero với 18 PASS + 1 FAIL,
+đồng thời ghi cleanup=PASS vào `target/cd-evidence/admin-summary.json`.
+Workflow full Admin mới chỉ được cập nhật local, chưa được push hoặc xác minh trên Actions.
+Khi push, nếu Issue #1897 vẫn còn thì job Admin và pipeline sẽ FAIL đúng thiết kế.

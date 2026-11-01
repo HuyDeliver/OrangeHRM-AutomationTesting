@@ -24,6 +24,7 @@
 
     <test name="Admin" preserve-order="true">
         <classes>
+            <class name="com.hrm.Setup.CDAdminSetup" />
             <class name="com.hrm.TestCase.AdminTab.AddUserFunctionality" />
             <class name="com.hrm.TestCase.AdminTab.SearchUserWithInvalidData" />
             <class name="com.hrm.TestCase.AdminTab.SearchUserWithValidData" />

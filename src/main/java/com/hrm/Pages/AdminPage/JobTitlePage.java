@@ -1,5 +1,7 @@
 package com.hrm.Pages.AdminPage;
 
+import java.util.Map;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,6 +58,15 @@ public class JobTitlePage {
     }
 
     public boolean isDeleteSuccess() {
-        return deleteSuccess.isDisplayed();
+        return componentLocator.checkToasstSuccess(driver, "Delete Job Title");
+    }
+
+    public int countJobTitles(String name) {
+        return componentLocator.countTableRows(driver, name);
+    }
+
+    public boolean hasJobDescription(String name, String description) {
+        waitUtils.waitForTable(driver);
+        return componentLocator.checkTable(driver, "Job Description", Map.of("name", name, "description", description));
     }
 }

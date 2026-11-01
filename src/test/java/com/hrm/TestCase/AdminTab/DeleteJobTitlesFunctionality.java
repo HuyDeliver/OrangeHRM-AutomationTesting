@@ -15,7 +15,7 @@ import io.qameta.allure.Feature;
 public class DeleteJobTitlesFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý Job")
-    @Test(description = "OHR11: Delete Job", dependsOnGroups = { "job-test" })
+    @Test(priority = 3, description = "OHR11: Delete Job", dependsOnGroups = { "job-test" })
     public void deleteJob() {
         TestUtil.jobUtil();
         JobTitlePage jobTitlePage = new JobTitlePage(driver);
@@ -23,6 +23,7 @@ public class DeleteJobTitlesFunctionality extends TestBase {
 
         jobTitlePage.clickDelete(TestDataShare.JOB_TITLE);
         Assert.assertTrue(jobTitlePage.isDeleteSuccess(), "Delete không thành công");
+        Assert.assertEquals(jobTitlePage.countJobTitles(TestDataShare.JOB_TITLE), 0, "Job Title vẫn còn sau khi xóa");
 
         Log.info("Delete Job title success");
     }

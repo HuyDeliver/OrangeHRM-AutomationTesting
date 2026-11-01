@@ -90,7 +90,7 @@ public class UserManagePage {
     }
 
     public boolean isNoRecordFound() {
-        return noRecordFound.isDisplayed();
+        return componentLocator.checkNoRecordFound(driver);
     }
 
     public boolean isRecordFoundMatchKeySearch(String name, String role, String employee, String statusAcc) {

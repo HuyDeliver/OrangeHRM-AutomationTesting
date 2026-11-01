@@ -18,7 +18,7 @@ import com.hrm.Util.TestDataShare;
 
 // Chỉ được khai báo trong nhóm CDAdminUser; không có @Test, không cộng số testcase.
 public class CDAdminUserSetup extends TestBase {
-    private boolean ready;
+    protected boolean ready;
 
     @BeforeTest
     public void checkCDConfiguration() throws Exception {

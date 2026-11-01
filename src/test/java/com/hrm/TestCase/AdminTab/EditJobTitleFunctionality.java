@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class EditJobTitleFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý Job Title")
-    @Test(description = "OHR10: Edit Job title", dependsOnGroups = { "job-test" })
+    @Test(priority = 2, description = "OHR10: Edit Job title", dependsOnGroups = { "job-test" })
     public void editJobTileSuccess() {
         TestUtil.jobUtil();
         JobTitlePage jobTitlePage = new JobTitlePage(driver);
@@ -29,6 +29,8 @@ public class EditJobTitleFunctionality extends TestBase {
         editJobTitlePage.editJobTitle("Devops rất khó apply");
 
         Assert.assertTrue(editJobTitlePage.isEditJobTitleSuccess(), "Edit không thành công");
+        Assert.assertTrue(jobTitlePage.hasJobDescription(TestDataShare.JOB_TITLE, "Devops rất khó apply"),
+                "Job Description đã lưu không đúng nội dung vừa sửa");
 
         Log.info("Edit job title thành công");
     }

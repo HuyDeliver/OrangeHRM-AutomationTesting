@@ -15,13 +15,14 @@ import io.qameta.allure.Feature;
 public class DeleteLocationFunctionality extends TestBase {
     @Epic("Module AdminTab")
     @Feature("Quản lý location")
-    @Test(description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" })
+    @Test(priority = 3, description = "OHR13: Delete a location", dependsOnGroups = { "Location-test" })
     public void deleteLocationSuccess() {
         TestUtil.organizeUtil();
         LocationPage locationPage = new LocationPage(driver);
         Assert.assertTrue(locationPage.isTitleLocationVisible(), "Không vào được trang Location");
         locationPage.deleteLocation(TestDataShare.LOCATION);
         Assert.assertTrue(locationPage.isDeleteLocationSuccess(), "Delete không thành công");
+        Assert.assertEquals(locationPage.countLocations(TestDataShare.LOCATION), 0, "Location vẫn còn sau khi xóa");
 
         Log.info("Xóa thành công");
     }
