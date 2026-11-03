@@ -1,6 +1,10 @@
 package com.hrm.Pages.RecruitmentPage;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -35,6 +39,8 @@ public class AddVancanciesPage {
 
     public void clickSave() {
         componentLocator.buttonSave(driver);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//h6[normalize-space()='Edit Vacancy']")));
     }
 
     public void addAttachment(String file, String comment, String title) {

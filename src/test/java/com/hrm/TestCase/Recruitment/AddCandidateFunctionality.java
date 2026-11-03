@@ -8,6 +8,7 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.RecruitmentPage.AddCandidatePage;
 import com.hrm.Pages.RecruitmentPage.CandidatesPage;
+import com.hrm.Pages.RecruitmentPage.ApplicationStage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
@@ -34,17 +35,23 @@ public class AddCandidateFunctionality extends TestBase {
                 TestConfig.firstName,
                 TestConfig.middleName,
                 TestDataShare.LASTNAME,
-                TestConfig.jobTitleName,
-                TestConfig.email,
+                TestConfig.candidateVacancy,
+                TestConfig.candidateEmail,
                 TestConfig.phoneNumber,
                 TestConfig.jobSpecification,
                 TestConfig.skill,
-                "2026-09-27",
+                java.time.LocalDate.now().toString(),
                 TestConfig.comment);
-        addCandidatePage.clickSave();
+        ApplicationStage application = addCandidatePage.clickSave();
         candidateCreated = addCandidatePage.isAddCandidateSuccess();
         Assert.assertTrue(candidateCreated, "Add candidate không thành công");
-        Log.info("Add candidate thành công");
+        application.waitForApplicationStage();
+        application.reloadApplicationStage();
+        Assert.assertEquals(application.getCandidateStatus(), "Status: Application Initiated", "Sai trạng thái candidate sau refresh");
+        application.goToCandidatesPage("Candidates", "");
+        Assert.assertEquals(candidatesPage.countCandidates(TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME),
+                1, "Candidate không được lưu đúng tên");
+        Log.info("OHR29: Candidate đã lưu, trạng thái Application Initiated");
     }
 
     @AfterMethod(alwaysRun = true)

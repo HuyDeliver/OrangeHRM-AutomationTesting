@@ -82,6 +82,9 @@ jobs:
           $pimDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/pim.properties'
           [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($pimDataPath) + "`n")
 
+          $recruitmentDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/recruitment.properties'
+          [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($recruitmentDataPath) + "`n")
+
       - name: Deploy OrangeHRM CD
         env:
           CD_DB_PASSWORD: ${{ secrets.ORANGEHRM_CD_DB_PASSWORD }}
@@ -93,7 +96,7 @@ jobs:
 
       - name: Seed CD test data
         id: seed
-        run: .\deploy\seed.ps1 -IncludePIM
+        run: .\deploy\seed.ps1 -IncludeRecruitment
 
       - name: Run login smoke
         run: |
@@ -151,6 +154,21 @@ jobs:
         if: always() && (steps.admin.outcome == 'success' || steps.admin.outcome == 'failure')
         run: .\deploy\admin-report.ps1
 
+      - name: Run full Recruitment regression
+        id: recruitment
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-recruitment/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-recruitment "-Dconfig.file=deploy/config.cd.properties" *> ci-recruitment.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check Recruitment result and cleanup
+        if: always() && (steps.recruitment.outcome == 'success' || steps.recruitment.outcome == 'failure')
+        run: .\deploy\recruitment-report.ps1
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -161,6 +179,7 @@ jobs:
             target/cd-evidence/pim-summary.json
             target/cd-evidence/pim-regression-summary.json
             target/cd-evidence/admin-summary.json
+            target/cd-evidence/recruitment-summary.json
           if-no-files-found: error
           retention-days: 7
 
@@ -182,6 +201,8 @@ jobs:
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim-regression.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim-regression"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-recruitment.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-recruitment"
           Write-Host "$env:GITHUB_WORKSPACE/ci-admin.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-admin"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim"

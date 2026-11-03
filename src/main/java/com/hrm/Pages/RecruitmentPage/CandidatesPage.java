@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
+import org.testng.Assert;
+import com.hrm.Util.waitUtils;
 import com.hrm.Util.componentLocator;
 
 public class CandidatesPage {
@@ -50,18 +52,40 @@ public class CandidatesPage {
         return componentLocator.checkToasstSuccess(driver, toast);
     }
 
+    public int countCandidates(String fullName) {
+        return componentLocator.countTableRows(driver, fullName);
+    }
+
+    public void removeCandidateIfPresent(String fullName) {
+        componentLocator.clickDropdownNavi(driver, "Candidates", "");
+        int count = countCandidates(fullName);
+        Assert.assertTrue(count <= 1, "Cleanup: nhiều candidate trùng tên " + fullName);
+        if (count == 1) {
+            deleteCandidate(fullName);
+            Assert.assertTrue(isDeleteCandidateSuccess("Cleanup candidate"), "Không xóa được candidate " + fullName);
+        }
+        Assert.assertEquals(countCandidates(fullName), 0, "Candidate vẫn còn sau cleanup");
+    }
+
     public void deleteTestCandidate(String marker) {
         componentLocator.clickDropdownNavi(driver, "Candidates", "");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h5[normalize-space()='Candidates']")));
         wait.until(d -> componentLocator.checkTable(d, "Candidate test", Map.of("marker", marker)));
+        waitUtils.waitForTable(driver);
         By rows = By.cssSelector(".oxd-table-body .oxd-table-card");
         int before = driver.findElements(rows).size();
         deleteCandidate(marker);
         // Chờ bảng tải lại đủ số dòng, tránh hiểu nhầm bảng đang rỗng là đã xóa xong.
-        wait.until(d -> d.findElements(rows).size() == before - 1
-                && d.findElements(By.cssSelector(".oxd-loading-spinner")).isEmpty()
-                && !componentLocator.checkTable(d, "Cleanup candidate", Map.of("marker", marker)));
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            wait.until(d -> d.findElements(rows).size() == before - 1
+                    && d.findElements(By.cssSelector(".oxd-loading-spinner")).isEmpty()
+                    && !componentLocator.checkTable(d, "Cleanup candidate", Map.of("marker", marker)));
+        } finally {
+            driver.manage().timeouts().implicitlyWait(original);
+        }
         Log.info("Cleanup: đã xóa candidate " + marker);
     }
 }

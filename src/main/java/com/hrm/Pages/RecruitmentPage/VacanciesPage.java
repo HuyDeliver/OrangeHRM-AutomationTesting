@@ -1,6 +1,12 @@
 package com.hrm.Pages.RecruitmentPage;
 
 import java.util.Map;
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import com.hrm.Util.waitUtils;
 
 import org.openqa.selenium.WebDriver;
 
@@ -45,7 +51,23 @@ public class VacanciesPage {
     }
 
     public void clickSearch() {
+        By summary = By.xpath("//div[contains(@class,'orangehrm-horizontal-padding')]/child::span");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement old = wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
         componentLocator.clickSearch(driver);
+        wait.until(ExpectedConditions.stalenessOf(old));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(summary));
+        waitUtils.waitForTable(driver);
+    }
+
+    public int countVacancies(String name) {
+        return componentLocator.countTableRows(driver, name);
+    }
+
+    public void openVacancy(String name) {
+        componentLocator.editButtonTable(driver, name);
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//h6[normalize-space()='Edit Vacancy']")));
     }
 
     public boolean checkSearch(String job, String vacancy, String manager, String status, boolean expectedFound) {

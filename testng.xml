@@ -60,6 +60,7 @@
 
     <test name="Recruitment" preserve-order="true">
         <classes>
+            <class name="com.hrm.Setup.CDRecruitmentSetup" />
             <class name="com.hrm.TestCase.Recruitment.AddVacancyFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.SearchVacancyFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.DeleteVacancyFunctionality" />

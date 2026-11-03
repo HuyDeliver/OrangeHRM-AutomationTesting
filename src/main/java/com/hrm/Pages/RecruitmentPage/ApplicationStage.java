@@ -80,8 +80,9 @@ public class ApplicationStage {
 
     public boolean hasShortlistHistory() {
         try {
-            return new WebDriverWait(driver, Duration.ofSeconds(5)).until(d ->
-                    componentLocator.checkTable(d, "History Shortlist", Map.of("action", "Shortlisted")));
+            // Status và bảng History tải riêng; chờ bảng xong rồi mới đọc.
+            waitUtils.waitForTable(driver);
+            return componentLocator.checkTable(driver, "History Shortlist", Map.of("action", "Shortlisted"));
         } catch (TimeoutException e) {
             return false;
         }
@@ -89,6 +90,7 @@ public class ApplicationStage {
 
     public boolean hasRejectHistory() {
         // History dùng chữ "rejected", khác với nhãn trạng thái "Rejected".
+        waitUtils.waitForTable(driver);
         return componentLocator.checkTable(driver, "History Reject", Map.of("action", "rejected"));
     }
 }

@@ -77,7 +77,10 @@ public class TestConfig {
         public static final String payGradeANewMaximum = "2500";
 
         // Issue #1926: các vacancy Active đã kiểm tra trên local, không tạo vacancy giả.
-        public static final String[] shortlistVacancies = { "Devops", "Sales IT", "Tester" };
+        public static final String hiringManager = Config.get("recruitment.hiring.manager", surbordinate);
+        public static final String candidateVacancy = Config.get("recruitment.candidate.vacancy", jobTitleName);
+        public static final String candidateEmail = Config.get("recruitment.email", email);
+        public static final String[] shortlistVacancies = Config.get("recruitment.shortlist.vacancies", "Devops,Sales IT,Tester").split(",");
         public static final String shortlistEmailDomain = "@example.invalid";
 
         // Issue #1890: fixture riêng đã tạo qua UI và được phép giữ lại; không Submit.

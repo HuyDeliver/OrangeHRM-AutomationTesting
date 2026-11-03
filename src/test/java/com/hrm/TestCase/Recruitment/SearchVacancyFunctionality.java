@@ -10,6 +10,8 @@ import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Pages.RecruitmentPage.VacanciesPage;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
+import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -17,7 +19,7 @@ import io.qameta.allure.Feature;
 public class SearchVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "OHR27: Search vacancy using data-driven", dataProvider = "searchingVacancy")
+    @Test(priority = 1, dependsOnGroups = "recruitment-vacancy", description = "OHR27: Search vacancy using data-driven", dataProvider = "searchingVacancy")
     public void searchVacancy(String job, String vacancy, String manager, String status, String expectedFound) {
         Assert.assertTrue("true".equalsIgnoreCase(expectedFound) || "false".equalsIgnoreCase(expectedFound),
                 "Excel: expectedFound phải là true hoặc false");
@@ -38,6 +40,15 @@ public class SearchVacancyFunctionality extends TestBase {
     public Object[][] getSearchingData() {
         String path = "src/test/resources/data/Datadriven-OrangeHrm.xlsx";
         String sheetName = "Vacancy";
-        return ExelReader.getDataFromExel(path, sheetName);
+        Object[][] data = ExelReader.getDataFromExel(path, sheetName);
+        if (Boolean.getBoolean("cd.recruitment")) {
+            for (Object[] row : data) {
+                if (!row[0].toString().isBlank()) row[0] = TestConfig.jobTitleName;
+                if (!row[1].toString().isBlank()) row[1] = TestDataShare.VACANCY_NAME;
+                if (!row[2].toString().isBlank()) row[2] = TestConfig.hiringManager;
+                // Giữ Status và expectedFound của Excel, kể cả dòng Closed/false.
+            }
+        }
+        return data;
     }
 }

@@ -18,7 +18,7 @@ import io.qameta.allure.Feature;
 public class AddVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "OHR26: Add new vacancy")
+    @Test(groups = "recruitment-vacancy", description = "OHR26: Add new vacancy")
     public void addVacancy() {
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);
@@ -29,10 +29,14 @@ public class AddVacancyFunctionality extends TestBase {
         Assert.assertTrue(addVancanciesPage.isAddVancanciesPageVisible("Add Vacancy"),
                 "không vào được trang add vancancies");
         addVancanciesPage.addVancanciesFunction(TestDataShare.VACANCY_NAME, TestConfig.jobTitleName,
-                TestConfig.jobDescription, TestConfig.surbordinate, "2");
+                TestConfig.jobDescription, TestConfig.hiringManager, "2");
         addVancanciesPage.clickSave();
         addVancanciesPage.addAttachment(TestConfig.jobSpecification, "Nothing", "Attachments");
         Assert.assertTrue(addVancanciesPage.isAddvancanciesSuccess(), "Add không thành công");
-        Log.info("adđ vancacies thành công");
+        vacanciesPage = candidatesPage.goToVacanciesPage("Vacancies", "");
+        vacanciesPage.searchVacancy(TestConfig.jobTitleName, TestDataShare.VACANCY_NAME, TestConfig.hiringManager, "Active");
+        vacanciesPage.clickSearch();
+        Assert.assertEquals(vacanciesPage.countVacancies(TestDataShare.VACANCY_NAME), 1, "Vacancy không được lưu đúng");
+        Log.info("OHR26: Vacancy đã lưu đúng tên, job, manager và Active");
     }
 }

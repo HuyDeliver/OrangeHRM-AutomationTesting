@@ -36,12 +36,12 @@ public class RejectCandidateFunctionality extends TestBase {
                 TestConfig.firstName,
                 TestConfig.middleName,
                 candidateLastName,
-                TestConfig.jobTitleName,
-                TestConfig.email,
+                TestConfig.candidateVacancy,
+                TestConfig.candidateEmail,
                 TestConfig.phoneNumber,
                 TestConfig.jobSpecification,
                 TestConfig.skill,
-                "2026-09-27",
+                java.time.LocalDate.now().toString(),
                 TestConfig.comment);
         ApplicationStage applicationStage = addCandidatePage.clickSave();
         applicationStage.waitForApplicationStage();

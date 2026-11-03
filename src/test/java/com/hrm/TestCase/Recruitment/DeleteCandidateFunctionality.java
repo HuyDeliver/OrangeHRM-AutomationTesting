@@ -32,14 +32,15 @@ public class DeleteCandidateFunctionality extends TestBase {
                 TestConfig.firstName,
                 TestConfig.middleName,
                 candidateLastName,
-                TestConfig.jobTitleName,
-                TestConfig.email,
+                TestConfig.candidateVacancy,
+                TestConfig.candidateEmail,
                 TestConfig.phoneNumber,
                 TestConfig.jobSpecification,
                 TestConfig.skill,
-                "2026-09-27",
+                java.time.LocalDate.now().toString(),
                 TestConfig.comment);
         ApplicationStage applicationStage = addCandidatePage.clickSave();
+        applicationStage.waitForApplicationStage();
         applicationStage.goToCandidatesPage("Candidates", "");
     }
 
@@ -47,8 +48,10 @@ public class DeleteCandidateFunctionality extends TestBase {
     public void deleteVancancies() {
         String name = TestConfig.firstName + " " + TestConfig.middleName + " " + candidateLastName;
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
+        Assert.assertEquals(candidatesPage.countCandidates(name), 1, "Chưa có candidate cần xóa");
         candidatesPage.deleteCandidate(name);
         Assert.assertTrue(candidatesPage.isDeleteCandidateSuccess("Delete candidate"), "Delete không thành công");
-        Log.info("Delete candidate thành công");
+        Assert.assertEquals(candidatesPage.countCandidates(name), 0, "Candidate còn sau Delete");
+        Log.info("OHR31: Candidate không còn trong danh sách");
     }
 }

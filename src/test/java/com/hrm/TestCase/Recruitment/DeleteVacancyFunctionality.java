@@ -16,15 +16,17 @@ import io.qameta.allure.Feature;
 public class DeleteVacancyFunctionality extends TestBase {
     @Epic("Recruitment")
     @Feature("Vacancies")
-    @Test(description = "OHR28: Delete vacancy")
+    @Test(priority = 2, dependsOnGroups = "recruitment-vacancy", description = "OHR28: Delete vacancy")
     public void deleteVancancies() {
         TestUtil.recruitmentUtil();
         CandidatesPage candidatesPage = new CandidatesPage(driver);
         Assert.assertTrue(candidatesPage.isCandidatePageVisisble("Candidates"), "Không vào được trang candidates");
         VacanciesPage vacanciesPage = candidatesPage.goToVacanciesPage("Vacancies", "");
         Assert.assertTrue(vacanciesPage.isVacanciesPageVisible("Vacancies"));
+        Assert.assertEquals(vacanciesPage.countVacancies(TestDataShare.VACANCY_NAME), 1, "Chưa có vacancy cần xóa");
         vacanciesPage.deleteVancancies(TestDataShare.VACANCY_NAME);
         Assert.assertTrue(vacanciesPage.isDeleteVancanciesSuccess("Delete Vancancies"), "Delete không thành công");
-        Log.info("Delete vancancies thành công");
+        Assert.assertEquals(vacanciesPage.countVacancies(TestDataShare.VACANCY_NAME), 0, "Vacancy vẫn còn sau Delete");
+        Log.info("OHR28: Vacancy không còn trong danh sách");
     }
 }
