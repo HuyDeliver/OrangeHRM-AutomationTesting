@@ -18,7 +18,7 @@ public class AddDependentFunctionality extends TestBase {
 
         @Epic("MyInfo")
         @Feature("Dependent")
-        @Test(description = "OHR36: Add Dependent")
+        @Test(groups = "myinfo-dependent", description = "OHR36: Add Dependent")
         public void addDependent() {
                 TestUtil.myInfoUtil();
                 PersonalDetailPage personalDetailPage = new PersonalDetailPage(driver);
@@ -34,6 +34,7 @@ public class AddDependentFunctionality extends TestBase {
                 DependentPage.clicksave();
                 Assert.assertTrue(DependentPage.isCallToActionSuccess("Add Dependent"),
                                 "Add không thành công");
+                Assert.assertTrue(DependentPage.hasDependent(TestDataShare.EMERGENCY_NAME), "Không tìm lại được record vừa thêm");
                 Log.info("Add Dependent success");
         }
 }

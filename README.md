@@ -87,8 +87,8 @@ testng.xml dùng TestListener hiện có và chạy tuần tự vì TestBase đa
 
 Lệnh dùng cho một job CI có thể là `mvn -B test -Dmodule=RecruitmentAPI`.
 Runner phải truy cập được OrangeHRM, có browser, config và fixture tương ứng.
-Workflow `.github/workflows/orangehrm-ci.yml`: push/merge main tự compile, deploy CD 8081, seed dữ liệu, chạy Login smoke và regression UI Admin/PIM/Recruitment headless. PR chỉ compile; Run workflow trên main chạy lại cùng pipeline, không có checkbox Deploy.
-Xem [hướng dẫn CI/CD](docs/docker-cd.md) để khởi tạo CD một lần, cấu hình runner/Secrets và đọc report. Xem thêm [Admin/seed](docs/cd-seeding.md), [PIM](docs/cd-pim.md), [Recruitment](docs/cd-recruitment.md). Seed không tính vào regression PASS. API/Security và các module UI khác chưa được bật trên CD. Bản workflow bổ sung Recruitment chưa được xác minh trên GitHub Actions.
+Workflow `.github/workflows/orangehrm-ci.yml`: push/merge main tự compile, deploy CD 8081, seed dữ liệu, chạy Login smoke và regression UI Admin/PIM/Recruitment/MyInfo/Profile headless. PR chỉ compile; Run workflow trên main chạy lại cùng pipeline, không có checkbox Deploy.
+Xem [hướng dẫn CI/CD](docs/docker-cd.md) để khởi tạo CD một lần, cấu hình runner/Secrets và đọc report. Xem thêm [Admin/seed](docs/cd-seeding.md), [PIM](docs/cd-pim.md), [Recruitment](docs/cd-recruitment.md), [My Info/Profile](docs/cd-myinfo-profile.md). Seed không tính vào regression PASS. Performance, Time, Claim và API/Security chưa được bật trên CD; Login hiện chỉ chạy smoke OHR1. Bản workflow bổ sung My Info/Profile chưa được xác minh trên GitHub Actions.
 
 Xem [cách chạy và cấu trúc module](docs/test-execution.md), [Search/assertion](docs/ui-search-assertions.md) và [Terminate/Reject](docs/ui-workflow-assertions.md).
 

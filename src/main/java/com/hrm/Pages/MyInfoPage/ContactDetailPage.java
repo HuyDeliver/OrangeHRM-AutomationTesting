@@ -1,6 +1,10 @@
 package com.hrm.Pages.MyInfoPage;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
+import java.time.Duration;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.componentLocator;
@@ -41,6 +45,14 @@ public class ContactDetailPage {
     public void clicksave() {
         componentLocator.buttonSave(driver);
         componentLocator.takeScreenshotResult(driver, "Add contact detail");
+    }
+
+    public boolean hasSavedContact(String street, String city, String email) {
+        driver.navigate().refresh();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeToBe(
+                By.xpath("//label[normalize-space()='Street 1']/following::input[1]"), "value", street));
+        return city.equals(driver.findElement(By.xpath("//label[normalize-space()='City']/following::input[1]")).getAttribute("value"))
+                && email.equals(driver.findElement(By.xpath("//label[normalize-space()='Other Email']/following::input[1]")).getAttribute("value"));
     }
 
     public boolean isAddContactDetailSuccess(String toast) {

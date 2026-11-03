@@ -1,6 +1,8 @@
 package com.hrm.Pages.MyInfoPage;
 
 import java.time.Duration;
+import java.util.Map;
+import com.hrm.Util.waitUtils;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -44,6 +46,15 @@ public class DependentPage {
 
     public boolean isCallToActionSuccess(String toast) {
         return componentLocator.checkToasstSuccess(driver, toast);
+    }
+
+    public boolean hasDependent(String name) {
+        driver.navigate().refresh();
+        waitUtils.waitForTable(driver);
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try { return componentLocator.checkTable(driver, "Saved record", Map.of("Name", name)); }
+        finally { driver.manage().timeouts().implicitlyWait(original); }
     }
 
     public boolean isToastDeleteVisible() {

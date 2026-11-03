@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.hrm.Util.Log;
+import com.hrm.Util.waitUtils;
 import com.hrm.Util.componentLocator;
 
 public class QualificationPage {
@@ -65,6 +66,6 @@ public class QualificationPage {
     public void reloadQualification() {
         driver.navigate().refresh();
         isQualificationVisible();
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".oxd-loading-spinner"), 0));
+        waitUtils.waitForTable(driver);
     }
 }

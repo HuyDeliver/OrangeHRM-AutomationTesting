@@ -423,10 +423,13 @@ public class componentLocator {
 
     public static void takeScreenshotResult(WebDriver driver, String testName) {
         Log.info("Chụp ảnh kết quả");
-        WebElement loading = driver.findElement(
-                By.xpath("//div[contains(@class, 'oxd-loading-spinner')]"));
-
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOf(loading));
+        // Spinner có thể đã biến mất trước khi chụp; không tìm bắt buộc một element không còn tồn tại.
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector(".oxd-loading-spinner, .oxd-form-loader")));
+        } finally { driver.manage().timeouts().implicitlyWait(original); }
 
         byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         Allure.addAttachment("Screenshot - " + testName, new ByteArrayInputStream(screenshotBytes));

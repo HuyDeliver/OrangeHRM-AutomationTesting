@@ -98,7 +98,7 @@ public class TestConfig {
         public static final String claimTestCurrency = "Vietnamese Dong";
 
         // Education: Level đã có sẵn trong Admin > Qualifications > Education
-        public static final String educationLevel = "HANUI";
+        public static final String educationLevel = Config.get("myinfo.education.level", "HANUI");
 
         // personal detail
         public static final String id = "0382040431386";

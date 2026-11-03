@@ -73,6 +73,7 @@
 
     <test name="MyInfo" preserve-order="true">
         <classes>
+            <class name="com.hrm.Setup.CDMyInfoSetup" />
             <class name="com.hrm.TestCase.MyInfoTab.AddContactDetailFunctionality" />
             <class name="com.hrm.TestCase.MyInfoTab.AddPersonalDetailFunctionality" />
             <class name="com.hrm.TestCase.MyInfoTab.AddEmergencyContactFunctionality" />

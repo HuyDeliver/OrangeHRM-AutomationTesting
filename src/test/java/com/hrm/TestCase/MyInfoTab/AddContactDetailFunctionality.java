@@ -9,6 +9,7 @@ import com.hrm.Pages.MyInfoPage.ContactDetailPage;
 import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.TestDataShare;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -25,13 +26,14 @@ public class AddContactDetailFunctionality extends TestBase {
                 ContactDetailPage contactDetailpage = personalDetailPage.goToContactDetailpage("Contact Details");
                 Assert.assertTrue(contactDetailpage.isContactDetailVisible("Contact Details"),
                                 "Không vào đc trang contact detail");
-                contactDetailpage.fillContactDetails(TestConfig.street1, TestConfig.street2, TestConfig.cityName,
+                contactDetailpage.fillContactDetails(TestDataShare.MYINFO_STREET, TestConfig.street2, TestDataShare.MYINFO_CITY,
                                 TestConfig.provinceName, TestConfig.postalCode, TestConfig.countryName,
                                 TestConfig.homePhone,
-                                TestConfig.mobilePhone, TestConfig.otherEmail);
+                                TestConfig.mobilePhone, TestDataShare.MYINFO_OTHER_EMAIL);
                 contactDetailpage.clicksave();
                 Assert.assertTrue(contactDetailpage.isAddContactDetailSuccess("Add Contact detail"),
                                 "Add Contact không thành công");
+                Assert.assertTrue(contactDetailpage.hasSavedContact(TestDataShare.MYINFO_STREET, TestDataShare.MYINFO_CITY, TestDataShare.MYINFO_OTHER_EMAIL), "Contact detail không giữ sau refresh");
                 Log.info("Add Contact detail success");
         }
 }

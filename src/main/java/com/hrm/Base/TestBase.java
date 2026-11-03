@@ -21,6 +21,9 @@ public class TestBase {
 
     @BeforeMethod
     public void setUp() {
+        if (Boolean.getBoolean("cd.run") && !"http://localhost:8081/web/index.php/auth/login".equals(Config.get("app.url"))) {
+            throw new IllegalStateException("CD profile chỉ được chạy trên CD 8081");
+        }
         driver = WebDriverFactory.createDriver();
         boolean headless = Boolean.parseBoolean(System.getProperty("headless", System.getenv("HEADLESS")));
         if (headless) {
@@ -32,7 +35,7 @@ public class TestBase {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();

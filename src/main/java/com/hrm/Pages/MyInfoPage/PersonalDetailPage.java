@@ -55,6 +55,14 @@ public class PersonalDetailPage {
         componentLocator.takeScreenshotResult(driver, "Add personal detail");
     }
 
+    public boolean hasSavedIdentity(String otherId, String birthDate) {
+        driver.navigate().refresh();
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeToBe(
+                By.xpath("//label[normalize-space()='Other Id']/following::input[1]"), "value", otherId));
+        return birthDate.equals(driver.findElement(By.xpath("//label[normalize-space()='Date of Birth']/following::input[1]"))
+                .getAttribute("value"));
+    }
+
     public boolean isAddPersonalDetailSuccess(String toast) {
         return componentLocator.checkToasstSuccess(driver, toast);
     }

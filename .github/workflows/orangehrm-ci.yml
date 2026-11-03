@@ -85,6 +85,9 @@ jobs:
           $recruitmentDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/recruitment.properties'
           [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($recruitmentDataPath) + "`n")
 
+          $myInfoDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/myinfo.properties'
+          [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($myInfoDataPath) + "`n")
+
       - name: Deploy OrangeHRM CD
         env:
           CD_DB_PASSWORD: ${{ secrets.ORANGEHRM_CD_DB_PASSWORD }}
@@ -96,7 +99,7 @@ jobs:
 
       - name: Seed CD test data
         id: seed
-        run: .\deploy\seed.ps1 -IncludeRecruitment
+        run: .\deploy\seed.ps1 -IncludeMyInfo
 
       - name: Run login smoke
         run: |
@@ -169,6 +172,36 @@ jobs:
         if: always() && (steps.recruitment.outcome == 'success' || steps.recruitment.outcome == 'failure')
         run: .\deploy\recruitment-report.ps1
 
+      - name: Run My Info regression
+        id: myinfo
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-myinfo/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-myinfo "-Dconfig.file=deploy/config.cd.properties" *> ci-myinfo.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check My Info result
+        if: always() && (steps.myinfo.outcome == 'success' || steps.myinfo.outcome == 'failure')
+        run: .\deploy\myinfo-report.ps1
+
+      - name: Run Profile regression
+        id: profile
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-profile/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-profile "-Dconfig.file=deploy/config.cd.properties" *> ci-profile.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check Profile result
+        if: always() && (steps.profile.outcome == 'success' || steps.profile.outcome == 'failure')
+        run: .\deploy\profile-report.ps1
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -179,6 +212,8 @@ jobs:
             target/cd-evidence/pim-summary.json
             target/cd-evidence/pim-regression-summary.json
             target/cd-evidence/admin-summary.json
+            target/cd-evidence/myinfo-summary.json
+            target/cd-evidence/profile-summary.json
             target/cd-evidence/recruitment-summary.json
           if-no-files-found: error
           retention-days: 7
@@ -201,6 +236,10 @@ jobs:
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim.log"
           Write-Host "$env:GITHUB_WORKSPACE/ci-pim-regression.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim-regression"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-myinfo.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-myinfo"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-profile.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-profile"
           Write-Host "$env:GITHUB_WORKSPACE/ci-recruitment.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-recruitment"
           Write-Host "$env:GITHUB_WORKSPACE/ci-admin.log"

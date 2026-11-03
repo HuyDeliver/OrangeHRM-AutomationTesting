@@ -18,7 +18,7 @@ public class AddEmergencyContactFunctionality extends TestBase {
 
         @Epic("MyInfo")
         @Feature("Emergency Contact")
-        @Test(description = "OHR34: Add Emergency Contact")
+        @Test(groups = "myinfo-contact", description = "OHR34: Add Emergency Contact")
         public void addEmergencyContact() {
                 TestUtil.myInfoUtil();
                 PersonalDetailPage personalDetailPage = new PersonalDetailPage(driver);
@@ -34,6 +34,7 @@ public class AddEmergencyContactFunctionality extends TestBase {
                 emergencyContactPage.clicksave();
                 Assert.assertTrue(emergencyContactPage.isCallToActionSuccess("Add emergency contact"),
                                 "Add không thành công");
+                Assert.assertTrue(emergencyContactPage.hasContact(TestDataShare.EMERGENCY_NAME), "Không tìm lại được record vừa thêm");
                 Log.info("Add Emergency Contact success");
         }
 }

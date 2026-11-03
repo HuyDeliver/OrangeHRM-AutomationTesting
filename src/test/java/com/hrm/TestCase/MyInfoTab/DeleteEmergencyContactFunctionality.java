@@ -16,7 +16,7 @@ import io.qameta.allure.Feature;
 public class DeleteEmergencyContactFunctionality extends TestBase {
     @Epic("MyInfo")
     @Feature("Emergency Contact")
-    @Test(description = "OHR35: Delete Emergency")
+    @Test(priority = 1, dependsOnGroups = "myinfo-contact", description = "OHR35: Delete Emergency")
     public void deleteEmergencyContact() {
         TestUtil.myInfoUtil();
         PersonalDetailPage personalDetailPage = new PersonalDetailPage(driver);
@@ -26,6 +26,8 @@ public class DeleteEmergencyContactFunctionality extends TestBase {
         Assert.assertTrue(emergencyContactPage.isEmergencyContactVisible("Assigned Emergency Contacts"),
                 "Không vào được trang");
         emergencyContactPage.DeleteEmergencyContact(TestDataShare.EMERGENCY_NAME);
+                Assert.assertTrue(emergencyContactPage.isToastDeleteVisible(), "Delete không thành công");
+                Assert.assertFalse(emergencyContactPage.hasContact(TestDataShare.EMERGENCY_NAME), "Record vẫn còn sau Delete và refresh");
         Log.info("Xóa emergency contact thành công");
     }
 }
