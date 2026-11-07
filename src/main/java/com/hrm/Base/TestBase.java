@@ -43,10 +43,13 @@ public class TestBase {
     }
 
     public void takeScreenshot(String testName) {
-        // Chụp dạng byte[] thay vì FILE
-        byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-
-        // Đính thẳng vào report Allure
-        Allure.addAttachment("Screenshot - " + testName, "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
+        try {
+            if (driver != null) {
+                byte[] screenshotBytes = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+                Allure.addAttachment("Screenshot - " + testName, "image/png", new ByteArrayInputStream(screenshotBytes), ".png");
+            }
+        } catch (Exception e) {
+            com.hrm.Util.Log.warn("Không thể chụp screenshot cho " + testName + ": " + e.getMessage());
+        }
     }
 }

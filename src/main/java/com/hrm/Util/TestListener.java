@@ -21,9 +21,13 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         Log.error("FAIL: " + result.getName());
         Log.error("REASON: " + result.getThrowable());
-        Object testInstance = result.getInstance();
-        if (testInstance instanceof TestBase) {
-            ((TestBase) testInstance).takeScreenshot(result.getName());
+        try {
+            Object testInstance = result.getInstance();
+            if (testInstance instanceof TestBase) {
+                ((TestBase) testInstance).takeScreenshot(result.getName());
+            }
+        } catch (Exception e) {
+            Log.warn("Không thể chụp screenshot trong onTestFailure: " + e.getMessage());
         }
     }
 
