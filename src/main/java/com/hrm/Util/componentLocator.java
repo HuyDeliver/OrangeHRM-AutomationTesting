@@ -342,21 +342,33 @@ public class componentLocator {
         Log.info("Chọn " + label + " = " + option);
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        Actions actions = new Actions(driver);
 
         By dropdownLocator = By.xpath("//label[normalize-space()='" + label
                 + "']/ancestor::div[contains(@class,'oxd-input-group')]//div[contains(@class,'oxd-select-text')]");
 
-        WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownLocator));
-
-        actions.moveToElement(dropdown).click().perform();
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(dropdownLocator));
 
         By optionLocator = By
                 .xpath("//div[@role='listbox' and contains(@class,'oxd-select-dropdown')]//span[normalize-space(.)='"
                         + option + "']");
-        WebElement optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
 
-        actions.moveToElement(optionEl).scrollToElement(optionEl).click().perform();
+        long deadline = System.currentTimeMillis() + 10000;
+        WebElement optionEl = null;
+        while (System.currentTimeMillis() < deadline) {
+            try {
+                dropdown.click();
+                optionEl = new WebDriverWait(driver, Duration.ofSeconds(2))
+                        .until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+                break;
+            } catch (Exception e) {
+                try { Thread.sleep(500); } catch (InterruptedException ignored) {}
+            }
+        }
+        if (optionEl == null) {
+            dropdown.click();
+            optionEl = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
+        }
+        waitUtils.waitElementClick(driver, optionEl);
     }
 
     public static void buttonAddMyInfo(WebDriver driver, String title) {

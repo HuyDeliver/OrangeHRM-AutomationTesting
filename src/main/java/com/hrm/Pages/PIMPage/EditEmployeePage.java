@@ -147,6 +147,14 @@ public class EditEmployeePage {
         driver.navigate().refresh();
     }
 
+    public boolean hasJobTitle(String title) {
+        try {
+            return title.equals(selectValue("Job Title"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean hasJobDetails(String joined, String title, String category, String unit, String location, String status) {
         new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.attributeToBe(
                 By.xpath("//label[normalize-space()='Joined Date']/following::input[1]"), "value", joined));
@@ -176,8 +184,16 @@ public class EditEmployeePage {
     }
 
     public boolean hasSupervisor(String name, String method) {
-        waitUtils.waitForTable(driver);
-        return componentLocator.checkTable(driver, "Assigned Supervisors", Map.of("name", name, "method", method));
+        Duration original = driver.manage().timeouts().getImplicitWaitTimeout();
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        try {
+            if (driver.findElements(By.cssSelector(".oxd-table-header")).isEmpty()) {
+                return false;
+            }
+            return componentLocator.checkTable(driver, "Assigned Supervisors", Map.of("name", name, "method", method));
+        } finally {
+            driver.manage().timeouts().implicitlyWait(original);
+        }
     }
 
     public boolean isEmploymentTerminated() {

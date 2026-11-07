@@ -26,14 +26,27 @@ if (Test-Path -LiteralPath $reportPath) {
     $badConfigurations = @($report.SelectNodes('//test-method[@is-config="true" and @status!="PASS"]'))
     $correctTest = $methods.Count -eq 1 -and $methods[0].name -eq 'loginSuccess' `
         -and $methods[0].ParentNode.name -eq 'com.hrm.TestCase.LoginTab.LoginTest'
-    $summary.result = 'FAIL'
-    if ($correctTest -and $methods[0].status -eq 'PASS' -and $summary.total -eq 1 -and $summary.passed -eq 1 `
+    
+    if ($methods.Count -eq 0) {
+        $summary.result = 'NO_REPORT'
+    } elseif ($correctTest -and $methods[0].status -eq 'PASS' -and $summary.total -eq 1 -and $summary.passed -eq 1 `
         -and $summary.failed -eq 0 -and $summary.skipped -eq 0 -and $badConfigurations.Count -eq 0) {
         $summary.result = 'PASS'
+    } elseif ($correctTest -and ($methods[0].status -eq 'SKIP' -or $summary.skipped -gt 0) `
+        -and $summary.failed -eq 0 -and $badConfigurations.Count -eq 0) {
+        $summary.result = 'SKIP'
+    } else {
+        $summary.result = 'FAIL'
     }
 }
 
 # Chỉ upload số đếm và kết quả thật; không copy stdout, stack trace, config hay token.
 $summary | ConvertTo-Json | Set-Content -LiteralPath "$evidence/smoke-summary.json" -Encoding UTF8
-Write-Output "Login smoke: $($summary.result); total=$($summary.total); passed=$($summary.passed); skipped=$($summary.skipped)"
-if ($summary.result -ne 'PASS') { throw 'Smoke must run exactly OHR1 and pass without skips' }
+Write-Output "Login smoke: $($summary.result); total=$($summary.total); passed=$($summary.passed); failed=$($summary.failed); skipped=$($summary.skipped)"
+if ($summary.result -eq 'NO_REPORT') {
+    throw 'Smoke failed: NO_REPORT (test did not run or total=0)'
+} elseif ($summary.result -eq 'SKIP') {
+    throw 'Smoke failed: test was SKIPPED'
+} elseif ($summary.result -ne 'PASS') {
+    throw 'Smoke must run exactly OHR1 and pass without skips'
+}

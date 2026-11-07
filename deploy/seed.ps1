@@ -97,7 +97,17 @@ try {
     if ($IncludeApi) {
         $api = Get-Content -LiteralPath "$output/api-seed-result.properties" -Raw | ConvertFrom-StringData
         if ($api['result'] -ne 'SUCCESS') { throw 'API seed did not complete' }
-        [System.IO.File]::AppendAllText($configFile, "`ness.empNumber=$($api['ess.empNumber'])`ntarget.empNumber=$($result['employee.empNumber'])`n")
+        $newLines = @(
+            "ess.empNumber=$($api['ess.empNumber'])",
+            "target.empNumber=$($result['employee.empNumber'])"
+        )
+        $existingContent = [System.IO.File]::ReadAllText($configFile)
+        foreach ($nl in $newLines) {
+            $k = ($nl -split '=', 2)[0]
+            if ($existingContent -notmatch "(?m)^$k\s*=") {
+                [System.IO.File]::AppendAllText($configFile, "`n$nl`n")
+            }
+        }
         Write-Output '[SEED] ESS employee/user verified; setup only.'
     }
     Write-Output "[SEED] $($result['fixture.key']) $($result['action']) | empNumber=$($result['employee.empNumber']) | matches=$($result['match.count'])"

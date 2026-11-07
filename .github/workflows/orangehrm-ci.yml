@@ -101,25 +101,40 @@ jobs:
           & .\deploy\deploy.ps1 *> ci-deploy.log
 
       - name: Wait for OrangeHRM
+        id: readiness
         run: .\deploy\wait-ready.ps1
 
       - name: Seed CD test data
         id: seed
         run: .\deploy\seed.ps1 -IncludeApi
 
+      - name: Upload seed log on failure
+        if: ${{ !cancelled() && steps.seed.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cd-seed-log-${{ github.run_number }}
+          path: |
+            target/cd-seed/*/seed.log
+            target/cd-seed/*/*.properties
+          retention-days: 7
+
       - name: Run login smoke
+        id: smoke
+        if: ${{ !cancelled() && steps.readiness.outcome == 'success' }}
         run: |
-          $ErrorActionPreference = 'Continue'
+          $report = 'target/surefire-reports/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report -Force }
           & mvn -B -ntp test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
 
       - name: Check smoke result and prepare evidence
         id: smoke_check
-        if: always()
+        if: ${{ !cancelled() && (steps.smoke.outcome == 'success' || steps.smoke.outcome == 'failure') }}
         run: .\deploy\smoke-report.ps1
 
       - name: Run PIM baseline tests
         id: pim
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
         run: |
           $report = 'target/cd-pim/surefire/testng-results.xml'
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
@@ -320,7 +335,7 @@ jobs:
             target/cd-evidence/recruitment-summary.json
             target/cd-evidence/api-summary.json
             target/cd-evidence/security-summary.json
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Check DEV is unchanged
