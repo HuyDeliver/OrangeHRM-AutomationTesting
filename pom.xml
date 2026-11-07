@@ -109,6 +109,48 @@
     </build>
     <profiles>
         <profile>
+            <id>cd-api</id>
+            <properties>
+                <module>PIMAPI,AdminAPI,RecruitmentAPI</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-api/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <cd.api>true</cd.api>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cd-security</id>
+            <properties>
+                <module>Security</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-security/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <cd.api>true</cd.api>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>cd-performance</id>
             <properties>
                 <module>Performance</module>

@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.hrm.Base.TestUtil;
+import com.hrm.Pages.SideBar;
 import com.hrm.Pages.PIMPage.EditEmployeePage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Pages.PerformancePage.ManageReviewPage;
@@ -37,8 +38,7 @@ public class CDPerformanceSeedTest extends CDMyInfoSeedTest {
             edit.saveInfo("Seed Supervisor Performance");
         }
 
-        TestUtil.performanceUtil();
-        ManageReviewPage perf = new ManageReviewPage(driver);
+        ManageReviewPage perf = new SideBar(driver).clickPerformancePage("Performance");
         perf.openKpiPage();
         if (perf.countKpis(TestConfig.skill) == 0) {
             Assert.assertTrue(perf.addKpi(TestConfig.skill, TestConfig.jobTitleName, "1", "5"),

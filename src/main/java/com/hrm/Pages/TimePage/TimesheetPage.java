@@ -29,16 +29,16 @@ public class TimesheetPage {
     }
 
     public void openMyTimesheet(String startDate) {
-        if (!driver.findElements(By.xpath("//h6[normalize-space()='Define Timesheet Period']")).isEmpty()) {
+        componentLocator.clickDropdownNavi(driver, "Timesheets", "My Timesheets");
+        if (driver.getCurrentUrl().contains("defineTimesheetPeriod")
+                || !driver.findElements(By.xpath("//h6[normalize-space()='Define Timesheet Period']")).isEmpty()) {
             componentLocator.chooseSelectAction(driver, "First Day of Week", "Monday");
             componentLocator.buttonSave(driver);
             componentLocator.checkToasstSuccess(driver, "Success");
+            componentLocator.clickDropdownNavi(driver, "Timesheets", "My Timesheets");
         }
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
-                "//li[contains(@class,'oxd-topbar-body-nav-tab') and contains(.,'Timesheets')]")));
-        componentLocator.clickDropdownNavi(driver, "Timesheets", "My Timesheets");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(period))
-                .sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE, startDate, Keys.TAB);
+        WebElement periodInput = wait.until(ExpectedConditions.visibilityOfElementLocated(period));
+        periodInput.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE, startDate, Keys.TAB);
         wait.until(ExpectedConditions.attributeContains(period, "value", startDate));
         if (!driver.findElements(By.xpath("//button[normalize-space()='Create Timesheet']")).isEmpty()) {
             waitUtils.waitElementClick(driver, driver.findElement(By.xpath("//button[normalize-space()='Create Timesheet']")));

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.componentLocator;
-import com.hrm.Util.waitUtils;
 
 public class ManageReviewPage {
     private WebDriver driver;

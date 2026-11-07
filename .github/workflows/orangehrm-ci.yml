@@ -91,6 +91,9 @@ jobs:
           $performanceDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/performance.properties'
           [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($performanceDataPath) + "`n")
 
+          $apiDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/api.properties'
+          [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($apiDataPath) + "`n")
+
       - name: Deploy OrangeHRM CD
         env:
           CD_DB_PASSWORD: ${{ secrets.ORANGEHRM_CD_DB_PASSWORD }}
@@ -102,14 +105,13 @@ jobs:
 
       - name: Seed CD test data
         id: seed
-        run: .\deploy\seed.ps1 -IncludePerformance
+        run: .\deploy\seed.ps1 -IncludeApi
 
       - name: Run login smoke
         run: |
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check smoke result and prepare evidence
         id: smoke_check
@@ -124,7 +126,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-pim "-Dconfig.file=deploy/config.cd.properties" *> ci-pim.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check PIM result and prepare evidence
         if: always() && (steps.pim.outcome == 'success' || steps.pim.outcome == 'failure')
@@ -139,7 +140,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-pim-regression "-Dconfig.file=deploy/config.cd.properties" *> ci-pim-regression.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check PIM regression result and cleanup
         if: always() && (steps.pim_regression.outcome == 'success' || steps.pim_regression.outcome == 'failure')
@@ -154,7 +154,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-admin "-Dconfig.file=deploy/config.cd.properties" *> ci-admin.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check Admin result and cleanup
         if: always() && (steps.admin.outcome == 'success' || steps.admin.outcome == 'failure')
@@ -169,7 +168,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-recruitment "-Dconfig.file=deploy/config.cd.properties" *> ci-recruitment.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check Recruitment result and cleanup
         if: always() && (steps.recruitment.outcome == 'success' || steps.recruitment.outcome == 'failure')
@@ -184,7 +182,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-myinfo "-Dconfig.file=deploy/config.cd.properties" *> ci-myinfo.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check My Info result
         if: always() && (steps.myinfo.outcome == 'success' || steps.myinfo.outcome == 'failure')
@@ -199,7 +196,6 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-performance "-Dconfig.file=deploy/config.cd.properties" *> ci-performance.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check Performance result
         if: always() && (steps.performance.outcome == 'success' || steps.performance.outcome == 'failure')
@@ -214,11 +210,66 @@ jobs:
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-profile "-Dconfig.file=deploy/config.cd.properties" *> ci-profile.log
           if ($null -eq $LASTEXITCODE) { exit 1 }
-          exit $LASTEXITCODE
 
       - name: Check Profile result
         if: always() && (steps.profile.outcome == 'success' || steps.profile.outcome == 'failure')
         run: .\deploy\profile-report.ps1
+
+      - name: Run Time regression
+        id: time
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-time/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-time "-Dconfig.file=deploy/config.cd.properties" *> ci-time.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+
+      - name: Check Time result
+        if: always() && (steps.time.outcome == 'success' || steps.time.outcome == 'failure')
+        run: .\deploy\time-report.ps1
+
+      - name: Run Claim regression
+        id: claim
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-claim/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-claim "-Dconfig.file=deploy/config.cd.properties" *> ci-claim.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+
+      - name: Check Claim result
+        if: always() && (steps.claim.outcome == 'success' || steps.claim.outcome == 'failure')
+        run: .\deploy\claim-report.ps1
+
+      - name: Run API tests
+        id: api
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-api/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-api "-Dconfig.file=deploy/config.cd.properties" *> ci-api.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+
+      - name: Check API result
+        if: always() && (steps.api.outcome == 'success' || steps.api.outcome == 'failure')
+        run: .\deploy\api-report.ps1 -Name api -Expected 21
+
+      - name: Run Security tests
+        id: security
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-security/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-security "-Dconfig.file=deploy/config.cd.properties" *> ci-security.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+
+      - name: Check Security result
+        if: always() && (steps.security.outcome == 'success' || steps.security.outcome == 'failure')
+        run: .\deploy\api-report.ps1 -Name security -Expected 9
 
       - name: Publish CD Allure results to local dashboard
         if: always()
@@ -264,7 +315,11 @@ jobs:
             target/cd-evidence/myinfo-summary.json
             target/cd-evidence/performance-summary.json
             target/cd-evidence/profile-summary.json
+            target/cd-evidence/time-summary.json
+            target/cd-evidence/claim-summary.json
             target/cd-evidence/recruitment-summary.json
+            target/cd-evidence/api-summary.json
+            target/cd-evidence/security-summary.json
           if-no-files-found: error
           retention-days: 7
 

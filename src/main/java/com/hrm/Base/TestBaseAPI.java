@@ -1,6 +1,7 @@
 package com.hrm.Base;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -18,6 +19,12 @@ public class TestBaseAPI {
 
     @BeforeClass
     public void setupAPI() {
+
+        // Chạy với -Pcd-api/-Pcd-security thì chỉ được trỏ vào CD 8081
+        if (Boolean.getBoolean("cd.api")) {
+            Assert.assertEquals(Config.get("app.url"), "http://localhost:8081/web/index.php/auth/login",
+                    "API CD chỉ được chạy trên 8081");
+        }
 
         // API tự động lấy host/port từ app.url trong config
         RestAssured.baseURI = OAuthTokenManager.getBaseUrl();
