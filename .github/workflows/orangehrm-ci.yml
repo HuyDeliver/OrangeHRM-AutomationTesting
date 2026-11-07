@@ -302,20 +302,27 @@ jobs:
             exit 0
           }
 
-          $destination = & docker inspect $container --format '{{range .Mounts}}{{if eq .Destination "/app/allure-results"}}{{.Source}}{{end}}{{end}}'
-          if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($destination)) {
+          $inspectJson = & docker inspect $container | ConvertFrom-Json
+          $destination = $inspectJson.Mounts | Where-Object { $_.Destination -eq '/app/allure-results' } | Select-Object -ExpandProperty Source -First 1
+          if ([string]::IsNullOrWhiteSpace($destination)) {
             Write-Warning 'Could not find the Allure CD results mount; results were not copied.'
             exit 0
           }
 
           if ([System.IO.Path]::GetFullPath($source).TrimEnd('\') -ieq [System.IO.Path]::GetFullPath($destination).TrimEnd('\')) {
             Write-Host 'CD Allure results already use the dashboard results folder.'
-            exit 0
+          } else {
+            New-Item -ItemType Directory -Path $destination -Force | Out-Null
+            Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force
+            Write-Host "Published $resultCount CD Allure test results to the local dashboard ($destination)."
           }
 
-          New-Item -ItemType Directory -Path $destination -Force | Out-Null
-          Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force
-          Write-Host "Published $resultCount CD Allure test results to the local dashboard."
+          try {
+            Invoke-RestMethod -Uri "http://localhost:5051/allure-docker-service/generate-report" -Method Get -TimeoutSec 10 | Out-Null
+            Write-Host "Triggered Allure report generation on http://localhost:5051"
+          } catch {
+            Write-Warning "Could not trigger immediate Allure report generation: $_"
+          }
 
       - name: Upload test results
         if: always()
