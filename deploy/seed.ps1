@@ -12,7 +12,12 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 $OutputEncoding = [Console]::OutputEncoding
 $configFile = (Resolve-Path -LiteralPath $ConfigPath).Path
-$config = ConvertFrom-StringData ([System.IO.File]::ReadAllText($configFile))
+$config = @{}
+foreach ($line in [System.IO.File]::ReadAllLines($configFile)) {
+    if ($line -match '^\s*([^#=\s]+)\s*=\s*(.*)$') {
+        $config[$matches[1]] = $matches[2].Trim()
+    }
+}
 if ($config['app.url'] -ne 'http://localhost:8081/web/index.php/auth/login') {
     throw 'STOP: seed only supports CD 8081; no browser or database write was started.'
 }
@@ -84,6 +89,7 @@ try {
     if ($IncludeApi) {
         $api = Get-Content -LiteralPath "$output/api-seed-result.properties" -Raw | ConvertFrom-StringData
         if ($api['result'] -ne 'SUCCESS') { throw 'API seed did not complete' }
+        [System.IO.File]::AppendAllText($configFile, "`ness.empNumber=$($api['ess.empNumber'])`ntarget.empNumber=$($result['employee.empNumber'])`n")
         Write-Output '[SEED] ESS employee/user verified; setup only.'
     }
     Write-Output "[SEED] $($result['fixture.key']) $($result['action']) | empNumber=$($result['employee.empNumber']) | matches=$($result['match.count'])"
