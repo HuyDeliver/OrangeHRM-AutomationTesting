@@ -21,7 +21,7 @@ public class CDPerformanceSeedTest extends CDMyInfoSeedTest {
     @Test(groups = "data-preparation", dependsOnMethods = "prepareEducationLevel",
             description = "CD setup: KPIs + Subordinate Job/Supervisor, không tính functional PASS")
     public void preparePerformanceFixtures() throws Exception {
-        String empId = Config.get("seed.employee.id", "AUTOEMP001");
+        String empId = Config.get("employee.id", "AUTOSEED01");
         String supervisor = TestConfig.performanceSupervisor;
         TestUtil.employeeUtil();
         EmployeeListPage employees = new EmployeeListPage(driver);

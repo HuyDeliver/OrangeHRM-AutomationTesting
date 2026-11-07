@@ -20,8 +20,8 @@ public class CDApiSeedTest extends CDPerformanceSeedTest {
     @Test(groups = "data-preparation", dependsOnMethods = "preparePerformanceFixtures",
             description = "CD setup: ESS employee/user cho API Security, không tính functional PASS")
     public void prepareApiFixtures() throws Exception {
-        String essUser = Config.get("ess.username");
-        String essPass = Config.get("ess.password");
+        String essUser = Config.get("ess.username", "AUTO_ess");
+        String essPass = Config.get("ess.password", Config.get("password"));
         String id = "AUTOESS001";
         Assert.assertTrue(essUser.startsWith("AUTO_"), "Chỉ seed ESS user riêng của CD");
 

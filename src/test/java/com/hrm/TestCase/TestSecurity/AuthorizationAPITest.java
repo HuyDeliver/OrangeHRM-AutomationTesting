@@ -54,8 +54,9 @@ public class AuthorizationAPITest extends TestBaseAPI {
         public void verifyAccessControls() {
                 // Browser riêng để ESS không dùng chung phiên đăng nhập của Admin
                 essDriver = WebDriverFactory.createDriver();
+                String essPass = Config.get("ess.password", Config.get("password"));
                 essToken = OAuthTokenManager.getAccessToken(
-                                essDriver, Config.get("ess.username"), Config.get("ess.password"));
+                                essDriver, Config.get("ess.username", "AUTO_ess"), essPass);
                 Assert.assertNotEquals(essToken, token, "ESS phải dùng token riêng");
 
                 String ownId = Config.get("ess.empNumber");

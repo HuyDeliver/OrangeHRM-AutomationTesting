@@ -37,6 +37,14 @@ if ($LASTEXITCODE -ne 0) { throw 'STOP: cannot verify orangehrm_cd database' }
 
 # API/Security: đăng ký OAuth client công khai (PKCE, không secret) trong DB CD; chạy lại không tạo trùng.
 if ($IncludeApi) {
+    if (-not $config['oauth.client.id']) {
+        $config['oauth.client.id'] = 'orangehrm_cd_automation'
+        [System.IO.File]::AppendAllText($configFile, "`noauth.client.id=orangehrm_cd_automation`n")
+    }
+    if (-not $config['ess.password']) {
+        $config['ess.password'] = $config['password']
+        [System.IO.File]::AppendAllText($configFile, "`ness.password=$($config['password'])`n")
+    }
     if (-not $config['oauth.client.id'] -or -not $config['ess.password']) {
         throw 'STOP: thiếu oauth.client.id hoặc ess.password trong config CD'
     }
