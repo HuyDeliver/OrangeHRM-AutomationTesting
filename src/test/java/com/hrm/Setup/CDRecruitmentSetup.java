@@ -32,8 +32,8 @@ public class CDRecruitmentSetup extends TestBase {
             super.setUp();
             TestUtil.recruitmentUtil();
             CandidatesPage page = new CandidatesPage(driver);
-            for (String lastName : new String[]{TestDataShare.LASTNAME, "REJECT_" + TestDataShare.LASTNAME,
-                    "DELETE_" + TestDataShare.LASTNAME}) {
+            for (String lastName : new String[]{TestDataShare.LASTNAME, "SEARCH_" + TestDataShare.LASTNAME,
+                    "REJECT_" + TestDataShare.LASTNAME, "DELETE_" + TestDataShare.LASTNAME}) {
                 String name = TestConfig.firstName + " " + TestConfig.middleName + " " + lastName;
                 page.removeCandidateIfPresent(name);
             }

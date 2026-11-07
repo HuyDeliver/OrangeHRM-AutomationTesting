@@ -65,6 +65,7 @@
             <class name="com.hrm.TestCase.Recruitment.SearchVacancyFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.DeleteVacancyFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.AddCandidateFunctionality" />
+            <class name="com.hrm.TestCase.Recruitment.SearchCandidateFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.RejectCandidateFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.DeleteCandidateFunctionality" />
             <class name="com.hrm.TestCase.Recruitment.Issue1926RegressionTest" />

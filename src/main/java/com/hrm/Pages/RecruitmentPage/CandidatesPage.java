@@ -56,6 +56,12 @@ public class CandidatesPage {
         return componentLocator.countTableRows(driver, fullName);
     }
 
+    public void searchCandidate(String candidateName) {
+        componentLocator.fillInput(driver, "Candidate Name", candidateName);
+        componentLocator.clickSearch(driver);
+        waitUtils.waitForTable(driver);
+    }
+
     public void removeCandidateIfPresent(String fullName) {
         componentLocator.clickDropdownNavi(driver, "Candidates", "");
         int count = countCandidates(fullName);

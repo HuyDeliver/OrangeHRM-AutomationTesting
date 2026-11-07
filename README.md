@@ -1,7 +1,7 @@
 # OrangeHRM Automation Testing
 
 Đồ án kiểm thử OrangeHRM OS 5.9 local bằng Java 21, Maven, Selenium, TestNG, Rest Assured, Allure và Log4j2.
-Hiện có **66 method @Test**. Các method dùng DataProvider tạo thêm lượt chạy theo từng dòng dữ liệu.
+Hiện có **68 method @Test**. Các method dùng DataProvider tạo thêm lượt chạy theo từng dòng dữ liệu.
 
 ## Tổ chức test theo module
 
@@ -101,5 +101,5 @@ Sau lần gom module ngày 26/10/2026:
 - PIMAPITest chuyển vào TestAPI/PIMAPI cùng các test Create/Update/Delete.
 - Hai class SearchingUserWithValidData/SearchingUserWithInvalidData đổi thành SearchUserWithValidData/SearchUserWithInvalidData để tên file trong Git khớp public class trên Linux.
 
-Mã OHR1–OHR66 được giữ nguyên.
+Mã OHR1–OHR71 được giữ nguyên; OHR67–OHR71 được bổ sung sau lần gom module.
 Các lệnh XML riêng và fullName trong bằng chứng lịch sử vẫn mô tả lần chạy cũ; dùng lệnh module ở trên cho source hiện tại.

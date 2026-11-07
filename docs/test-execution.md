@@ -16,7 +16,7 @@ mvn test "-Dmodule=Admin,PIM"
 | Login | com.hrm.TestCase.LoginTab | 3 |
 | Admin | com.hrm.TestCase.AdminTab | 16 |
 | PIM | com.hrm.TestCase.PIMTab | 8 |
-| Recruitment | com.hrm.TestCase.Recruitment | 7 |
+| Recruitment | com.hrm.TestCase.Recruitment | 9 |
 | MyInfo | com.hrm.TestCase.MyInfoTab | 7 |
 | Performance | com.hrm.TestCase.PerformanceTab | 3 |
 | Profile | com.hrm.TestCase.ProfileTab | 2 |
@@ -27,7 +27,7 @@ mvn test "-Dmodule=Admin,PIM"
 | RecruitmentAPI | com.hrm.TestCase.TestAPI.RecruitmentAPI | 3 |
 | Security | com.hrm.TestCase.TestSecurity | 5 |
 
-Tổng 57 class có test, 66 method. DataProvider mở rộng thành nhiều lượt chạy.
+Tổng 58 class có test, 68 method. DataProvider mở rộng thành nhiều lượt chạy.
 Class APIGetEmployeeListTest đang là placeholder không có @Test nên không đưa vào suite.
 
 ## Search, assertion và issue
@@ -35,7 +35,7 @@ Class APIGetEmployeeListTest đang là placeholder không có @Test nên không 
 - OHR1 thuộc Login.
 - OHR4 và OHR15 thuộc Admin; issue #1897 ở cùng folder AdminTab.
 - OHR23, OHR25 và issue #1876 thuộc PIM.
-- OHR27, OHR30 và issue #1926 thuộc Recruitment.
+- OHR27, OHR30, OHR46, OHR70, OHR71 và issue #1926 thuộc Recruitment.
 - Issue #1928 thuộc MyInfo.
 - Issue #1923 thuộc Profile; #1787/#1890 thuộc Time; #1820 thuộc Claim.
 
@@ -63,7 +63,7 @@ Kết quả kiểm tra ngày 26/10/2026 trên môi trường local:
 | Kiểm tra | Kết quả |
 |---|---|
 | `mvn -o -DskipTests test-compile` | BUILD SUCCESS |
-| Danh mục test | 57 class, 66 method; giữ đủ OHR1–66 |
+| Danh mục test tại mốc 26/10 | 57 class, 66 method; các mã OHR67–69 và OHR70–71 được bổ sung sau mốc này |
 | `mvn -o -Dmodule=DOES_NOT_EXIST test` | Bị từ chối đúng như mong đợi, không chạy test |
 | `mvn -o -Dmodule=Recruitment test` | 12 PASS, 0 FAIL, 0 SKIP |
 | `mvn -o -Dmodule=RecruitmentAPI test` | 8 PASS, 0 FAIL, 0 SKIP |
