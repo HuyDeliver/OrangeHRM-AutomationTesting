@@ -2,6 +2,7 @@ param(
     [switch]$IncludePIM,
     [switch]$IncludeRecruitment,
     [switch]$IncludeMyInfo,
+    [switch]$IncludePerformance,
     [string]$ConfigPath = (Join-Path $PSScriptRoot 'config.cd.properties'),
     [ValidatePattern('^[a-zA-Z0-9_-]+$')]
     [string]$RunName = (Get-Date -Format 'yyyyMMdd-HHmmss-fff')
@@ -40,6 +41,7 @@ try {
     if ($IncludePIM) { $seedTest = 'com.hrm.Setup.CDPIMSeedTest' }
     if ($IncludeRecruitment) { $seedTest = 'com.hrm.Setup.CDRecruitmentSeedTest' }
     if ($IncludeMyInfo) { $seedTest = 'com.hrm.Setup.CDMyInfoSeedTest' }
+    if ($IncludePerformance) { $seedTest = 'com.hrm.Setup.CDPerformanceSeedTest' }
     & mvn -B -ntp test -Pcd-seed "-Dseed.test=$seedTest" "-Dconfig.file=$configFile" '-Dheadless=true' `
         '-Dcd.seed.verified=true' "-Dseed.output=$output" *> "$output/seed.log"
     $code = $LASTEXITCODE
@@ -47,20 +49,25 @@ try {
     if ($null -eq $code -or $code -ne 0) { throw "Seed failed; see $output/seed.log" }
     $result = Get-Content -LiteralPath "$output/seed-result.properties" -Raw | ConvertFrom-StringData
     if ($result['result'] -ne 'SUCCESS') { throw 'Seed did not produce successful preparation evidence' }
-    if ($IncludePIM -or $IncludeRecruitment -or $IncludeMyInfo) {
+    if ($IncludePIM -or $IncludeRecruitment -or $IncludeMyInfo -or $IncludePerformance) {
         $pim = Get-Content -LiteralPath "$output/pim-seed-result.properties" -Raw | ConvertFrom-StringData
         if ($pim['result'] -ne 'SUCCESS') { throw 'PIM seed did not complete' }
         Write-Output '[SEED] PIM catalogs verified; setup only, not functional PASS.'
     }
-    if ($IncludeRecruitment -or $IncludeMyInfo) {
+    if ($IncludeRecruitment -or $IncludeMyInfo -or $IncludePerformance) {
         $recruitment = Get-Content -LiteralPath "$output/recruitment-seed-result.properties" -Raw | ConvertFrom-StringData
         if ($recruitment['result'] -ne 'SUCCESS') { throw 'Recruitment seed did not complete' }
         Write-Output '[SEED] Recruitment vacancies verified; setup only, not functional PASS.'
     }
-    if ($IncludeMyInfo) {
+    if ($IncludeMyInfo -or $IncludePerformance) {
         $myinfo = Get-Content -LiteralPath "$output/myinfo-seed-result.properties" -Raw | ConvertFrom-StringData
         if ($myinfo['result'] -ne 'SUCCESS') { throw 'MyInfo seed did not complete' }
         Write-Output '[SEED] MyInfo education verified; setup only.'
+    }
+    if ($IncludePerformance) {
+        $performance = Get-Content -LiteralPath "$output/performance-seed-result.properties" -Raw | ConvertFrom-StringData
+        if ($performance['result'] -ne 'SUCCESS') { throw 'Performance seed did not complete' }
+        Write-Output '[SEED] Performance KPIs and subordinate verified; setup only.'
     }
     Write-Output "[SEED] $($result['fixture.key']) $($result['action']) | empNumber=$($result['employee.empNumber']) | matches=$($result['match.count'])"
     Write-Output '[SEED] Setup completed. Functional/security/regression testcase count added: 0.'

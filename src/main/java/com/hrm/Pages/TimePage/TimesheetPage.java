@@ -29,14 +29,60 @@ public class TimesheetPage {
     }
 
     public void openMyTimesheet(String startDate) {
+        if (!driver.findElements(By.xpath("//h6[normalize-space()='Define Timesheet Period']")).isEmpty()) {
+            componentLocator.chooseSelectAction(driver, "First Day of Week", "Monday");
+            componentLocator.buttonSave(driver);
+            componentLocator.checkToasstSuccess(driver, "Success");
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
                 "//li[contains(@class,'oxd-topbar-body-nav-tab') and contains(.,'Timesheets')]")));
         componentLocator.clickDropdownNavi(driver, "Timesheets", "My Timesheets");
         wait.until(ExpectedConditions.visibilityOfElementLocated(period))
                 .sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE, startDate, Keys.TAB);
         wait.until(ExpectedConditions.attributeContains(period, "value", startDate));
+        if (!driver.findElements(By.xpath("//button[normalize-space()='Create Timesheet']")).isEmpty()) {
+            waitUtils.waitElementClick(driver, driver.findElement(By.xpath("//button[normalize-space()='Create Timesheet']")));
+        }
         waitForView();
         openedPeriod = getPeriod();
+    }
+
+    public void ensureBaselineReady(String startDate, String projectName, String projectOption,
+            String activityA, String activityB) {
+        if (isZeroBaseline(projectOption, activityA)) return;
+        String customerName = projectOption.split(" - ")[0].trim();
+        componentLocator.clickDropdownNavi(driver, "Project Info", "Customers");
+        if (componentLocator.countTableRows(driver, customerName) == 0) {
+            componentLocator.clickButtonAdd(driver);
+            componentLocator.fillInput(driver, "Name", customerName);
+            componentLocator.buttonSave(driver);
+            componentLocator.checkToasstSuccess(driver, "Success");
+        }
+        componentLocator.clickDropdownNavi(driver, "Project Info", "Projects");
+        if (componentLocator.countTableRows(driver, projectName) == 0) {
+            componentLocator.clickButtonAdd(driver);
+            componentLocator.fillInput(driver, "Name", projectName);
+            componentLocator.inputDropdown(driver, "Customer Name", customerName.split("\\s+")[0], customerName);
+            componentLocator.buttonSave(driver);
+            componentLocator.checkToasstSuccess(driver, "Success");
+            for (String act : new String[]{activityA, activityB}) {
+                componentLocator.buttonAddMyInfo(driver, "Activities");
+                componentLocator.fillInput(driver, "Name", act);
+                componentLocator.buttonSave(driver);
+                componentLocator.checkToasstSuccess(driver, "Success");
+            }
+        }
+        openMyTimesheet(startDate);
+        openEdit();
+        WebElement row = driver.findElements(editRows).get(0);
+        row.findElement(By.cssSelector("td:first-child input")).sendKeys(projectName);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//div[@role='listbox']//span[normalize-space()='" + projectOption + "']"))).click();
+        waitUtils.waitElementClick(driver, row.findElement(By.cssSelector("td:nth-child(2) .oxd-select-text")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
+                "//div[@role='listbox']//span[normalize-space()='" + activityA + "']"))).click();
+        fillFirstDay("00:00");
+        saveAndReload();
     }
 
     public String getPeriod() {

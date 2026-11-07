@@ -21,11 +21,17 @@ import io.restassured.response.Response;
 
 public class OAuthTokenManager {
 
-        private static final String BASE_URL = "http://localhost:8080";
+        public static String getBaseUrl() {
+                String appUrl = Config.get("app.url", "http://localhost:8080/web/index.php/auth/login");
+                int idx = appUrl.indexOf("/web/");
+                return idx > 0 ? appUrl.substring(0, idx) : "http://localhost:8080";
+        }
 
-        private static final String CLIENT_ID = "29ebbba52622c51bf96aef7188077027";
+        private static final String BASE_URL = getBaseUrl();
 
-        private static final String REDIRECT_URI = "http://localhost:8080/oauth-callback";
+        private static final String CLIENT_ID = Config.get("oauth.client.id", "29ebbba52622c51bf96aef7188077027");
+
+        private static final String REDIRECT_URI = Config.get("oauth.redirect.uri", BASE_URL + "/oauth-callback");
 
         private static final String AUTHORIZE_ENDPOINT = BASE_URL + "/web/index.php/oauth2/authorize";
 

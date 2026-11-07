@@ -78,7 +78,8 @@ Employee của OHR25 có mã riêng, tránh trùng employee của flow Add/Edit/
 ## Kết quả và chuẩn bị CI/CD
 
 - TestNG/Surefire: target/surefire-reports/.
-- Allure: target/allure-results/.
+- Allure DEV: target/allure-results/ (UI: http://localhost:5050).
+- Allure CD: target/cd-allure-results/ (UI: http://localhost:5051; start with `docker compose up -d allure-cd`).
 - Log4j2: logfile.log.
 - Screenshot lỗi được TestListener đính kèm vào Allure.
 

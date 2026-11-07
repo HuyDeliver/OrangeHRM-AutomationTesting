@@ -27,9 +27,10 @@ public class AddReviewPage {
     }
 
     public void fillAddReview(String employee, String supervisor, String startDate, String endDate, String dueDate) {
-        String keyName = employee.trim().split("\\s+")[0];
-        componentLocator.inputDropdown(driver, "Employee Name", keyName, employee);
-        componentLocator.inputDropdown(driver, "Supervisor Reviewer", keyName, supervisor);
+        String keyEmployee = employee.trim().split("\\s+")[0];
+        String keySupervisor = supervisor.trim().split("\\s+")[0];
+        componentLocator.inputDropdown(driver, "Employee Name", keyEmployee, employee);
+        componentLocator.inputDropdown(driver, "Supervisor Reviewer", keySupervisor, supervisor);
         componentLocator.fillInput(driver, "Review Period Start Date", startDate);
         componentLocator.fillInput(driver, "Review Period End Date", endDate);
         componentLocator.fillInput(driver, "Due Date", dueDate);

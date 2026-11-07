@@ -88,6 +88,9 @@ jobs:
           $myInfoDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/myinfo.properties'
           [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($myInfoDataPath) + "`n")
 
+          $performanceDataPath = Join-Path $env:GITHUB_WORKSPACE 'deploy/performance.properties'
+          [System.IO.File]::AppendAllText($configPath, "`n" + [System.IO.File]::ReadAllText($performanceDataPath) + "`n")
+
       - name: Deploy OrangeHRM CD
         env:
           CD_DB_PASSWORD: ${{ secrets.ORANGEHRM_CD_DB_PASSWORD }}
@@ -99,7 +102,7 @@ jobs:
 
       - name: Seed CD test data
         id: seed
-        run: .\deploy\seed.ps1 -IncludeMyInfo
+        run: .\deploy\seed.ps1 -IncludePerformance
 
       - name: Run login smoke
         run: |
@@ -187,6 +190,21 @@ jobs:
         if: always() && (steps.myinfo.outcome == 'success' || steps.myinfo.outcome == 'failure')
         run: .\deploy\myinfo-report.ps1
 
+      - name: Run Performance regression
+        id: performance
+        if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
+        run: |
+          $report = 'target/cd-performance/surefire/testng-results.xml'
+          if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
+          $ErrorActionPreference = 'Continue'
+          & mvn -B -ntp test -Pcd-performance "-Dconfig.file=deploy/config.cd.properties" *> ci-performance.log
+          if ($null -eq $LASTEXITCODE) { exit 1 }
+          exit $LASTEXITCODE
+
+      - name: Check Performance result
+        if: always() && (steps.performance.outcome == 'success' || steps.performance.outcome == 'failure')
+        run: .\deploy\performance-report.ps1
+
       - name: Run Profile regression
         id: profile
         if: ${{ !cancelled() && steps.seed.outcome == 'success' && steps.smoke_check.outcome == 'success' }}
@@ -202,6 +220,37 @@ jobs:
         if: always() && (steps.profile.outcome == 'success' || steps.profile.outcome == 'failure')
         run: .\deploy\profile-report.ps1
 
+      - name: Publish CD Allure results to local dashboard
+        if: always()
+        run: |
+          $source = Join-Path $env:GITHUB_WORKSPACE 'target/cd-allure-results'
+          $resultCount = @(Get-ChildItem -LiteralPath $source -Filter '*-result.json' -File -ErrorAction SilentlyContinue).Count
+          if ($resultCount -eq 0) {
+            Write-Warning 'No CD Allure results were generated; nothing to publish.'
+            exit 0
+          }
+
+          $container = & docker ps --filter 'label=com.docker.compose.service=allure-cd' --format '{{.Names}}' | Select-Object -First 1
+          if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($container)) {
+            Write-Warning 'Allure CD container is not running. Start it with: docker compose up -d allure-cd'
+            exit 0
+          }
+
+          $destination = & docker inspect $container --format '{{range .Mounts}}{{if eq .Destination "/app/allure-results"}}{{.Source}}{{end}}{{end}}'
+          if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($destination)) {
+            Write-Warning 'Could not find the Allure CD results mount; results were not copied.'
+            exit 0
+          }
+
+          if ([System.IO.Path]::GetFullPath($source).TrimEnd('\') -ieq [System.IO.Path]::GetFullPath($destination).TrimEnd('\')) {
+            Write-Host 'CD Allure results already use the dashboard results folder.'
+            exit 0
+          }
+
+          New-Item -ItemType Directory -Path $destination -Force | Out-Null
+          Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force
+          Write-Host "Published $resultCount CD Allure test results to the local dashboard."
+
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
@@ -213,6 +262,7 @@ jobs:
             target/cd-evidence/pim-regression-summary.json
             target/cd-evidence/admin-summary.json
             target/cd-evidence/myinfo-summary.json
+            target/cd-evidence/performance-summary.json
             target/cd-evidence/profile-summary.json
             target/cd-evidence/recruitment-summary.json
           if-no-files-found: error
@@ -238,10 +288,13 @@ jobs:
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim-regression"
           Write-Host "$env:GITHUB_WORKSPACE/ci-myinfo.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-myinfo"
+          Write-Host "$env:GITHUB_WORKSPACE/ci-performance.log"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-performance"
           Write-Host "$env:GITHUB_WORKSPACE/ci-profile.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-profile"
           Write-Host "$env:GITHUB_WORKSPACE/ci-recruitment.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-recruitment"
+          Write-Host "$env:GITHUB_WORKSPACE/target/cd-allure-results"
           Write-Host "$env:GITHUB_WORKSPACE/ci-admin.log"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-admin"
           Write-Host "$env:GITHUB_WORKSPACE/target/cd-pim"

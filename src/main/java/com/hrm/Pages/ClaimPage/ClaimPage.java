@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.hrm.Util.TestConfig;
 import com.hrm.Util.componentLocator;
 import com.hrm.Util.waitUtils;
 
@@ -37,9 +38,29 @@ public class ClaimPage {
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".oxd-loading-spinner"), 0));
         List<WebElement> rows = driver.findElements(By.xpath(
                 "//div[@class='oxd-table-card'][contains(.,'" + remarks + "')]"));
+        if (rows.isEmpty()) {
+            ensureDraftClaim(remarks);
+            return;
+        }
         if (rows.size() != 1) throw new IllegalStateException("Phải có đúng một Claim fixture: " + remarks);
         // Claim dùng nút chữ View Details, khác nút icon của component viewButtonTable().
         waitUtils.waitElementClick(driver, rows.get(0).findElement(By.xpath(".//button[normalize-space()='View Details']")));
+        waitForDetails();
+    }
+
+    private void ensureDraftClaim(String remarks) {
+        componentLocator.clickDropdownNavi(driver, "Configuration", "Events");
+        if (componentLocator.countTableRows(driver, TestConfig.claimTestEvent) == 0) {
+            componentLocator.clickButtonAdd(driver);
+            componentLocator.fillInput(driver, "Event Name", TestConfig.claimTestEvent);
+            componentLocator.buttonSave(driver);
+            componentLocator.checkToasstSuccess(driver, "Success");
+        }
+        componentLocator.clickDropdownNavi(driver, "Submit Claim", "");
+        componentLocator.chooseSelectAction(driver, "Event", TestConfig.claimTestEvent);
+        componentLocator.chooseSelectAction(driver, "Currency", TestConfig.claimTestCurrency);
+        componentLocator.fillTexArea(driver, "Remarks", remarks);
+        componentLocator.buttonSave(driver);
         waitForDetails();
     }
 

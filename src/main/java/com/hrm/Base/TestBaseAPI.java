@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeClass;
 import com.hrm.Util.Config;
 import com.hrm.Util.Log;
 import com.hrm.Util.OAuthTokenManager;
-
 import com.hrm.Util.WebDriverFactory;
 
 import io.restassured.RestAssured;
@@ -20,8 +19,8 @@ public class TestBaseAPI {
     @BeforeClass
     public void setupAPI() {
 
-        // API chạy trên OrangeHRM local
-        RestAssured.baseURI = "http://localhost:8080";
+        // API tự động lấy host/port từ app.url trong config
+        RestAssured.baseURI = OAuthTokenManager.getBaseUrl();
         RestAssured.basePath = "/web/index.php";
 
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();

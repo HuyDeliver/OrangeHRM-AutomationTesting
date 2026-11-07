@@ -87,6 +87,7 @@
 
     <test name="Performance" preserve-order="true">
         <classes>
+            <class name="com.hrm.Setup.CDPerformanceSetup" />
             <class name="com.hrm.TestCase.PerformanceTab.AddReviewFunctionality" />
             <class name="com.hrm.TestCase.PerformanceTab.WriteReviewFunctionality" />
             <class name="com.hrm.TestCase.PerformanceTab.DeleteReviewFunctionality" />
@@ -115,6 +116,7 @@
     <test name="PIMAPI" preserve-order="true">
         <classes>
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.PIMAPITest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIGetEmployeeListTest" />
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APICreateEmployeeTest" />
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIUpdateEmployeeTest" />
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIDeleteEmployeeTest" />

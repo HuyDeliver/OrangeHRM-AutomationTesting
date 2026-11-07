@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.hrm.Util.componentLocator;
+import com.hrm.Util.waitUtils;
 
 public class ManageReviewPage {
     private WebDriver driver;
@@ -41,4 +42,29 @@ public class ManageReviewPage {
         componentLocator.deleteButtonTable(driver, date);
     }
 
+    public boolean isDeleteReviewSuccess() {
+        return componentLocator.checkToasstSuccess(driver, "Delete");
+    }
+
+    public int countReviews(String value) {
+        return componentLocator.countTableRows(driver, value);
+    }
+
+    public void openKpiPage() {
+        componentLocator.clickDropdownNavi(driver, "Configure", "KPIs");
+    }
+
+    public int countKpis(String kpiTitle) {
+        return componentLocator.countTableRows(driver, kpiTitle);
+    }
+
+    public boolean addKpi(String kpiTitle, String jobTitle, String minRating, String maxRating) {
+        componentLocator.clickButtonAdd(driver);
+        componentLocator.fillInput(driver, "Key Performance Indicator", kpiTitle);
+        componentLocator.chooseSelectAction(driver, "Job Title", jobTitle);
+        componentLocator.fillInput(driver, "Minimum Rating", minRating);
+        componentLocator.fillInput(driver, "Maximum Rating", maxRating);
+        componentLocator.buttonSave(driver);
+        return componentLocator.checkToasstSuccess(driver, "Success");
+    }
 }

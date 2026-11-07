@@ -18,7 +18,7 @@ public class WriteReviewFunctionality extends TestBase {
 
     @Epic("Performance Tab")
     @Feature("Manage Review")
-    @Test(description = "OHR39: write review ")
+    @Test(description = "OHR39: write review ", groups = "performance-write", dependsOnGroups = "performance-add")
     public void writeReview() {
         String name = TestConfig.shortenName(TestConfig.surbordinate);
         TestUtil.performanceUtil();

@@ -43,7 +43,7 @@ public class TestConfig {
                         + "resources" + File.separator + "image" + File.separator + "portraitphoto.jpg";
 
         // Skills
-        public static final String skill = "Coding";
+        public static final String skill = Config.get("performance.kpi.skill", "Coding");
 
         // Job detail in My infor
         public static final String joinedDate = Config.get("pim.joined.date", "2026-05-10");
@@ -61,7 +61,8 @@ public class TestConfig {
 
         // supervisor
         public static final String nameSupervisor = Config.get("pim.supervisor", "Nguyễn Huy Bách");
-        public static final String surbordinate = "Nguyễn Trí Quân";
+        public static final String surbordinate = Config.get("performance.subordinate", "Nguyễn Trí Quân");
+        public static final String performanceSupervisor = Config.get("performance.supervisor", nameSupervisor);
         public static final String reportMethod = "Direct";
 
         public static final String email = "Channelbaby15@gmail.com";
@@ -125,7 +126,7 @@ public class TestConfig {
         public static String terminateDate = "2026-09-28";
         public static String terminateReason = "Dismissed";
 
-        public static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyy-MM-dd");
+        public static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         public static final String startDate = LocalDate.now().minusDays(30).format(dateFormat);
         public static final String endDate = LocalDate.now().minusDays(1).format(dateFormat);
@@ -139,8 +140,4 @@ public class TestConfig {
 
                 return first + " " + last;
         }
-
-        //token bearer Oauth
-        public static final String token ="def502001f64fdfdc63165f8f62269dba1e133d0727e6ef8c84b9ce32ca18ee0a9f05f7f63f3704af82ed481dcf76956ea382fabf8b66a5668e94d190071d6d1d2e1eed28ac86645eb6d4b0900efcf6e5da9e9dfd87527a2b2da77019089b3be8a2cc8a8f9ff073f8a64933cc54967ce440462c01142766f071771d19fcd37015cb6de198df5be6ed000fd6ef1408f32641769d8746d3539cd52c8b53c3ea442fafafce0";
-
 }

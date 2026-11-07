@@ -109,6 +109,72 @@
     </build>
     <profiles>
         <profile>
+            <id>cd-performance</id>
+            <properties>
+                <module>Performance</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-performance/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <cd.run>true</cd.run>
+                                <cd.performance>true</cd.performance>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cd-time</id>
+            <properties>
+                <module>Time</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-time/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <cd.run>true</cd.run>
+                                <cd.time>true</cd.time>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>cd-claim</id>
+            <properties>
+                <module>Claim</module>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <reportsDirectory>${project.build.directory}/cd-claim/surefire</reportsDirectory>
+                            <systemPropertyVariables>
+                                <cd.run>true</cd.run>
+                                <cd.claim>true</cd.claim>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>cd-profile</id>
             <properties>
                 <module>Profile</module>
@@ -123,7 +189,7 @@
                             <systemPropertyVariables>
                                 <cd.run>true</cd.run>
                                 <cd.profile>true</cd.profile>
-                                <allure.results.directory>${project.build.directory}/cd-profile/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -145,7 +211,7 @@
                             <systemPropertyVariables>
                                 <cd.run>true</cd.run>
                                 <cd.myinfo>true</cd.myinfo>
-                                <allure.results.directory>${project.build.directory}/cd-myinfo/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -166,7 +232,7 @@
                             <reportsDirectory>${project.build.directory}/cd-recruitment/surefire</reportsDirectory>
                             <systemPropertyVariables>
                                 <cd.recruitment>true</cd.recruitment>
-                                <allure.results.directory>${project.build.directory}/cd-recruitment/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -187,7 +253,7 @@
                             <reportsDirectory>${project.build.directory}/cd-pim-regression/surefire</reportsDirectory>
                             <systemPropertyVariables>
                                 <cd.pim>true</cd.pim>
-                                <allure.results.directory>${project.build.directory}/cd-pim-regression/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -208,7 +274,7 @@
                             <reportsDirectory>${project.build.directory}/cd-admin/surefire</reportsDirectory>
                             <systemPropertyVariables>
                                 <cd.admin>true</cd.admin>
-                                <allure.results.directory>${project.build.directory}/cd-admin/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -228,7 +294,7 @@
                         <configuration>
                             <reportsDirectory>${project.build.directory}/cd-admin-user/surefire</reportsDirectory>
                             <systemPropertyVariables>
-                                <allure.results.directory>${project.build.directory}/cd-admin-user/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -253,7 +319,7 @@
                                 </property>
                             </properties>
                             <systemPropertyVariables>
-                                <allure.results.directory>${project.build.directory}/cd-pim/allure-results</allure.results.directory>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
                             </systemPropertyVariables>
                         </configuration>
                     </plugin>
@@ -295,6 +361,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <test>LoginTest#loginSuccess</test>
+                            <systemPropertyVariables>
+                                <allure.results.directory>${project.build.directory}/cd-allure-results</allure.results.directory>
+                            </systemPropertyVariables>
                             <properties combine.self="override">
                                 <property>
                                     <name>listener</name>

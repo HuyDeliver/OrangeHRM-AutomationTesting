@@ -78,6 +78,23 @@ public class APICandidateRequiredFieldTest extends TestBaseAPI {
         Log.info(testId + " - PASS: API đã từ chối request và báo đúng field thiếu");
     }
 
+    @Test(description = "OHR76: Recruitment API - Lấy danh sách Candidates và Vacancies")
+    public void getRecruitmentListsAPI() {
+        Response candidates = given()
+                .auth().oauth2(token)
+                .when()
+                .get("/api/v2/recruitment/candidates");
+        Assert.assertEquals(candidates.statusCode(), 200, "Không lấy được danh sách Candidates qua API");
+        Assert.assertNotNull(candidates.jsonPath().getList("data"), "Response thiếu danh sách Candidates");
+
+        Response vacancies = given()
+                .auth().oauth2(token)
+                .when()
+                .get("/api/v2/recruitment/vacancies");
+        Assert.assertEquals(vacancies.statusCode(), 200, "Không lấy được danh sách Vacancies qua API");
+        Assert.assertNotNull(vacancies.jsonPath().getList("data"), "Response thiếu danh sách Vacancies");
+    }
+
     @AfterMethod(alwaysRun = true)
     public void deleteCreatedCandidate() {
         if (candidateId == null) {

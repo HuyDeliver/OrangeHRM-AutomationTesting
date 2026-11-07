@@ -98,6 +98,10 @@ GitHub dùng `clean test` trên checkout runner riêng. Chạy ở checkout DEV 
 ## Report
 
 - Report đầy đủ giữ local: `target/surefire-reports`, `target/allure-results` (gồm screenshot nếu test lỗi).
+- Allure DEV: `http://localhost:5050`, đọc `target/allure-results`.
+- Allure CD: `http://localhost:5051/allure-docker-service/projects/default/reports/latest/index.html`, đọc `target/cd-allure-results`. Các profile CD Smoke, PIM/PIM regression, Admin/Admin User, Recruitment, My Info và Profile dùng chung thư mục này để gom kết quả vào một report; report DEV vẫn tách riêng. Khởi động UI CD bằng `docker compose up -d allure-cd`.
+- Cuối GitHub CD workflow, kết quả Allure từ workspace runner được copy qua volume Allure CD local nếu container đang chạy. Raw results/screenshots không được upload thành GitHub artifact.
+- `cd-seed` là bước chuẩn bị fixture nên giữ report kỹ thuật riêng, không tính vào Allure regression CD.
 - Raw log giữ local: `ci-deploy.log`, `ci-smoke.log`; không upload vì có thể chứa dữ liệu nhạy cảm.
 - Artifact GitHub `cd-smoke-<run number>` chỉ gồm `smoke-summary.json`: tên test cố định, URL CD, số PASS/FAIL/SKIP và kết quả suy ra từ report thật.
 - Không upload raw XML/HTML, Allure JSON, screenshot hoặc config trong phase này vì chưa kiểm chứng toàn bộ nội dung. Đây là allowlist nhỏ, không phải sanitizer phức tạp.

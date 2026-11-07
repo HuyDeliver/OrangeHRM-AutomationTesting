@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import com.hrm.Util.Config;
 import com.hrm.Util.Log;
 
 public class AlertResetPassSuccess {
@@ -27,7 +28,7 @@ public class AlertResetPassSuccess {
 
     public void backToLogin() {
         Log.info("Chuyển hướng về trang login");
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get(Config.get("app.url"));
     }
 
 }

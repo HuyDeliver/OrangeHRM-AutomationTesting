@@ -3,10 +3,10 @@ package com.hrm.TestCase.TestSecurity;
 import static io.restassured.RestAssured.given;
 
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import com.hrm.Base.TestBaseAPI;
+import com.hrm.Util.Config;
 import com.hrm.Util.Log;
 
 import io.qameta.allure.Epic;
@@ -17,7 +17,7 @@ import io.restassured.response.Response;
 @Feature("AuthenticationAPI")
 public class AuthenticationAPITest extends TestBaseAPI {
 
-        private static final int EMPLOYEE_ID = 7;
+        private static final int EMPLOYEE_ID = Integer.parseInt(Config.get("ess.empNumber", "7"));
 
         private static final String EMPLOYEE_ENDPOINT = "/api/v2/pim/employees/{empNumber}";
 
@@ -33,10 +33,6 @@ public class AuthenticationAPITest extends TestBaseAPI {
 
                 Log.info("\n===== VALID TOKEN =====");
                 Log.info("Status: " + response.statusCode());
-                Log.info(response.asPrettyString());
-
-                Log.info("Status: " + response.statusCode());
-
                 Log.info(response.asPrettyString());
 
                 Assert.assertEquals(response.statusCode(), 200, "Valid token không truy cập được API");
@@ -120,23 +116,4 @@ public class AuthenticationAPITest extends TestBaseAPI {
                                                         + location);
                 }
         }
-        // @Test
-        // public void checkList(){
-        // Response response =
-        // given()
-        // .auth()
-        // .oauth2(token)
-        // .when()
-        // .get("/api/v2/pim/employees");
-
-        // Log.info(response.asPrettyString());
-        // }
-
-        @AfterMethod
-        public void tearDown() {
-                if (driver != null) {
-                        driver.quit();
-                }
-        }
-
 }

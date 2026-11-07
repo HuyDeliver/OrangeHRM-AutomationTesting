@@ -31,6 +31,8 @@ public class Issue1890RegressionTest extends TestBase {
         driver.manage().timeouts().implicitlyWait(Duration.ZERO);
         timesheetPage = new TimesheetPage(driver);
         timesheetPage.openMyTimesheet(TestConfig.timesheetStartDate);
+        timesheetPage.ensureBaselineReady(TestConfig.timesheetStartDate, TestConfig.timesheetProjectName,
+                TestConfig.timesheetProjectOption, TestConfig.timesheetActivityA, TestConfig.timesheetActivityB);
         Assert.assertEquals(timesheetPage.getPeriod(), TestConfig.timesheetPeriod, "Đang mở sai tuần fixture");
         Assert.assertEquals(timesheetPage.getStatus(), "Status: Not Submitted", "Không sửa timesheet đã Submit");
         Assert.assertTrue(timesheetPage.isZeroBaseline(TestConfig.timesheetProjectOption, TestConfig.timesheetActivityA),
