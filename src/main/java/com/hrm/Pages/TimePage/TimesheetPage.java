@@ -25,7 +25,7 @@ public class TimesheetPage {
 
     public TimesheetPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     public void openMyTimesheet(String startDate) {
@@ -75,12 +75,12 @@ public class TimesheetPage {
         openMyTimesheet(startDate);
         openEdit();
         WebElement row = driver.findElements(editRows).get(0);
-        row.findElement(By.cssSelector("td:first-child input")).sendKeys(projectName);
+        WebElement projInput = row.findElement(By.cssSelector("td:first-child input"));
+        projInput.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE, projectName);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
                 "//div[@role='listbox']//span[normalize-space()='" + projectOption + "']"))).click();
-        waitUtils.waitElementClick(driver, row.findElement(By.cssSelector("td:nth-child(2) .oxd-select-text")));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
-                "//div[@role='listbox']//span[normalize-space()='" + activityA + "']"))).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='listbox']")));
+        selectActivity(row, activityA);
         fillFirstDay("00:00");
         saveAndReload();
     }
@@ -123,12 +123,12 @@ public class TimesheetPage {
         waitUtils.waitElementClick(driver, driver.findElement(By.xpath(
                 "//tbody[contains(@class,'orangehrm-timesheet-table-body')]//button[i[contains(@class,'bi-plus')]]")));
         WebElement row = driver.findElements(editRows).get(1);
-        row.findElement(By.cssSelector("td:first-child input")).sendKeys(projectName);
+        WebElement projInput = row.findElement(By.cssSelector("td:first-child input"));
+        projInput.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE, projectName);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
                 "//div[@role='listbox']//span[normalize-space()='" + projectOption + "']"))).click();
-        waitUtils.waitElementClick(driver, row.findElement(By.cssSelector("td:nth-child(2) .oxd-select-text")));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(
-                "//div[@role='listbox']//span[normalize-space()='" + activity + "']"))).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[@role='listbox']")));
+        selectActivity(row, activity);
         // Không nhập hoặc click ô giờ của B: phải giữ nguyên dữ liệu ngày trống.
     }
 
@@ -186,5 +186,25 @@ public class TimesheetPage {
     private void waitForView() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(edit));
         wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector(".oxd-loading-spinner"), 0));
+    }
+
+    private void selectActivity(WebElement row, String activity) {
+        WebElement actDropdown = row.findElement(By.cssSelector("td:nth-child(2) .oxd-select-text"));
+        for (int attempt = 0; attempt < 4; attempt++) {
+            waitUtils.waitElementClick(driver, actDropdown);
+            try {
+                WebElement option = new WebDriverWait(driver, Duration.ofSeconds(4)).until(
+                        ExpectedConditions.elementToBeClickable(By.xpath(
+                                "//div[@role='listbox']//span[normalize-space()='" + activity + "']")));
+                option.click();
+                return;
+            } catch (Exception e) {
+                if (!driver.findElements(By.xpath("//div[@role='listbox']")).isEmpty()) {
+                    actDropdown.click();
+                }
+                try { Thread.sleep(1000); } catch (InterruptedException ignored) {}
+            }
+        }
+        throw new IllegalStateException("Không chọn được activity: " + activity);
     }
 }

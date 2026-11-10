@@ -372,8 +372,11 @@ public class componentLocator {
     }
 
     public static void buttonAddMyInfo(WebDriver driver, String title) {
-        WebElement buttonAdd = driver
-                .findElement(By.xpath("//h6[normalize-space()='" + title + "']/following-sibling::button"));
+        By locator = By.xpath(
+                "//h6[normalize-space()='" + title + "']/following-sibling::button | " +
+                "//h6[normalize-space()='" + title + "']/following-sibling::div//button | " +
+                "//h6[normalize-space()='" + title + "']/..//button");
+        WebElement buttonAdd = new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.elementToBeClickable(locator));
         waitUtils.waitElementClick(driver, buttonAdd);
     }
 
