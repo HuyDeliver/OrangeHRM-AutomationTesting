@@ -120,12 +120,16 @@
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APICreateEmployeeTest" />
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIUpdateEmployeeTest" />
             <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIDeleteEmployeeTest" />
+            <class name="com.hrm.TestCase.TestAPI.PIMAPI.APIEmployeeDetailCRUDTest" />
         </classes>
     </test>
 
     <test name="AdminAPI" preserve-order="true">
         <classes>
             <class name="com.hrm.TestCase.TestAPI.AdminAPI.GetUserListAPITest" />
+            <class name="com.hrm.TestCase.TestAPI.AdminAPI.APIJobTitleCRUDTest" />
+            <class name="com.hrm.TestCase.TestAPI.AdminAPI.APILocationCRUDTest" />
+            <class name="com.hrm.TestCase.TestAPI.AdminAPI.APIUserCRUDTest" />
         </classes>
     </test>
 
@@ -134,6 +138,8 @@
             <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateRequiredFieldTest" />
             <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateValidationTest" />
             <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateBoundaryTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APICandidateCRUDTest" />
+            <class name="com.hrm.TestCase.TestAPI.RecruitmentAPI.APIVacancyCRUDTest" />
         </classes>
     </test>
 

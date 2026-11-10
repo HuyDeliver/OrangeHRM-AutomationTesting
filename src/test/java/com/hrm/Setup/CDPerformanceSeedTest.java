@@ -16,15 +16,13 @@ import com.hrm.Pages.SideBar;
 import com.hrm.Pages.PIMPage.EditEmployeePage;
 import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Pages.PerformancePage.ManageReviewPage;
-import com.hrm.Util.Config;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.componentLocator;
 
 // Giữ prerequisites đã có của PIM/Recruitment/MyInfo; chuẩn bị thêm KPI và gán Job Title + Supervisor cho subordinate.
 public class CDPerformanceSeedTest extends CDMyInfoSeedTest {
-    @Test(groups = "data-preparation", dependsOnMethods = "prepareEducationLevel",
-            description = "CD setup: KPIs + Subordinate Job/Supervisor, không tính functional PASS")
+    @Test(groups = "data-preparation", dependsOnMethods = "prepareEducationLevel", description = "CD setup: KPIs + Subordinate Job/Supervisor, không tính functional PASS")
     public void preparePerformanceFixtures() throws Exception {
         Properties fixture = new Properties();
         try (Reader reader = Files.newBufferedReader(Path.of("deploy/seed.properties"))) {
@@ -57,7 +55,8 @@ public class CDPerformanceSeedTest extends CDMyInfoSeedTest {
             edit.fillSupervisor(keySup, supervisor, TestConfig.reportMethod);
             edit.saveInfo("Seed Supervisor Performance");
         }
-        Assert.assertTrue(edit.hasSupervisor(supervisor, TestConfig.reportMethod), "Chưa gán được Supervisor cho subordinate");
+        Assert.assertTrue(edit.hasSupervisor(supervisor, TestConfig.reportMethod),
+                "Chưa gán được Supervisor cho subordinate");
 
         ManageReviewPage perf = new SideBar(driver).clickPerformancePage("Performance");
         perf.openKpiPage();
@@ -79,7 +78,8 @@ public class CDPerformanceSeedTest extends CDMyInfoSeedTest {
         result.setProperty("kpi.jobTitle", TestConfig.jobTitleName);
         result.setProperty("subordinate", TestConfig.surbordinate);
         result.setProperty("supervisor", supervisor);
-        try (Writer out = Files.newBufferedWriter(Path.of(System.getProperty("seed.output"), "performance-seed-result.properties"))) {
+        try (Writer out = Files
+                .newBufferedWriter(Path.of(System.getProperty("seed.output"), "performance-seed-result.properties"))) {
             result.store(out, "Setup only");
         }
         Log.info("[PERFORMANCE SEED] KPIs=" + TestConfig.skill + ", " + TestConfig.jobTitleName);
