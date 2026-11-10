@@ -10,6 +10,7 @@ import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -29,6 +30,7 @@ public class SearchLocationFunctionality extends TestBase {
         Assert.assertTrue(locationPage.isSearchLocationSuccess(name, city, country,
                 Boolean.parseBoolean(expectedFound)), "Kết quả Location không đúng expectedFound=" + expectedFound
                         + " | name=" + name + ", city=" + city + ", country=" + country);
+        componentLocator.takeScreenshotTable(driver, "Search location with city");
         Log.info("OHR15: Kết quả tìm Location đúng expectedFound=" + expectedFound);
     }
 

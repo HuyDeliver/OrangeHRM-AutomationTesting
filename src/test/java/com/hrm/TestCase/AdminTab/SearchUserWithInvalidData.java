@@ -11,6 +11,7 @@ import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -28,7 +29,7 @@ public class SearchUserWithInvalidData extends TestBase {
         userManagePage.searchSystemUser(userName, role, employee, status);
 
         Assert.assertTrue(userManagePage.isNoRecordFound(), "Bộ lọc âm tính phải hiển thị No Records Found");
-
+        componentLocator.takeScreenshotTable(driver, "Search user invalid data");
         Log.info("Không tìm thấy bản ghi");
     }
 

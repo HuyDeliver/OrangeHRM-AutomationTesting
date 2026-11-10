@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.PerformancePage.ManageReviewPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -27,6 +28,7 @@ public class DeleteReviewFunctionality extends TestBase {
         manageReviewPage.deleteReview(date);
         Assert.assertTrue(manageReviewPage.isDeleteReviewSuccess(), "Không hiển thị thông báo xóa thành công");
         Assert.assertTrue(manageReviewPage.countReviews(date) < beforeCount, "Xóa review không thành công");
+        componentLocator.takeScreenshotTable(driver, "Delete review success");
         Log.info("Xóa thành công");
     }
 }

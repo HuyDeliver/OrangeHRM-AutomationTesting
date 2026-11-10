@@ -70,6 +70,7 @@ public class Issue1876RegressionTest extends TestBase {
         Log.info("Past (TAB)=" + pastCountTab);
 
         // Assert
+        componentLocator.takeScreenshotTable(driver, "Issue1876 Past filter result");
         Assert.assertEquals(driver.findElement(INCLUDE).getText(), PAST, "UI phải giữ lựa chọn Past sau Search");
         Assert.assertEquals(pastCountTab, pastCountEnter,
                 "Bug #1876: Include hiển thị Past nhưng kết quả sau TAB khác baseline ENTER");

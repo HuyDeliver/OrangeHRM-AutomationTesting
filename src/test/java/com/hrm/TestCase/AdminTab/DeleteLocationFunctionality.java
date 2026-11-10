@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -23,7 +24,7 @@ public class DeleteLocationFunctionality extends TestBase {
         locationPage.deleteLocation(TestDataShare.LOCATION);
         Assert.assertTrue(locationPage.isDeleteLocationSuccess(), "Delete không thành công");
         Assert.assertEquals(locationPage.countLocations(TestDataShare.LOCATION), 0, "Location vẫn còn sau khi xóa");
-
+        componentLocator.takeScreenshotTable(driver, "Delete location success");
         Log.info("Xóa thành công");
     }
 }

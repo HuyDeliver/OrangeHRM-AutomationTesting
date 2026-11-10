@@ -17,9 +17,22 @@ import io.restassured.response.Response;
 @Feature("AuthenticationAPI")
 public class AuthenticationAPITest extends TestBaseAPI {
 
-        private static final int EMPLOYEE_ID = Integer.parseInt(Config.get("ess.empNumber", "7"));
+        private int EMPLOYEE_ID = Integer.parseInt(Config.get("ess.empNumber", "7"));
 
         private static final String EMPLOYEE_ENDPOINT = "/api/v2/pim/employees/{empNumber}";
+
+        @org.testng.annotations.BeforeClass
+        public void ensureValidEmployeeId() {
+                Response check = given().auth().oauth2(token).pathParam("empNumber", EMPLOYEE_ID)
+                                .when().get(EMPLOYEE_ENDPOINT);
+                if (check.statusCode() != 200) {
+                        Response list = given().auth().oauth2(token).when().get("/api/v2/pim/employees");
+                        Integer firstId = list.jsonPath().get("data[0].empNumber");
+                        if (firstId != null) {
+                                EMPLOYEE_ID = firstId;
+                        }
+                }
+        }
 
         @Test(description = "OHR51: Authentication - Token hợp lệ phải truy cập được API")
         public void validTokenShouldBeAccepted() {

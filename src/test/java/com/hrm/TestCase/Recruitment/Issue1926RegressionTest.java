@@ -15,6 +15,7 @@ import com.hrm.Pages.RecruitmentPage.ApplicationStage;
 import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -61,7 +62,7 @@ public class Issue1926RegressionTest extends TestBase {
                 "Trạng thái Shortlisted không được giữ sau refresh");
         Assert.assertTrue(applicationStage.hasShortlistHistory(), "History không có thao tác Shortlisted");
         Log.info("Đã xác nhận sau refresh: Status: Shortlisted | History: Shortlisted | Vacancy: " + vacancy);
-        takeScreenshot("Shortlisted - " + vacancy);
+        componentLocator.takeScreenshotResult(driver, "Shortlisted - " + vacancy);
     }
 
     @DataProvider(name = "localVacancies")

@@ -14,6 +14,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.ClaimPage.ClaimPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -31,7 +32,7 @@ public class Issue1820RegressionTest extends TestBase {
         draftReady = false;
         Log.info("Bước 1: Đăng nhập Claim và mở Claim nháp riêng");
         TestUtil.claimUtil();
-        driver.manage().timeouts().implicitlyWait(Duration.ZERO);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
         claimPage = new ClaimPage(driver);
         claimPage.openTestClaim(TestConfig.claimTestRemarks);
         Assert.assertEquals(claimPage.getRemarks(), TestConfig.claimTestRemarks, "Đang mở sai Claim fixture");
@@ -59,7 +60,7 @@ public class Issue1820RegressionTest extends TestBase {
         boolean saved = claimPage.hasAttachment(file.getFileName().toString(), comment);
         Log.info("Expected: file vẫn tồn tại sau refresh | Actual: saved=" + saved);
         claimPage.showAttachments();
-        takeScreenshot("Claim attachment after refresh");
+        componentLocator.takeScreenshotResult(driver, "Claim attachment after refresh");
         Assert.assertTrue(saved, "File đính kèm không được lưu sau Save và refresh - kiểm tra issue 1820");
         Assert.assertEquals(claimPage.getAttachmentCount(), 1, "Phải có đúng một file vừa upload");
     }

@@ -270,7 +270,7 @@ jobs:
 
       - name: Check API result
         if: always() && (steps.api.outcome == 'success' || steps.api.outcome == 'failure')
-        run: .\deploy\api-report.ps1 -Name api -Expected 21
+        run: .\deploy\api-report.ps1 -Name api -Expected 53
 
       - name: Run Security tests
         id: security

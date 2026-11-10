@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.EditLocationPage;
 import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -30,6 +31,7 @@ public class EditLocationFunctionality extends TestBase {
         locationPage.searchLocation(TestDataShare.LOCATION, "Hồ Chí Minh", "");
         Assert.assertTrue(locationPage.isSearchLocationSuccess(TestDataShare.LOCATION, "Hồ Chí Minh", "", true),
                 "City chưa được lưu đúng sau khi sửa");
+        componentLocator.takeScreenshotTable(driver, "Edit location success");
         Log.info("Edit City thành công");
     }
 }

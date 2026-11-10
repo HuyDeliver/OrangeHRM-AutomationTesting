@@ -10,6 +10,7 @@ import com.hrm.Pages.AdminPage.PayGradePage;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -67,6 +68,7 @@ public class Issue1897RegressionTest extends TestBase {
         payGradePage.openPayGrade(gradeB);
         String afterB = payGradePage.getCurrencies();
         Log.info("Expected B: " + beforeB + " | Actual B: " + afterB);
+        componentLocator.takeScreenshotTable(driver, "Issue1897 Pay Grade B currencies");
         Assert.assertEquals(afterB, beforeB, "Bug #1897: khoảng lương B bị thay đổi khi chỉ sửa A");
     }
 

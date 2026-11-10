@@ -12,6 +12,7 @@ import com.hrm.Pages.RecruitmentPage.ApplicationStage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -51,6 +52,7 @@ public class AddCandidateFunctionality extends TestBase {
         application.goToCandidatesPage("Candidates", "");
         Assert.assertEquals(candidatesPage.countCandidates(TestConfig.firstName + " " + TestConfig.middleName + " " + TestDataShare.LASTNAME),
                 1, "Candidate không được lưu đúng tên");
+        componentLocator.takeScreenshotTable(driver, "Add candidate");
         Log.info("OHR29: Candidate đã lưu, trạng thái Application Initiated");
     }
 

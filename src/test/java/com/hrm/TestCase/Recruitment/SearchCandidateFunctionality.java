@@ -13,6 +13,7 @@ import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -68,6 +69,7 @@ public class SearchCandidateFunctionality extends TestBase {
         // Assert
         Assert.assertEquals(candidatesPage.countCandidates(candidateName), 1,
                 "Search phải trả về đúng candidate đã nhập");
+        componentLocator.takeScreenshotTable(driver, "Search existing candidate");
         Log.info("OHR70: Search trả về đúng một candidate");
     }
 
@@ -83,6 +85,7 @@ public class SearchCandidateFunctionality extends TestBase {
         // Assert
         Assert.assertEquals(candidatesPage.countCandidates(missingCandidate), 0,
                 "Search candidate không tồn tại phải trả về 0 record");
+        componentLocator.takeScreenshotTable(driver, "Search missing candidate");
         Log.info("OHR71: Search candidate không tồn tại trả về 0 record");
     }
 

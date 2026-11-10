@@ -12,6 +12,7 @@ import com.hrm.Pages.RecruitmentPage.CandidatesPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -52,6 +53,7 @@ public class DeleteCandidateFunctionality extends TestBase {
         candidatesPage.deleteCandidate(name);
         Assert.assertTrue(candidatesPage.isDeleteCandidateSuccess("Delete candidate"), "Delete không thành công");
         Assert.assertEquals(candidatesPage.countCandidates(name), 0, "Candidate còn sau Delete");
+        componentLocator.takeScreenshotTable(driver, "Delete candidate");
         Log.info("OHR31: Candidate không còn trong danh sách");
     }
 }

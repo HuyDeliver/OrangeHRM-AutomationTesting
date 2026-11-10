@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.AddSkillPage;
 import com.hrm.Pages.AdminPage.SkillPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -27,6 +28,7 @@ public class AddSkillFunctionality extends TestBase {
         addSkillPage.addSkillFunction(TestDataShare.SKILL, "JavaCore, OOP, Selenium, TestNg");
         Assert.assertTrue(addSkillPage.isAddSkillSuccess(), "Add skill không thành công");
         Assert.assertEquals(skillPage.countSkills(TestDataShare.SKILL), 1, "Không thấy Skill vừa tạo");
+        componentLocator.takeScreenshotTable(driver, "Add skill success");
         Log.info("Add skill thành công");
     }
 }

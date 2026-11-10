@@ -10,6 +10,7 @@ import com.hrm.Base.TestBase;
 import com.hrm.Base.TestUtil;
 import com.hrm.Pages.ProfileMenuPage;
 import com.hrm.Util.Log;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -43,6 +44,7 @@ public class Issue1923RegressionTest extends TestBase {
         // Assert
         boolean closed = profileMenu.isMenuClosed();
         Log.info("Expected: menu đóng | Actual menu đã đóng: " + closed);
+        componentLocator.takeScreenshotResult(driver, "Issue1923 click avatar again");
         Assert.assertTrue(closed, "Bug #1923: menu vẫn mở sau khi click avatar lần hai");
     }
 
@@ -55,6 +57,7 @@ public class Issue1923RegressionTest extends TestBase {
         // Assert
         boolean closed = profileMenu.isMenuClosed();
         Log.info("Expected: menu đóng | Actual menu đã đóng: " + closed);
+        componentLocator.takeScreenshotResult(driver, "Issue1923 click outside menu");
         Assert.assertTrue(closed, "Control lỗi: menu vẫn mở sau khi click ra ngoài");
     }
 }

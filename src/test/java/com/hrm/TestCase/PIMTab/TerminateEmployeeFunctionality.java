@@ -13,6 +13,7 @@ import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -57,6 +58,7 @@ public class TerminateEmployeeFunctionality extends TestBase {
                 "Ngày Terminate đã lưu không đúng input");
         Assert.assertEquals(editEmployeePage.getTerminationReason(), TestConfig.terminateReason,
                 "Lý do Terminate đã lưu không đúng input");
+        componentLocator.takeScreenshotResult(driver, "Terminate employee");
         Log.info("OHR25: Trạng thái, ngày và lý do Terminate được giữ sau refresh");
     }
 

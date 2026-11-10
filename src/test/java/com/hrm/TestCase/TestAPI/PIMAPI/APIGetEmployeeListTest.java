@@ -27,6 +27,7 @@ public class APIGetEmployeeListTest extends TestBaseAPI {
                 .get("/api/v2/pim/employees");
 
         Log.info("OHR75 Status: " + response.statusCode());
+        Log.info(response.asPrettyString());
         Assert.assertEquals(response.statusCode(), 200, "Không lấy được danh sách employee phân trang");
         List<?> data = response.jsonPath().getList("data");
         Assert.assertNotNull(data, "Response thiếu danh sách data");

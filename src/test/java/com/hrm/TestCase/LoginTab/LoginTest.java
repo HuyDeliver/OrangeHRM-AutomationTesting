@@ -12,6 +12,7 @@ import com.hrm.Pages.AdminPage.LoginPage;
 import com.hrm.Util.Config;
 import com.hrm.Util.ExelReader;
 import com.hrm.Util.Log;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -25,6 +26,7 @@ public class LoginTest extends TestBase {
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
         SideBar sideBar = loginPage.loginToMainWeb(Config.get("username"), Config.get("password"));
         Assert.assertTrue(sideBar.isDashBoardVisible(), "Đăng nhập xong nhưng chưa hiển thị Dashboard");
+        componentLocator.takeScreenshotResult(driver, "Login success");
         Log.info("Đăng nhập thành công");
     }
 
@@ -34,6 +36,7 @@ public class LoginTest extends TestBase {
         Assert.assertTrue(loginPage.isLoginTitleVisible(), "Không vào được trang Login");
         loginPage.loginToMainWeb(userName, passWord);
         Assert.assertTrue(loginPage.isLoginFail());
+        componentLocator.takeScreenshotResult(driver, "Login fail");
         Log.info("Đăng nhập không thành công");
 
     }
@@ -48,6 +51,7 @@ public class LoginTest extends TestBase {
 
         AlertResetPassSuccess alertResetPassSuccess = forgotPage.resetPassSuccess("Tushar");
         Assert.assertTrue(alertResetPassSuccess.isResetPassSuccess(), "reset không thành công");
+        componentLocator.takeScreenshotResult(driver, "Reset password success");
         alertResetPassSuccess.backToLogin();
     }
 

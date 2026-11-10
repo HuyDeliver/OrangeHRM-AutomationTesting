@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -29,6 +30,7 @@ public class SearchUserWithValidData extends TestBase {
         Assert.assertTrue(userManagePage.isRecordFoundMatchKeySearch(TestDataShare.USERNAME,
                 TestConfig.userRole, TestConfig.employeeName, TestConfig.status),
                 "Không tìm thấy user khớp username, role, employee và status đã nhập");
+        componentLocator.takeScreenshotTable(driver, "Search user valid data");
         Log.info("OHR4: Kết quả tìm user khớp dữ liệu đã nhập");
     }
 }

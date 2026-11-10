@@ -10,6 +10,7 @@ import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -40,6 +41,7 @@ public class EditSalaryFunctionality extends TestBase {
                 driver.navigate().refresh();
                 Assert.assertTrue(editEmployeePage.hasSalary(TestConfig.salary, TestConfig.amount,
                                 TestConfig.currency, TestConfig.payFrequency), "Salary đã lưu không đúng input");
+                componentLocator.takeScreenshotTable(driver, "Edit employee salary");
                 Log.info("Edit salary thành công");
         }
 }

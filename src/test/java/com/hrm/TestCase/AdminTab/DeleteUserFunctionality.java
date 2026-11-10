@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -29,6 +30,7 @@ public class DeleteUserFunctionality extends TestBase {
 
         Assert.assertEquals(userManagePage.searchByUsernameAndCount(TestDataShare.USERNAME), 0,
                 "User vẫn tồn tại sau khi xóa");
+        componentLocator.takeScreenshotTable(driver, "Delete user success");
         Log.info("OHR8 - Đã xóa, tìm lại trả về 0 record");
     }
 }

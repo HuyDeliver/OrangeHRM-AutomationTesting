@@ -11,6 +11,7 @@ import com.hrm.Pages.RecruitmentPage.VacanciesPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -37,6 +38,7 @@ public class AddVacancyFunctionality extends TestBase {
         vacanciesPage.searchVacancy(TestConfig.jobTitleName, TestDataShare.VACANCY_NAME, TestConfig.hiringManager, "Active");
         vacanciesPage.clickSearch();
         Assert.assertEquals(vacanciesPage.countVacancies(TestDataShare.VACANCY_NAME), 1, "Vacancy không được lưu đúng");
+        componentLocator.takeScreenshotTable(driver, "Add vacancy");
         Log.info("OHR26: Vacancy đã lưu đúng tên, job, manager và Active");
     }
 }

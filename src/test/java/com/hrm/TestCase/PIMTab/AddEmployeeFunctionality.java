@@ -10,6 +10,7 @@ import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Pages.PIMPage.EditEmployeePage;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -34,6 +35,7 @@ public class AddEmployeeFunctionality extends TestBase {
         Assert.assertTrue(addEmployeePage.isCreateNewEmployeeSuccess(), "Add new employee not success");
         Assert.assertTrue(new EditEmployeePage(driver).hasEmployeeIdentity(TestDataShare.IDEMPLOYEE,
                 TestConfig.firstName, TestDataShare.LASTNAME), "Employee đã lưu sai ID/họ tên");
+        componentLocator.takeScreenshotResult(driver, "Add new employee");
     }
 
 }

@@ -36,6 +36,7 @@ public class InjectionAPITest extends TestBaseAPI {
                 Response r = given().auth().oauth2(token).queryParam("username", value)
                                 .redirects().follow(false).when().get(USERS_ENDPOINT);
                 Log.info("GET " + USERS_ENDPOINT + " | username=[" + value + "] | Status: " + r.statusCode());
+                Log.info(r.asPrettyString());
                 return r;
         }
 

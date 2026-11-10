@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.PerformancePage.AddReviewPage;
 import com.hrm.Pages.PerformancePage.ManageReviewPage;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -21,11 +22,17 @@ public class AddReviewFunctionality extends TestBase {
         ManageReviewPage manageReviewPage = new ManageReviewPage(driver);
         manageReviewPage.clickManageReview("Manage Reviews", "Manage Reviews");
         Assert.assertTrue(manageReviewPage.isEmployeeReviewsVisible("Employee review"), "Không vào được trang");
+        String shortName = TestConfig.shortenName(TestConfig.surbordinate);
+        while (manageReviewPage.countReviews(shortName) > 0) {
+            manageReviewPage.deleteReview(shortName);
+            manageReviewPage.isDeleteReviewSuccess();
+        }
         AddReviewPage addReviewPage = manageReviewPage.clickButtonAdd();
         Assert.assertTrue(addReviewPage.isAddReviewsVisible("Add Review"), "Không vào được trang");
         addReviewPage.fillAddReview(TestConfig.surbordinate, TestConfig.performanceSupervisor, TestConfig.startDate,
                 TestConfig.endDate, TestConfig.dueDate);
         addReviewPage.clickActivate();
         Assert.assertTrue(addReviewPage.isAddReviewSuccess("Activate"), "Add không thành công");
+        componentLocator.takeScreenshotTable(driver, "Add review success");
     }
 }

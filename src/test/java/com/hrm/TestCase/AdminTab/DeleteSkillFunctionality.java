@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.SkillPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -23,6 +24,7 @@ public class DeleteSkillFunctionality extends TestBase {
         skillPage.deleteSkill(TestDataShare.SKILL);
         Assert.assertTrue(skillPage.isDeleteSkillSuccess(), "Delete không thành công");
         Assert.assertEquals(skillPage.countSkills(TestDataShare.SKILL), 0, "Skill vẫn còn sau khi xóa");
+        componentLocator.takeScreenshotTable(driver, "Delete skill success");
         Log.info("Xóa Skill thành công");
     }
 }

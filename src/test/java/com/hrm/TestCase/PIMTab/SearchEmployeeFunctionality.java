@@ -12,6 +12,7 @@ import com.hrm.Util.Log;
 import com.hrm.Util.Config;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -39,6 +40,7 @@ public class SearchEmployeeFunctionality extends TestBase {
         Assert.assertTrue(employeeListPage.checkSearch(name, id, status, supervisor, jobTitle,
                 Boolean.parseBoolean(expectedFound)), "Kết quả Employee không đúng expectedFound=" + expectedFound
                         + " | name=" + name + ", id=" + id + ", status=" + status);
+        componentLocator.takeScreenshotTable(driver, "Search employee");
         Log.info("OHR23: Kết quả tìm Employee đúng expectedFound=" + expectedFound);
     }
 

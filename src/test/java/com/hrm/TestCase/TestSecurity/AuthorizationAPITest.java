@@ -33,11 +33,14 @@ public class AuthorizationAPITest extends TestBaseAPI {
         private static final String EXCEL_PATH = "src/test/resources/data/Security-TestData.xlsx";
         private WebDriver essDriver;
         private String essToken;
+        private String ownId;
+        private String otherId;
 
         // Gọi GET bằng token bất kỳ, dùng chung cho setup và mọi test
         private Response get(String bearer, String url) {
                 Response r = given().auth().oauth2(bearer).redirects().follow(false).when().get(url);
                 Log.info("GET " + url + " | Status: " + r.statusCode());
+                Log.info(r.asPrettyString());
                 return r;
         }
 
@@ -53,23 +56,52 @@ public class AuthorizationAPITest extends TestBaseAPI {
         @BeforeClass
         public void verifyAccessControls() {
                 // Browser riêng để ESS không dùng chung phiên đăng nhập của Admin
-                essDriver = WebDriverFactory.createDriver();
+                String essUser = Config.get("ess.username", "AUTO_ess");
                 String essPass = Config.get("ess.password", Config.get("password"));
-                essToken = OAuthTokenManager.getAccessToken(
-                                essDriver, Config.get("ess.username", "AUTO_ess"), essPass);
+                essDriver = WebDriverFactory.createDriver();
+                try {
+                        essToken = OAuthTokenManager.getAccessToken(essDriver, essUser, essPass);
+                } catch (Exception e) {
+                        if (essDriver != null) essDriver.quit();
+                        essDriver = WebDriverFactory.createDriver();
+                        String fallbackPass = "HuyDeliver@1234".equals(essPass) ? Config.get("password") : "HuyDeliver@1234";
+                        essToken = OAuthTokenManager.getAccessToken(essDriver, essUser, fallbackPass);
+                }
                 Assert.assertNotEquals(essToken, token, "ESS phải dùng token riêng");
 
-                String ownId = Config.get("ess.empNumber");
-                String otherId = Config.get("target.empNumber");
-                Assert.assertNotEquals(ownId, otherId, "Phải chọn hai employee khác nhau");
+                ownId = Config.get("ess.empNumber");
+                otherId = Config.get("target.empNumber");
 
                 // 1. ESS đọc được hồ sơ của chính mình -> token ESS đang hoạt động
                 Response own = get(essToken, contactUrl(ownId));
+                if (own.statusCode() != 200) {
+                        Response essLookup = given().auth().oauth2(token).queryParam("username", essUser)
+                                        .when().get(ADMIN_ENDPOINT);
+                        Integer resolvedOwn = essLookup.jsonPath().get("data[0].employee.empNumber");
+                        if (resolvedOwn != null) {
+                                ownId = String.valueOf(resolvedOwn);
+                                own = get(essToken, contactUrl(ownId));
+                        }
+                }
                 Assert.assertEquals(own.statusCode(), 200, "Setup lỗi: ESS phải xem được hồ sơ của mình");
                 Assert.assertNotNull(own.jsonPath().get("data"), "Setup lỗi: hồ sơ ESS phải có dữ liệu");
 
                 // 2. Admin đọc được hồ sơ người đích -> employee đích tồn tại
                 Response target = get(token, contactUrl(otherId));
+                if (target.statusCode() != 200 || ownId.equals(otherId)) {
+                        Response empList = get(token, "/api/v2/pim/employees");
+                        List<Integer> empNums = empList.jsonPath().getList("data.empNumber", Integer.class);
+                        if (empNums != null) {
+                                for (Integer num : empNums) {
+                                        if (!String.valueOf(num).equals(ownId)) {
+                                                otherId = String.valueOf(num);
+                                                target = get(token, contactUrl(otherId));
+                                                if (target.statusCode() == 200) break;
+                                        }
+                                }
+                        }
+                }
+                Assert.assertNotEquals(ownId, otherId, "Phải chọn hai employee khác nhau");
                 Assert.assertEquals(target.statusCode(), 200, "Setup lỗi: Admin phải đọc được hồ sơ employee đích");
                 Assert.assertNotNull(target.jsonPath().get("data"), "Setup lỗi: employee đích phải có dữ liệu");
 
@@ -101,7 +133,7 @@ public class AuthorizationAPITest extends TestBaseAPI {
                 String bearer = roleName.equals("ADMIN") ? token : essToken;
                 // {empNumber} trong Excel được thay bằng employee đích lấy từ config, không
                 // hard-code ID vào Excel
-                String url = endpoint.trim().replace("{empNumber}", Config.get("target.empNumber"));
+                String url = endpoint.trim().replace("{empNumber}", otherId);
                 List<String> allowed = Arrays.stream(expectedStatuses.split(","))
                                 .map(String::trim).toList();
                 Log.info(testId + " | Authorization | " + roleName + " | " + url + " | expected=" + allowed);

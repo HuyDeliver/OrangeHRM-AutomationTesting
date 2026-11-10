@@ -14,6 +14,7 @@ import com.hrm.Pages.RecruitmentPage.RejectCandidate;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -70,6 +71,7 @@ public class RejectCandidateFunctionality extends TestBase {
         Assert.assertEquals(applicationStage.getCandidateStatus(), "Status: Rejected",
                 "Trạng thái Rejected không được giữ sau refresh");
         Assert.assertTrue(applicationStage.hasRejectHistory(), "History chưa có thao tác Rejected");
+        componentLocator.takeScreenshotTable(driver, "Reject candidate");
         Log.info("OHR30: Trạng thái Rejected và history được giữ sau refresh");
     }
 

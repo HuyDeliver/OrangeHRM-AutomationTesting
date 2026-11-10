@@ -11,6 +11,7 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
 import com.hrm.Util.Config;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -43,6 +44,7 @@ public class EditUserFunctionality extends TestBase {
         Assert.assertTrue(login.isLoginTitleVisible(), "Không mở được Login cho phiên mới");
         Assert.assertTrue(login.loginToMainWeb(TestDataShare.USERNAME, TestDataShare.USER_NEW_PASSWORD)
                 .isDashBoardVisible(), "User không đăng nhập được bằng mật khẩu mới");
+        componentLocator.takeScreenshotResult(driver, "Edit user and login with new password");
         Log.info("OHR7 - Đăng nhập bằng mật khẩu mới thành công");
     }
 

@@ -98,17 +98,21 @@ orangehrmtesting/
 - **Phân hệ Khiếu nại & Chấm công (`ClaimTab`, `TimeTab`, `ProfileTab`)**: Kiểm tra lưu trữ tệp đính kèm khiếu nại sau khi refresh trang, kiểm tra ngày bắt đầu lịch chấm công và tương tác đóng/mở menu đại diện người dùng.
 
 #### B. RESTful API Automation
-- **Admin API**: Kiểm thử endpoint `/api/v2/admin/users` (lấy danh sách, lọc theo username), `/api/v2/admin/job-titles`, `/api/v2/admin/locations`.
-- **PIM API**: Kiểm thử toàn diện chu trình CRUD của Employee qua HTTP REST:
-  - `POST /api/v2/pim/employees`: Tạo nhân viên mới, xác thực HTTP 200/201 và JSON response chứa đúng ID.
-  - `GET /api/v2/pim/employees/{id}`: Truy vấn chi tiết nhân viên, kiểm tra dữ liệu trả về.
-  - `PUT /api/v2/pim/employees/{empNumber}/personal-details`: Cập nhật họ tên nhân viên.
+- **Admin API**: Kiểm thử đầy đủ chu trình CRUD cho 3 tài nguyên cốt lõi:
+  - `Users` (`/api/v2/admin/users`): Lấy danh sách, lọc theo username, tạo mới User (`POST`), xem chi tiết (`GET /{id}`), cập nhật trạng thái/mật khẩu (`PUT`), kiểm tra lỗi thiếu trường bắt buộc (`422`) và xóa User (`DELETE`).
+  - `Job Titles` (`/api/v2/admin/job-titles`): Lấy danh sách, tạo mới (`POST`), xem chi tiết (`GET /{id}`), cập nhật (`PUT`), kiểm tra lỗi `422` & `404`, và xóa (`DELETE`).
+  - `Locations` (`/api/v2/admin/locations`): Lấy danh sách, tạo chi nhánh mới (`POST`), xem chi tiết (`GET /{id}`), cập nhật (`PUT`), lọc theo tên (`GET ?name=...`), kiểm tra lỗi `422` và xóa (`DELETE`).
+- **PIM API**: Kiểm thử toàn diện chu trình CRUD của Employee và các Sub-resource qua HTTP REST:
+  - `POST /api/v2/pim/employees`: Tạo nhân viên mới, xác thực HTTP 200 và JSON response chứa đúng ID; kiểm tra lỗi `422` khi thiếu `lastName`.
+  - `GET /api/v2/pim/employees/{id}`: Truy vấn chi tiết nhân viên, phân trang (`limit`, `offset`) và lọc theo tên.
+  - `PUT /api/v2/pim/employees/{empNumber}/personal-details` & `GET /personal-details`: Xem và cập nhật thông tin cá nhân nhân viên.
+  - `GET` & `PUT /api/v2/pim/employee/{empNumber}/contact-details`: Xem và cập nhật địa chỉ, số điện thoại liên hệ của nhân viên.
+  - `GET /api/v2/pim/employees/{empNumber}/job-details`: Xem thông tin công việc của nhân viên.
   - `DELETE /api/v2/pim/employees`: Xóa nhân viên và xác thực nhân viên không còn tồn tại.
-  - Kiểm tra trường hợp ngoại lệ: Truy vấn nhân viên với ID không tồn tại trả về đúng mã lỗi `404 Not Found`.
 - **Recruitment API**:
-  - `APICandidateValidationTest`: Kiểm tra validation định dạng email, số điện thoại.
-  - `APICandidateBoundaryTest`: Kiểm thử giá trị biên độ dài của trường `firstName` (ký tự tối thiểu, tối đa).
-  - `APICandidateRequiredFieldTest`: Kiểm thử gửi payload thiếu trường bắt buộc, xác thực hệ thống phản hồi `422 Unprocessable Entity` kèm danh sách trường bị thiếu.
+  - `APICandidateCRUDTest`: Kiểm thử trọn vẹn vòng đời CRUD của hồ sơ ứng viên (`POST`, `GET /{id}`, `PUT /{id}`, `GET` không tồn tại `404`, `DELETE`).
+  - `APIVacancyCRUDTest`: Kiểm thử trọn vẹn vòng đời CRUD của vị trí tuyển dụng Vacancy (`POST`, `GET /{id}`, `PUT /{id}`, `POST` thiếu trường bắt buộc `422`, `DELETE`).
+  - `APICandidateValidationTest`, `APICandidateBoundaryTest`, `APICandidateRequiredFieldTest`: Kiểm tra định dạng dữ liệu, giá trị biên (29, 30, 31 ký tự) và các trường bắt buộc.
 
 #### C. An toàn bảo mật API (Security Testing)
 - **Authentication API**:
@@ -231,21 +235,21 @@ Pipeline **không chỉ tồn tại trên lý thuyết hay file YAML** mà đã 
 | **Hồ sơ cá nhân (`ProfileTab`)** | `com.hrm.TestCase.ProfileTab` | 1 | 2 | 2 | Tương tác menu đại diện |
 | **Khiếu nại (`ClaimTab`)** | `com.hrm.TestCase.ClaimTab` | 1 | 1 | 1 | Tái hiện lỗi tệp đính kèm |
 | **Chấm công (`TimeTab`)** | `com.hrm.TestCase.TimeTab` | 2 | 3 | 5 | Tái hiện lỗi lịch và bảng chấm công |
-| **RESTful API Testing** | `com.hrm.TestCase.TestAPI` | 9 | 16 | 17 | API CRUD, Boundary, Required validation |
+| **RESTful API Testing** | `com.hrm.TestCase.TestAPI` | 15 | 48 | 53 | Đầy đủ API CRUD (Admin, PIM, Recruitment), Boundary & Validation |
 | **Security Testing** | `com.hrm.TestCase.TestSecurity` | 3 | 5 | 5 | Bearer token, RBAC/IDOR, SQL Injection |
-| **TỔNG CỘNG** | | **66** | **82** | **96** | **96 test runs hiển thị trực tiếp trên Allure CD** |
+| **TỔNG CỘNG** | | **72** | **114** | **128** | **128 test runs (cân bằng giữa UI và API)** |
 
 ### 5.2. Cơ cấu phân bổ độ bao phủ kiểm thử
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│          PHÂN BỔ BỘ KIỂM THỬ TỰ ĐỘNG (96 TEST RUNS)         │
+│          PHÂN BỔ BỘ KIỂM THỬ TỰ ĐỘNG (128 TEST RUNS)        │
 ├───────────────────────────────┬─────────────────────────────┤
-│ Web UI Functional Tests       │ 58 lượt chạy (60.4%)        │
-│ RESTful API Tests             │ 17 lượt chạy (17.7%)        │
-│ Upstream Bug Regression Tests │ 10 lượt chạy (10.4%)        │
-│ CD Seeding Fixtures           │  6 lượt chạy ( 6.3%)        │
-│ Security & Access Control     │  5 lượt chạy ( 5.2%)        │
+│ Web UI Functional Tests       │ 58 lượt chạy (45.3%)        │
+│ RESTful API Tests             │ 53 lượt chạy (41.4%)        │
+│ Upstream Bug Regression Tests │ 10 lượt chạy ( 7.8%)        │
+│ CD Seeding Fixtures           │  6 lượt chạy ( 4.7%)        │
+│ Security & Access Control     │  5 lượt chạy ( 3.9%)        │
 └───────────────────────────────┴─────────────────────────────┘
 ```
 

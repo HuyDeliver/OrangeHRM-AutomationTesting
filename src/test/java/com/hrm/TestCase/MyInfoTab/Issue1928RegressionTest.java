@@ -9,6 +9,7 @@ import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Pages.MyInfoPage.QualificationPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -44,6 +45,7 @@ public class Issue1928RegressionTest extends TestBase {
         // Assert
         boolean stillExists = qualificationPage.isEducationVisible(marker);
         Log.info("Bước 5: Expected: không còn bản ghi | Actual: stillExists=" + stillExists);
+        componentLocator.takeScreenshotTable(driver, "Issue1928 Education after delete");
         Assert.assertFalse(stillExists, "Bug #1928: Education vẫn còn sau khi xóa. GPA/Score=" + marker);
         Log.info("PASS: Education đã được xóa");
     }

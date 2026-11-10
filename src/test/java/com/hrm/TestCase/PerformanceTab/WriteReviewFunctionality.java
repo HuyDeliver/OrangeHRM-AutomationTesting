@@ -9,6 +9,7 @@ import com.hrm.Pages.PerformancePage.ManageReviewPage;
 import com.hrm.Pages.PerformancePage.WriteReviewPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -35,6 +36,7 @@ public class WriteReviewFunctionality extends TestBase {
         manageReviewPage = writeReviewPage.goToManageReviewPage("Manage Reviews", "Manage Reviews");
         Assert.assertTrue(manageReviewPage.isWrietReviewSuccess(name, "Completed"),
                 "Write review not success");
+        componentLocator.takeScreenshotTable(driver, "Write review success");
         Log.info("Write review thành công");
     }
 }

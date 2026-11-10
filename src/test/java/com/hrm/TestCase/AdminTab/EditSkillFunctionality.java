@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.EditSkillPage;
 import com.hrm.Pages.AdminPage.SkillPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -27,6 +28,7 @@ public class EditSkillFunctionality extends TestBase {
         Assert.assertTrue(editSkillPage.isEditSkillSuccess(), "Edit không thành công");
         Assert.assertTrue(skillPage.hasDescription(TestDataShare.SKILL, "Không bao giờ được nói dối"),
                 "Description của Skill chưa được lưu đúng");
+        componentLocator.takeScreenshotTable(driver, "Edit skill success");
         Log.info("Edit skill thành công");
     }
 }

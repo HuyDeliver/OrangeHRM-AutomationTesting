@@ -48,6 +48,7 @@ public class GetUserListAPITest extends TestBaseAPI {
                 .get("api/v2/admin/users");
 
         Log.info("OHR72 Status: " + response.statusCode());
+        Log.info(response.asPrettyString());
         Assert.assertEquals(response.statusCode(), 200, "Không lọc được user theo username");
         List<String> usernames = response.jsonPath().getList("data.userName");
         Assert.assertNotNull(usernames, "Response thiếu danh sách userName");
@@ -62,6 +63,7 @@ public class GetUserListAPITest extends TestBaseAPI {
                 .get("api/v2/admin/job-titles");
 
         Log.info("OHR73 Status: " + response.statusCode());
+        Log.info(response.asPrettyString());
         Assert.assertEquals(response.statusCode(), 200, "Không lấy được danh sách Job Titles");
         Assert.assertNotNull(response.jsonPath().getList("data"), "Response thiếu danh sách Job Titles");
     }
@@ -74,6 +76,7 @@ public class GetUserListAPITest extends TestBaseAPI {
                 .get("api/v2/admin/locations");
 
         Log.info("OHR74 Status: " + response.statusCode());
+        Log.info(response.asPrettyString());
         Assert.assertEquals(response.statusCode(), 200, "Không lấy được danh sách Locations");
         Assert.assertNotNull(response.jsonPath().getList("data"), "Response thiếu danh sách Locations");
     }

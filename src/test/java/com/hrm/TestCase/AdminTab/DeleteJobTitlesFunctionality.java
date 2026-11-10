@@ -8,6 +8,7 @@ import com.hrm.Base.TestUtil;
 import com.hrm.Pages.AdminPage.JobTitlePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -24,7 +25,7 @@ public class DeleteJobTitlesFunctionality extends TestBase {
         jobTitlePage.clickDelete(TestDataShare.JOB_TITLE);
         Assert.assertTrue(jobTitlePage.isDeleteSuccess(), "Delete không thành công");
         Assert.assertEquals(jobTitlePage.countJobTitles(TestDataShare.JOB_TITLE), 0, "Job Title vẫn còn sau khi xóa");
-
+        componentLocator.takeScreenshotTable(driver, "Delete job title success");
         Log.info("Delete Job title success");
     }
 }

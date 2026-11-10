@@ -10,6 +10,7 @@ import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -35,6 +36,7 @@ public class AddEmergencyContactFunctionality extends TestBase {
                 Assert.assertTrue(emergencyContactPage.isCallToActionSuccess("Add emergency contact"),
                                 "Add không thành công");
                 Assert.assertTrue(emergencyContactPage.hasContact(TestDataShare.EMERGENCY_NAME), "Không tìm lại được record vừa thêm");
+                componentLocator.takeScreenshotTable(driver, "Add emergency contact");
                 Log.info("Add Emergency Contact success");
         }
 }

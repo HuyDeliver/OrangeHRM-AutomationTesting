@@ -10,6 +10,7 @@ import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -34,6 +35,7 @@ public class AddContactDetailFunctionality extends TestBase {
                 Assert.assertTrue(contactDetailpage.isAddContactDetailSuccess("Add Contact detail"),
                                 "Add Contact không thành công");
                 Assert.assertTrue(contactDetailpage.hasSavedContact(TestDataShare.MYINFO_STREET, TestDataShare.MYINFO_CITY, TestDataShare.MYINFO_OTHER_EMAIL), "Contact detail không giữ sau refresh");
+                componentLocator.takeScreenshotResult(driver, "Add contact details");
                 Log.info("Add Contact detail success");
         }
 }

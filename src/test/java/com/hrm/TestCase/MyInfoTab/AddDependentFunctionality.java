@@ -10,6 +10,7 @@ import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -35,6 +36,7 @@ public class AddDependentFunctionality extends TestBase {
                 Assert.assertTrue(DependentPage.isCallToActionSuccess("Add Dependent"),
                                 "Add không thành công");
                 Assert.assertTrue(DependentPage.hasDependent(TestDataShare.EMERGENCY_NAME), "Không tìm lại được record vừa thêm");
+                componentLocator.takeScreenshotTable(driver, "Add dependent");
                 Log.info("Add Dependent success");
         }
 }

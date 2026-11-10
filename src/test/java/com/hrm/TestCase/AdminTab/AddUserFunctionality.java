@@ -10,6 +10,7 @@ import com.hrm.Pages.AdminPage.UserManagePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -31,6 +32,7 @@ public class AddUserFunctionality extends TestBase {
         Assert.assertTrue(addUserPage.isAddUserSuccess(), "add user không thành công");
         Assert.assertEquals(userManagePage.searchByUsernameAndCount(TestDataShare.USERNAME), 1,
                 "Sau khi tạo phải tìm thấy đúng một user");
+        componentLocator.takeScreenshotTable(driver, "Add user success");
         Log.info("OHR6 - Đã lưu và tìm lại được user");
     }
 }

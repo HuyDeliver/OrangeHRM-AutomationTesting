@@ -84,6 +84,8 @@ public class APICandidateRequiredFieldTest extends TestBaseAPI {
                 .auth().oauth2(token)
                 .when()
                 .get("/api/v2/recruitment/candidates");
+        Log.info("OHR76 Candidates Status: " + candidates.statusCode());
+        Log.info(candidates.asPrettyString());
         Assert.assertEquals(candidates.statusCode(), 200, "Không lấy được danh sách Candidates qua API");
         Assert.assertNotNull(candidates.jsonPath().getList("data"), "Response thiếu danh sách Candidates");
 
@@ -91,6 +93,8 @@ public class APICandidateRequiredFieldTest extends TestBaseAPI {
                 .auth().oauth2(token)
                 .when()
                 .get("/api/v2/recruitment/vacancies");
+        Log.info("OHR76 Vacancies Status: " + vacancies.statusCode());
+        Log.info(vacancies.asPrettyString());
         Assert.assertEquals(vacancies.statusCode(), 200, "Không lấy được danh sách Vacancies qua API");
         Assert.assertNotNull(vacancies.jsonPath().getList("data"), "Response thiếu danh sách Vacancies");
     }

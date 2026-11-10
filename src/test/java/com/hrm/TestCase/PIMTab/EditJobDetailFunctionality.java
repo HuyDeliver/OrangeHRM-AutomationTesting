@@ -10,6 +10,7 @@ import com.hrm.Pages.PIMPage.EmployeeListPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -39,6 +40,7 @@ public class EditJobDetailFunctionality extends TestBase {
                 Assert.assertTrue(editEmployeePage.hasJobDetails(TestConfig.joinedDate, TestConfig.jobTitleName,
                                 TestConfig.jobCategorize, TestConfig.subUnit, TestConfig.locationName, TestConfig.employmentStatus),
                                 "Job Details không được lưu đúng sau refresh");
+                componentLocator.takeScreenshotResult(driver, "Edit job detail");
                 Log.info("Edit jobdetail thành công");
         }
 }

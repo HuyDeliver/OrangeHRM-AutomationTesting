@@ -10,6 +10,7 @@ import com.hrm.Pages.AdminPage.LocationPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -31,6 +32,7 @@ public class AddLocationFunctionality extends TestBase {
         addLocationPage.saveLocation();
         Assert.assertTrue(addLocationPage.isAddLocationSucess(), "Add Location không thành công");
         Assert.assertEquals(locationPage.countLocations(TestDataShare.LOCATION), 1, "Không thấy Location vừa tạo");
+        componentLocator.takeScreenshotTable(driver, "Add location success");
         Log.info("Add location thành công");
     }
 }

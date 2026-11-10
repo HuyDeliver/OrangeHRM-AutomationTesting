@@ -10,6 +10,7 @@ import com.hrm.Pages.AdminPage.JobTitlePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestConfig;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -32,7 +33,7 @@ public class AddJobTitlesFunctionality extends TestBase {
 
         Assert.assertTrue(addJobTitlePage.isAddTitleJobSuccess(), "Add không thành công");
         Assert.assertEquals(jobTitlePage.countJobTitles(TestDataShare.JOB_TITLE), 1, "Không thấy Job Title vừa tạo");
-
+        componentLocator.takeScreenshotTable(driver, "Add job title success");
         Log.info("Add job title thành công");
     }
 }

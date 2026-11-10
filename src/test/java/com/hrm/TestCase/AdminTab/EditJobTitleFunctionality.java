@@ -9,6 +9,7 @@ import com.hrm.Pages.AdminPage.EditJobTitlePage;
 import com.hrm.Pages.AdminPage.JobTitlePage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -31,7 +32,7 @@ public class EditJobTitleFunctionality extends TestBase {
         Assert.assertTrue(editJobTitlePage.isEditJobTitleSuccess(), "Edit không thành công");
         Assert.assertTrue(jobTitlePage.hasJobDescription(TestDataShare.JOB_TITLE, "Devops rất khó apply"),
                 "Job Description đã lưu không đúng nội dung vừa sửa");
-
+        componentLocator.takeScreenshotTable(driver, "Edit job title success");
         Log.info("Edit job title thành công");
     }
 }

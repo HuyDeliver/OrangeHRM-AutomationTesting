@@ -9,6 +9,7 @@ import com.hrm.Pages.MyInfoPage.EmergencyContactPage;
 import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -28,6 +29,7 @@ public class DeleteEmergencyContactFunctionality extends TestBase {
         emergencyContactPage.DeleteEmergencyContact(TestDataShare.EMERGENCY_NAME);
                 Assert.assertTrue(emergencyContactPage.isToastDeleteVisible(), "Delete không thành công");
                 Assert.assertFalse(emergencyContactPage.hasContact(TestDataShare.EMERGENCY_NAME), "Record vẫn còn sau Delete và refresh");
+        componentLocator.takeScreenshotTable(driver, "Delete emergency contact");
         Log.info("Xóa emergency contact thành công");
     }
 }

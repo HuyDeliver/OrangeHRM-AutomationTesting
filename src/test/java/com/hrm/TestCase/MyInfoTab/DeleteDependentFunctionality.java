@@ -9,6 +9,7 @@ import com.hrm.Pages.MyInfoPage.DependentPage;
 import com.hrm.Pages.MyInfoPage.PersonalDetailPage;
 import com.hrm.Util.Log;
 import com.hrm.Util.TestDataShare;
+import com.hrm.Util.componentLocator;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -28,6 +29,7 @@ public class DeleteDependentFunctionality extends TestBase {
                 DependentPage.DeleteDependent(TestDataShare.EMERGENCY_NAME);
                 Assert.assertTrue(DependentPage.isToastDeleteVisible(), "Delete không thành công");
                 Assert.assertFalse(DependentPage.hasDependent(TestDataShare.EMERGENCY_NAME), "Record vẫn còn sau Delete và refresh");
+                componentLocator.takeScreenshotTable(driver, "Delete dependent");
                 Log.info("Xóa Dependent thành công");
         }
 }
