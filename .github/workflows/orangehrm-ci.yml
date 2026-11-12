@@ -122,10 +122,15 @@ jobs:
         id: smoke
         if: ${{ !cancelled() && steps.readiness.outcome == 'success' }}
         run: |
+          if (Test-Path -LiteralPath 'target/cd-allure-results') {
+            Remove-Item -Path 'target/cd-allure-results/*' -Recurse -Force -ErrorAction SilentlyContinue
+          }
           $report = 'target/surefire-reports/testng-results.xml'
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report -Force }
+          $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-smoke "-Dconfig.file=deploy/config.cd.properties" *> ci-smoke.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check smoke result and prepare evidence
         id: smoke_check
@@ -140,7 +145,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-pim "-Dconfig.file=deploy/config.cd.properties" *> ci-pim.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check PIM result and prepare evidence
         if: always() && (steps.pim.outcome == 'success' || steps.pim.outcome == 'failure')
@@ -154,7 +160,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-pim-regression "-Dconfig.file=deploy/config.cd.properties" *> ci-pim-regression.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check PIM regression result and cleanup
         if: always() && (steps.pim_regression.outcome == 'success' || steps.pim_regression.outcome == 'failure')
@@ -168,7 +175,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-admin "-Dconfig.file=deploy/config.cd.properties" *> ci-admin.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Admin result and cleanup
         if: always() && (steps.admin.outcome == 'success' || steps.admin.outcome == 'failure')
@@ -182,7 +190,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-recruitment "-Dconfig.file=deploy/config.cd.properties" *> ci-recruitment.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Recruitment result and cleanup
         if: always() && (steps.recruitment.outcome == 'success' || steps.recruitment.outcome == 'failure')
@@ -196,7 +205,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-myinfo "-Dconfig.file=deploy/config.cd.properties" *> ci-myinfo.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check My Info result
         if: always() && (steps.myinfo.outcome == 'success' || steps.myinfo.outcome == 'failure')
@@ -210,7 +220,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-performance "-Dconfig.file=deploy/config.cd.properties" *> ci-performance.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Performance result
         if: always() && (steps.performance.outcome == 'success' || steps.performance.outcome == 'failure')
@@ -224,7 +235,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-profile "-Dconfig.file=deploy/config.cd.properties" *> ci-profile.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Profile result
         if: always() && (steps.profile.outcome == 'success' || steps.profile.outcome == 'failure')
@@ -238,7 +250,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-time "-Dconfig.file=deploy/config.cd.properties" *> ci-time.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Time result
         if: always() && (steps.time.outcome == 'success' || steps.time.outcome == 'failure')
@@ -252,7 +265,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-claim "-Dconfig.file=deploy/config.cd.properties" *> ci-claim.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Claim result
         if: always() && (steps.claim.outcome == 'success' || steps.claim.outcome == 'failure')
@@ -266,7 +280,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-api "-Dconfig.file=deploy/config.cd.properties" *> ci-api.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check API result
         if: always() && (steps.api.outcome == 'success' || steps.api.outcome == 'failure')
@@ -280,7 +295,8 @@ jobs:
           if (Test-Path -LiteralPath $report) { Remove-Item -LiteralPath $report }
           $ErrorActionPreference = 'Continue'
           & mvn -B -ntp test -Pcd-security "-Dconfig.file=deploy/config.cd.properties" *> ci-security.log
-          if ($null -eq $LASTEXITCODE) { exit 1 }
+          if (-not (Test-Path -LiteralPath $report)) { exit 1 }
+          exit 0
 
       - name: Check Security result
         if: always() && (steps.security.outcome == 'success' || steps.security.outcome == 'failure')
@@ -313,6 +329,7 @@ jobs:
             Write-Host 'CD Allure results already use the dashboard results folder.'
           } else {
             New-Item -ItemType Directory -Path $destination -Force | Out-Null
+            Remove-Item -Path (Join-Path $destination '*-result.json'), (Join-Path $destination '*-container.json'), (Join-Path $destination '*-attachment*') -Force -ErrorAction SilentlyContinue
             Copy-Item -Path (Join-Path $source '*') -Destination $destination -Recurse -Force
             Write-Host "Published $resultCount CD Allure test results to the local dashboard ($destination)."
           }

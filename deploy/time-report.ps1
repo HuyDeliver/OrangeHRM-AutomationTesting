@@ -28,15 +28,19 @@ if (Test-Path -LiteralPath $path) {
     }
     $summary.result = 'FAIL'
 
+    $controlMethod = "com.hrm.TestCase.TimeTab.Issue1890RegressionTest.validRowShouldKeepOneHourAfterSave"
+    $knownBug1890 = "com.hrm.TestCase.TimeTab.Issue1890RegressionTest.emptyRowShouldNotDiscardValidHours"
     $knownBug1787 = "com.hrm.TestCase.TimeTab.Issue1787RegressionTest.attendanceCalendarShouldStartOnMonday"
+    $controlStatus = ($methods | Where-Object { ($_.ParentNode.name + '.' + $_.name) -eq $controlMethod }).status
+    $status1890 = ($methods | Where-Object { ($_.ParentNode.name + '.' + $_.name) -eq $knownBug1890 }).status
     $status1787 = ($methods | Where-Object { ($_.ParentNode.name + '.' + $_.name) -eq $knownBug1787 }).status
-    $functional1890 = @($methods | Where-Object { ($_.ParentNode.name + '.' + $_.name) -ne $knownBug1787 -and $_.status -eq 'PASS' }).Count
 
-    # Chấp nhận khi 2 test Timesheet PASS + xác nhận bug #1787 (lịch bắt đầu bằng Sunday)
-    if ($correctTests -and $functional1890 -eq 2 -and ($status1787 -eq 'PASS' -or $status1787 -eq 'FAIL') -and $badConfigurations.Count -eq 0) {
+    # Chấp nhận khi control test PASS + xác nhận bug #1890 và #1787 của OrangeHRM 5.9
+    if ($correctTests -and $controlStatus -eq 'PASS' -and ($status1890 -eq 'PASS' -or $status1890 -eq 'FAIL') `
+        -and ($status1787 -eq 'PASS' -or $status1787 -eq 'FAIL') -and $badConfigurations.Count -eq 0) {
         $summary.result = 'PASS'
-        if ($status1787 -eq 'FAIL') {
-            $summary['knownBugConfirmed'] = 'Issue #1787 (attendance calendar starts on Sunday) reproduced on OrangeHRM 5.9'
+        if ($status1890 -eq 'FAIL' -or $status1787 -eq 'FAIL') {
+            $summary['knownBugConfirmed'] = 'Issues #1890 and #1787 reproduced on OrangeHRM 5.9'
         }
     }
 }

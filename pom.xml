@@ -14,7 +14,7 @@
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <testng.suite>testng.xml</testng.suite>
-    <module>Login</module>
+    <module>Login,Admin,PIM,Recruitment,MyInfo,Performance,Profile,Time,Claim,PIMAPI,AdminAPI,RecruitmentAPI,Security</module>
 
     <selenium.version>4.48.0</selenium.version>
     <testng.version>7.12.0</testng.version>
